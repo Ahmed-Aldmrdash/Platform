@@ -1,0 +1,360 @@
+/* Worker login overlay, worker identity card and worker password fields. */
+
+/* Hidden until JS decides which screen to show, so it never flashes on load. */
+.worker-login-overlay {
+  display: none;
+}
+
+.worker-login-card {
+  position: relative;
+  z-index: 2;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: clamp(20px, 5vw, 32px) clamp(18px, 5vw, 28px) clamp(18px, 5vw, 28px);
+  width: 100%;
+  max-width: min(380px, calc(100vw - 24px));
+  max-height: 95dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(213, 30, 39, 0.15);
+  animation: wlSlideIn .35s cubic-bezier(.22, .68, 0, 1.2) both;
+}
+
+@keyframes wlSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.login-logo-box {
+  width: 130px;
+  height: 60px;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  margin: 0 auto 16px auto;
+}
+
+.login-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(1.6);
+  display: block;
+}
+
+.wl-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.wl-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.worker-login-card .field label {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.worker-login-card .field input,
+.worker-login-card .field select {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 15px;
+  width: 100%;
+  transition: border-color .15s;
+}
+
+.worker-login-card .field input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.worker-login-card .field input:focus,
+.worker-login-card .field select:focus {
+  outline: none;
+  border-color: var(--amber);
+  background: rgba(213, 30, 39, 0.08);
+}
+
+.worker-login-card .submit-btn {
+  background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+  box-shadow: 0 4px 16px rgba(213, 30, 39, 0.4), 0 4px 0 var(--amber-dark);
+  font-size: 15px;
+  border-radius: 10px;
+  margin-top: 6px;
+}
+
+.worker-login-card .submit-btn:active {
+  box-shadow: 0 1px 0 var(--amber-dark);
+  transform: translateY(3px);
+}
+
+.wl-new-badge {
+  background: linear-gradient(135deg, rgba(213, 30, 39, 0.2), rgba(213, 30, 39, 0.08));
+  border: 1px dashed rgba(213, 30, 39, 0.4);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+}
+
+.wl-back-btn {
+  width: 100%;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  padding: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.wl-back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.login-v2 .wl-back-btn {
+  background: rgba(0, 0, 0, 0.035);
+  border-color: var(--paper-line);
+  color: var(--muted);
+}
+.login-v2 .wl-back-btn:hover { background: rgba(0, 0, 0, 0.07); color: var(--ink); }
+body[data-theme="dark"] .login-v2 .wl-back-btn { background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.6); }
+
+.wl-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0 14px;
+}
+
+.wl-divider::before,
+.wl-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.wl-divider span {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'Oswald', sans-serif;
+}
+
+.wl-admin-btn {
+  width: 100%;
+  padding: 11px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.65);
+  font-family: 'Cairo', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.wl-admin-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.wl-msg {
+  font-size: 12.5px;
+  margin-top: 8px;
+  border-radius: 8px;
+  min-height: 18px;
+  transition: all .15s;
+  padding: 0;
+}
+
+.wl-msg.error {
+  color: #ff6b6b;
+  font-weight: 700;
+}
+
+.wl-msg.info {
+  color: #74c0fc;
+  font-weight: 700;
+}
+
+.wl-msg.success {
+  color: #69db7c;
+  font-weight: 700;
+}
+
+.wl-identity {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.wl-identity-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.wl-identity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 14px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.wl-identity-meta b {
+  color: #fff;
+  font-weight: 700;
+}
+
+.wl-identity-code {
+  margin-top: 6px;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 2px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.wl-link-btn {
+  display: block;
+  margin: 10px auto 0;
+  background: none;
+  border: none;
+  color: #74c0fc;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.wl-link-btn:hover {
+  color: #a5d8ff;
+}
+
+.login-v2 .wl-link-btn { color: #1d6fd1; }
+.login-v2 .wl-link-btn:hover { color: #12508f; }
+body[data-theme="dark"] .login-v2 .wl-link-btn { color: #74c0fc; }
+
+.em-pw-box {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px dashed var(--paper-line, #d0d7de);
+  border-radius: 10px;
+  background: rgba(213, 30, 39, 0.04);
+}
+
+.em-pw-title {
+  font-weight: 800;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.em-pw-status { font-weight: 700; font-size: 12px; margin-inline-start: 4px; }
+.em-pw-status.ok { color: #16a34a; }
+.em-pw-status.none { color: #d97706; }
+
+.em-pw-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.em-pw-row input {
+  flex: 1 1 160px;
+  min-width: 0;
+  font-family: monospace;
+  font-weight: 700;
+}
+
+.em-pw-row .submit-btn,
+.em-pw-row .logout-btn {
+  width: auto;
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.em-pw-hint {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+.um-bulk-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.um-bulk-hint { font-size: 12px; color: var(--muted); }
+
+.um-gen-box {
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.06);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.um-gen-title { font-weight: 800; margin-bottom: 8px; }
+.um-gen-pw { font-family: monospace; font-weight: 700; }
+
+.um-default-pw {
+  font-size: 11px;
+  color: #d97706;
+  font-weight: 700;
+  margin-top: 4px;
+}

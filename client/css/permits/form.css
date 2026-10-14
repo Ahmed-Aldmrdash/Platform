@@ -1,0 +1,151 @@
+/* Permit form: type picker, checklist options and risk rows. */
+
+.type-picker {
+  margin-bottom: 14px;
+}
+
+.type-picker-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--steel);
+  font-weight: 600;
+  margin: 20px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px dashed var(--paper-line);
+}
+
+.section-title:first-of-type {
+  margin-top: 2px;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.check-row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--paper-line);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.check-row:last-child {
+  border-bottom: none;
+}
+
+.check-q {
+  font-size: clamp(13px, 3.5vw, 13.5px);
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.check-opts {
+  display: flex;
+  gap: 8px;
+  font-size: clamp(12px, 3vw, 12.5px);
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.check-opts label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.025);
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: border-color .12s, background .12s;
+  flex: 1;
+  min-width: 70px;
+  justify-content: center;
+}
+
+.check-opts label:hover {
+  border-color: var(--amber);
+  background: rgba(213, 30, 39, 0.04);
+}
+
+.check-opts input[type="radio"] {
+  width: auto;
+  margin: 0;
+  accent-color: var(--amber);
+  cursor: pointer;
+}
+
+@media (max-width:480px) {
+  .check-opts {
+    gap: 5px;
+  }
+
+  .check-opts label {
+    flex: initial;
+    padding: 6px 12px;
+  }
+}
+
+.risk-row {
+  background: rgba(213, 30, 39, 0.05);
+  border: 1px solid rgba(213, 30, 39, 0.18);
+  border-radius: 9px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.add-risk-btn {
+  width: 100%;
+  padding: 9px;
+  border: 1.5px dashed var(--steel);
+  background: none;
+  color: var(--steel);
+  border-radius: 8px;
+  font-weight: 700;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  font-size: 13.5px;
+  margin-bottom: 6px;
+}
+
+.add-risk-btn:hover {
+  background: #e3e3e3;
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-right: 12px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.risk-badge.risk-low {
+  background: #28a745;
+  color: #fff;
+}
+
+.risk-badge.risk-medium {
+  background: #ffc107;
+  color: #212529;
+}
+
+.risk-badge.risk-high {
+  background: #dc3545;
+  color: #fff;
+}

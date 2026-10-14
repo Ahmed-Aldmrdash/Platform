@@ -1,0 +1,785 @@
+// Training: worker attendance and lecture requests, admin session list, filters, Excel import/export and session creation.
+
+let _allAdminTrainings = [];
+let _allAdminDrills = [];
+let _adminGlobalMatrix = [];
+
+async function loadWorkerTraining(isSilent = false) {
+  if (!currentEmployee) return;
+
+  const textEl = document.getElementById('trnWorkerStatText');
+  const barEl = document.getElementById('trnWorkerProgressBar');
+  const activeArea = document.getElementById('trnWorkerActiveSessionArea');
+  const historyList = document.getElementById('trnWorkerHistoryList');
+
+  try {
+    const r = await fetchJsonIfChanged(`/api/trainings/worker/${encodeURIComponent(currentEmployee.empCode)}`);
+    // Background refreshes keep the screen as is when nothing changed or while the worker is typing the PIN.
+    if (isSilent) {
+      const pin = document.getElementById('trnWorkerPin');
+      if (!r.ok || r.data === window._trnWorkerRendered || (pin && document.activeElement === pin)) return;
+    }
+    window._trnWorkerRendered = r.ok ? r.data : null;
+    const data = (r.ok && r.data) || {};
+
+    const activeSession = data.activeSession;
+    const myHistory = data.myHistory || [];
+    const myAttended = data.myAttended || 0;
+
+    const attendedHours = myAttended * 0.5;
+    const progressPercentage = Math.min(100, (attendedHours / 8) * 100);
+    textEl.textContent = `${T("🎓 حضرت")} ${attendedHours} ${T("ساعة من إجمالي 8 ساعات")}`;
+    barEl.style.width = `${progressPercentage}%`;
+    barEl.style.background = progressPercentage >= 100 ? 'var(--success)' : 'var(--amber)';
+
+    if (activeSession) {
+      const alreadyAttended = activeSession.attendees.find(a => normalizeEmpCode(a.empCode) === normalizeEmpCode(currentEmployee.empCode));
+      if (alreadyAttended) {
+        activeArea.innerHTML = `
+          <div class="ticket" style="border-left: 5px solid var(--success);">
+            <div class="ticket-body" style="text-align:center;">
+              <h3 style="color:var(--success); margin:0 0 8px 0;">${T("✅ تم تسجيل حضورك بنجاح")}</h3>
+              <p style="margin:0; font-size:14px;">${T("محاضرة:")} <strong>${escapeHtml(activeSession.title)}</strong></p>
+            </div>
+          </div>`;
+      } else {
+        const attendedBeforeNote = activeSession.attendedBefore ? `
+              <p class="pin-row-note" style="margin:0 0 10px 0; font-size:12.5px; color:var(--amber); background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:6px 10px;">
+                ${T("⚠️ حضرت محاضرة بنفس الموضوع دي قبل كده")}${activeSession.attendedBeforeDate ? (' (' + escapeHtml(new Date(activeSession.attendedBeforeDate).toLocaleDateString('ar-EG')) + ')') : ''}
+              </p>` : '';
+        activeArea.innerHTML = `
+          <div class="ticket" style="border-left: 5px solid var(--amber);">
+            <div class="ticket-body">
+              <h3 style="margin:0 0 4px 0; color:var(--amber);">${T("📡 محاضرة جارية الآن")}</h3>
+              <p style="margin:0 0 12px 0; font-size:14px; font-weight:700;">${escapeHtml(activeSession.title)} | ${escapeHtml(activeSession.location)}</p>
+              ${attendedBeforeNote}
+              <div class="pin-row">
+                <input type="text" id="trnWorkerPin" class="pin-input" placeholder="${T("أدخل رمز الجلسة (PIN)")}" maxlength="4">
+                <button class="submit-btn pin-row-btn" onclick="submitAttendance(${jsArg(activeSession.id)})">${T("✅ تسجيل حضوري")}</button>
+              </div>
+              <div id="trnWorkerMsg" class="wl-msg" style="margin-top:8px;"></div>
+            </div>
+          </div>`;
+      }
+    } else {
+      activeArea.innerHTML = `
+        <div class="ticket">
+          <div class="ticket-body" style="text-align:center; color:var(--muted); font-size:14px;">
+            ${T("لا توجد محاضرات جارية في الوقت الحالي.")}
+          </div>
+        </div>`;
+    }
+
+    if (myHistory.length === 0) {
+      historyList.innerHTML = T('<div class="empty">لم تسجل حضور في أي محاضرة حتى الآن.</div>');
+    } else {
+      historyList.innerHTML = `
+        <div class="um-table-wrap">
+          <table class="um-table">
+            <thead><tr><th>${T("التاريخ")}</th><th>${T("الموضوع")}</th><th>${T("الحالة")}</th><th>${T("التسجيل")}</th><th>${T("الاختبار")}</th></tr></thead>
+            <tbody>
+              ${myHistory.map(h => {
+                const stText = h.status || '';
+                let stHtml = escapeHtml(T(stText));
+                if (stText.includes('غائب') || h.quizFailed) {
+                  stHtml = `<span class="badge badge-danger" style="background:#fee2e2; color:#b91c1c; border:1px solid #f87171; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${escapeHtml(T(stText))}</span>`;
+                } else if (stText.includes('مؤكد')) {
+                  stHtml = `<span class="badge badge-success" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${escapeHtml(T(stText))}</span>`;
+                } else {
+                  stHtml = `<span class="badge badge-warning" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${escapeHtml(T(stText))}</span>`;
+                }
+                let recordingBtn = `<span class="wl-dash">—</span>`;
+                if (h.hasRecording) {
+                  recordingBtn = h.reviewExpired
+                    ? `<span class="wl-expired-tag" title="${T('انتهت مدة المراجعة')}">⏳ ${T('انتهت المدة')}</span>`
+                    : `<button class="um-btn" style="padding:4px 10px; font-size:11px;" onclick="openWorkerRecordingModal(${jsArg(h.recordingUrl)})">${T('🎥 مشاهدة')}</button>`;
+                }
+                let quizBtn = `<span class="wl-dash">—</span>`;
+                if (h.hasQuiz) {
+                  quizBtn = h.reviewExpired
+                    ? `<span class="wl-expired-tag" title="${T('انتهت مدة المراجعة')}">⏳ ${T('انتهت المدة')}</span>`
+                    : `<button class="um-btn" style="padding:4px 10px; font-size:11px;" onclick="openWorkerQuizModal(${jsArg(h.trainingId)})">${h.quizFailed ? T('🔁 إعادة') : T('📝 خذ الاختبار')}</button>`;
+                }
+                return `
+                <tr>
+                  <td style="font-size:12px; color:var(--muted);">${escapeHtml(h.date)}</td>
+                  <td style="font-weight:700; font-size:13px;">${escapeHtml(h.title)}</td>
+                  <td style="font-size:12px; font-weight:700;">${stHtml}</td>
+                  <td>${recordingBtn}</td>
+                  <td>${quizBtn}</td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    populateTrainingRequestTopicsList(myHistory);
+    if (!isSilent) loadMyTrainingRequests();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function populateTrainingRequestTopicsList(myHistory) {
+  const dl = document.getElementById('trnReqTopicsList');
+  if (!dl) return;
+  const defaultTopics = [
+    T("السلامة والصحة المهنية العامة"),
+    T("مكافحة الحرائق والإخلاء"),
+    T("الإسعافات الأولية"),
+    T("مهمات الوقاية الشخصية (PPE)"),
+    T("العمل على ارتفاعات"),
+    T("السلامة الكهربائية"),
+    T("التعامل الآمن مع المواد الكيميائية")
+  ];
+  const historyTopics = (myHistory || []).map(h => h && h.title).filter(Boolean);
+  const allUnique = Array.from(new Set([...defaultTopics, ...historyTopics]));
+  dl.innerHTML = allUnique.map(top => `<option value="${escapeHtml(top)}">`).join('');
+}
+
+async function submitTrainingRequest() {
+  const topicInput = document.getElementById('trnReqTopicInput');
+  const noteInput = document.getElementById('trnReqNoteInput');
+  const msgEl = document.getElementById('trnReqMsg');
+  if (!topicInput || !msgEl) return;
+  const topicTitle = (topicInput.value || '').trim();
+  const note = (noteInput ? noteInput.value : '').trim();
+  if (!topicTitle) {
+    msgEl.textContent = T('من فضلك اكتب موضوع المحاضرة');
+    msgEl.className = 'um-msg error show';
+    return;
+  }
+  try {
+    const res = await authFetch('/api/training-requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topicTitle, note })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok) {
+      msgEl.textContent = T('✅ تم إرسال طلبك للسيفتي بنجاح');
+      msgEl.className = 'um-msg success show';
+      topicInput.value = '';
+      if (noteInput) noteInput.value = '';
+      loadMyTrainingRequests();
+    } else {
+      msgEl.textContent = data.error || T('حصل خطأ أثناء إرسال الطلب');
+      msgEl.className = 'um-msg error show';
+    }
+  } catch (e) {
+    msgEl.textContent = T('خطأ في الاتصال');
+    msgEl.className = 'um-msg error show';
+  }
+}
+
+const TRN_REQ_STATUS_MAP = {
+  pending: { label: '⏳ قيد المراجعة', bg: '#fef3c7', color: '#b45309', border: '#fde68a' },
+  scheduled: { label: '✅ هيتم جدولتها', bg: '#dcfce7', color: '#15803d', border: '#86efac' },
+  completed: { label: '🎉 تمت', bg: '#dbeafe', color: '#1d4ed8', border: '#93c5fd' },
+  declined: { label: '❌ مرفوض', bg: '#fee2e2', color: '#b91c1c', border: '#f87171' }
+};
+
+async function loadMyTrainingRequests() {
+  const listEl = document.getElementById('trnReqMineList');
+  if (!listEl) return;
+  try {
+    const res = await authFetch('/api/training-requests/mine');
+    const data = await res.json().catch(() => ({}));
+    const requests = Array.isArray(data) ? data : (data.requests || []);
+    if (!requests.length) {
+      listEl.innerHTML = T('<div class="empty">لسه معملتش أي طلب محاضرة.</div>');
+      return;
+    }
+    listEl.innerHTML = `
+      <div class="um-table-wrap">
+        <table class="um-table">
+          <thead><tr><th>${T("التاريخ")}</th><th>${T("الموضوع")}</th><th>${T("الحالة")}</th></tr></thead>
+          <tbody>
+            ${requests.map(r => {
+              const st = TRN_REQ_STATUS_MAP[r.status] || TRN_REQ_STATUS_MAP.pending;
+              return `
+              <tr>
+                <td style="font-size:12px; color:var(--muted);">${escapeHtml(new Date(r.createdAt || Date.now()).toLocaleDateString('ar-EG'))}</td>
+                <td style="font-weight:700; font-size:13px;">${escapeHtml(r.topicTitle || '')}</td>
+                <td style="font-size:12px; font-weight:700;"><span style="background:${st.bg}; color:${st.color}; border:1px solid ${st.border}; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${T(st.label)}</span></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function submitAttendance(sessionId) {
+  const pin = document.getElementById('trnWorkerPin').value;
+  const msgEl = document.getElementById('trnWorkerMsg');
+  if (!pin || pin.length !== 4) {
+    msgEl.textContent = T('الرجاء إدخال الرمز المكون من 4 أرقام');
+    msgEl.className = 'um-msg error show';
+    return;
+  }
+
+  try {
+    const res = await authFetch(`/api/trainings/${sessionId}/attend`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ empCode: currentEmployee.empCode, pin: pin })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      msgEl.textContent = T('✅ تم تسجيل حضورك');
+      msgEl.className = 'um-msg success show';
+      setTimeout(loadWorkerTraining, 1500);
+    } else {
+      msgEl.textContent = data.error || T('رمز غير صحيح');
+      msgEl.className = 'um-msg error show';
+    }
+  } catch (e) {
+    msgEl.textContent = T('خطأ في الاتصال');
+    msgEl.className = 'um-msg error show';
+  }
+}
+
+// Replaces the admin's training list and drops the "attended before" index built from the old one.
+let _trnAttendedBeforeIndex = null;
+function _setAdminTrainings(list) {
+  _allAdminTrainings = list;
+  _trnAttendedBeforeIndex = null;
+}
+
+// Maps title + empCode to the sessions of the last 90 days where that employee is a verified attendee, in list
+// order. The session being shown is filtered out at lookup. Rebuilt only after the list changes.
+function _trnAttendedBeforeKey(title, empCode) {
+  return `${title}\u0001${empCode}`;
+}
+function _getTrnAttendedBeforeIndex() {
+  if (_trnAttendedBeforeIndex) return _trnAttendedBeforeIndex;
+  const index = new Map();
+  const now = Date.now();
+  const ninetyDays = 90 * 24 * 60 * 60 * 1000;
+  (_allAdminTrainings || []).forEach(t => {
+    const createdMs = new Date(t.createdAt).getTime();
+    if (!((now - createdMs) <= ninetyDays)) return;
+    const codes = new Set();
+    (t.attendees || []).forEach(att => { if (att && att.verified) codes.add(att.empCode); });
+    codes.forEach(code => {
+      const key = _trnAttendedBeforeKey(t.title, code);
+      if (!index.has(key)) index.set(key, []);
+      index.get(key).push({ id: t.id, createdMs });
+    });
+  });
+  _trnAttendedBeforeIndex = index;
+  return index;
+}
+
+// While a session is live the admin screen polls only the active sessions and merges them into the full list.
+let _trnActiveSeen = null;
+async function _pollAdminActiveTrainings() {
+  if (!isLoggedIn) { stopPoll('trnAdmin'); return; }
+  const r = await fetchJsonIfChanged('/api/trainings/active');
+  if (!r.ok || r.data === _trnActiveSeen) return;
+  _trnActiveSeen = r.data;
+  const active = (r.data && r.data.trainings) || [];
+  const knownActiveIds = new Set(_allAdminTrainings.filter(t => t.status === 'active' && !t.isDeleted).map(t => t.id));
+  const sameSessions = active.length === knownActiveIds.size && active.every(t => knownActiveIds.has(t.id));
+  if (!sameSessions) {
+    // A session started or ended elsewhere: reload the full list once.
+    await loadAdminTraining(true);
+    return;
+  }
+  const byId = new Map(active.map(t => [t.id, t]));
+  _setAdminTrainings(_allAdminTrainings.map(t => byId.get(t.id) || t));
+  if (typeof renderAdminLiveSessions === 'function') renderAdminLiveSessions(_allAdminTrainings);
+}
+
+async function loadAdminTraining(isSilent = false) {
+  if (!isLoggedIn) return;
+
+  if (!isSilent) {
+    stopPoll('trnAdmin');
+
+    const isSafetyOrSuper = (currentUserRole === 'hse_admin' || currentUserRole === 'super_admin');
+    const isViewerRole = VIEWER_ROLES_UI.includes(currentUserRole);
+    const createCard = document.getElementById('createLectureCard');
+    const liveSection = document.getElementById('liveSessionsSection');
+
+    if (createCard) createCard.style.display = isSafetyOrSuper ? 'block' : 'none';
+    if (liveSection) liveSection.style.display = (isSafetyOrSuper || isViewerRole) ? 'block' : 'none';
+
+    window.populateTrainerInfo();
+  }
+
+  try {
+    const r = await fetchJsonIfChanged('/api/trainings');
+    const data = (r.ok && r.data) || {};
+    const trainings = Array.isArray(data) ? data : (data.trainings || data.data || []);
+
+    const topicDatalist = document.getElementById('topicsList') || document.getElementById('trainingTopicsList');
+    if (topicDatalist && !isSilent) {
+      const defaultTopics = [
+        T("السلامة والصحة المهنية العامة"),
+        T("مكافحة الحرائق والإخلاء"),
+        T("الإسعافات الأولية"),
+        T("مهمات الوقاية الشخصية (PPE)"),
+        T("العمل على ارتفاعات"),
+        T("السلامة الكهربائية"),
+        T("التعامل الآمن مع المواد الكيميائية")
+      ];
+      const existingTopics = trainings.map(t => t && t.topic).filter(Boolean);
+      const allUnique = Array.from(new Set([...defaultTopics, ...existingTopics]));
+      topicDatalist.innerHTML = allUnique.map(top => `<option value="${escapeHtml(top)}">`).join('');
+    }
+
+    const hasActive = trainings.some(t => t.status === 'active');
+    if (hasActive) {
+      if (!isPolling('trnAdmin')) poll('trnAdmin', _pollAdminActiveTrainings, 3000);
+    } else {
+      stopPoll('trnAdmin');
+    }
+
+    // An unchanged list (304) is the same array as last time, so there is nothing to redraw.
+    if (typeof renderAdminLiveSessions === 'function' && trainings !== _allAdminTrainings) {
+      _setAdminTrainings(trainings);
+      renderAdminLiveSessions(trainings);
+    }
+
+    window.populateTrainerInfo();
+
+    if (!isSilent) loadTrainingRequestsAdmin();
+  } catch (err) {
+    console.error('Handled loadAdminTraining error:', err);
+  }
+}
+
+async function loadTrainingRequestsAdmin() {
+  const listEl = document.getElementById('trnRequestsAdminList');
+  if (!listEl) return;
+  const isSafetyOrSuper = (currentUserRole === 'hse_admin' || currentUserRole === 'super_admin');
+  const isViewerRole = VIEWER_ROLES_UI.includes(currentUserRole);
+  if (!isSafetyOrSuper && !isViewerRole) {
+    listEl.innerHTML = '';
+    return;
+  }
+  try {
+    const res = await authFetch('/api/training-requests');
+    if (!res.ok) { listEl.innerHTML = ''; return; }
+    const data = await res.json().catch(() => ({}));
+    const requests = Array.isArray(data) ? data : (data.requests || []);
+    if (!requests.length) {
+      listEl.innerHTML = T('<div class="empty">لا توجد طلبات محاضرات حاليًا.</div>');
+      return;
+    }
+    listEl.innerHTML = `
+      <div class="um-table-wrap">
+        <table class="um-table">
+          <thead><tr><th>${T("التاريخ")}</th><th>${T("العامل")}</th><th>${T("الموضوع")}</th><th>${T("ملاحظة")}</th><th>${T("الحالة")}</th>${isSafetyOrSuper ? `<th>${T("إجراء")}</th>` : ''}</tr></thead>
+          <tbody>
+            ${requests.map(r => {
+              const st = TRN_REQ_STATUS_MAP[r.status] || TRN_REQ_STATUS_MAP.pending;
+              const actionsHtml = isSafetyOrSuper ? `
+                <td style="white-space:nowrap;">
+                  ${r.status === 'pending' ? `
+                    <button class="submit-btn" style="padding:4px 10px; font-size:11px;" onclick="decideTrainingRequest(${jsArg(r.id)},'scheduled')">${T("✅ قبول")}</button>
+                    <button class="logout-btn" style="padding:4px 10px; font-size:11px;" onclick="decideTrainingRequest(${jsArg(r.id)},'declined')">${T("❌ رفض")}</button>
+                  ` : `
+                    <button class="logout-btn" style="padding:4px 10px; font-size:11px;" onclick="decideTrainingRequest(${jsArg(r.id)},'pending')">${T("↩️ رجوع لقيد المراجعة")}</button>
+                  `}
+                </td>` : '';
+              return `
+              <tr>
+                <td style="font-size:12px; color:var(--muted);">${escapeHtml(new Date(r.createdAt || Date.now()).toLocaleDateString('ar-EG'))}</td>
+                <td style="font-size:12px;">${escapeHtml(r.workerName || r.empCode || '')}</td>
+                <td style="font-weight:700; font-size:13px;">${escapeHtml(r.topicTitle || '')}</td>
+                <td style="font-size:12px; color:var(--muted);">${escapeHtml(r.note || '-')}</td>
+                <td style="font-size:12px; font-weight:700;"><span style="background:${st.bg}; color:${st.color}; border:1px solid ${st.border}; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${T(st.label)}</span></td>
+                ${actionsHtml}
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function decideTrainingRequest(id, status) {
+  let responseNote = '';
+  if (status === 'declined') {
+    responseNote = prompt(T('سبب الرفض (اختياري):')) || '';
+  }
+  try {
+    const res = await authFetch(`/api/training-requests/${encodeURIComponent(id)}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status, responseNote })
+    });
+    if (res.ok) {
+      loadTrainingRequestsAdmin();
+    } else {
+      const data = await res.json().catch(() => ({}));
+      alert(data.error || T('حصل خطأ أثناء تحديث الطلب'));
+    }
+  } catch (e) {
+    alert(T('خطأ في الاتصال'));
+  }
+}
+
+function renderAdminLiveSessions(trainings) {
+  const liveEl = document.getElementById('trnAdminLiveSessions');
+  const activeSessions = trainings.filter(t => t.status === 'active');
+  let closedSessions = trainings.filter(t => t.status === 'closed' && !t.isDeleted).sort((a,b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
+
+  const fFrom = document.getElementById('filter_trn_fromDate')?.value;
+  const fTo = document.getElementById('filter_trn_toDate')?.value;
+  const fTopic = document.getElementById('filter_trn_topic')?.value?.toLowerCase();
+  const fTrainer = document.getElementById('filter_trn_trainer')?.value?.toLowerCase();
+
+  let hasFilters = false;
+  if (fFrom || fTo || fTopic || fTrainer) {
+    hasFilters = true;
+    closedSessions = closedSessions.filter(t => {
+      let match = true;
+      if (fFrom && new Date(t.date || t.createdAt) < new Date(fFrom)) match = false;
+      if (fTo && new Date(t.date || t.createdAt) > new Date(fTo)) match = false;
+      if (fTopic && !((t.topic || t.title || '').toLowerCase().includes(fTopic))) match = false;
+      if (fTrainer && !((t.trainer || '').toLowerCase().includes(fTrainer))) match = false;
+      return match;
+    });
+  }
+
+  // Only the 20 most recently created deleted sessions are listed.
+  const trashSessions = trainings.filter(t => t.isDeleted).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 20);
+  const attendedBefore = activeSessions.length ? _getTrnAttendedBeforeIndex() : null;
+
+  let html = '';
+  if (activeSessions.length > 0) {
+    activeSessions.forEach(trn => {
+      html += `
+      <div class="ticket" style="border-left: 5px solid var(--amber); margin-bottom: 16px;">
+        <div class="ticket-body">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <h3 style="margin:0 0 4px 0;">${escapeHtml(trn.title)}</h3>
+              <p style="margin:0; font-size:13px; color:var(--muted);">${escapeHtml(trn.location)} ${T("| المستهدف:")} ${escapeHtml(trn.targetGroup)}</p>
+            </div>
+            <div style="background:var(--amber); color:#fff; padding:8px 16px; border-radius:8px; text-align:center;">
+              <div style="font-size:12px; opacity:0.9;">${T("رمز الجلسة (PIN)")}</div>
+              <div style="font-size:24px; font-family:monospace; font-weight:900; letter-spacing:4px;">${escapeHtml(trn.sessionPin)}</div>
+            </div>
+          </div>
+
+          <h4 style="margin:16px 0 8px 0; padding-top:16px; border-top:1px solid var(--paper-line);">${T("📋 الحضور (")}${trn.attendees.length})</h4>
+          <div class="um-table-wrap" style="margin-bottom:16px;">
+            <table class="um-table">
+              <thead><tr><th>${T("الكود")}</th><th>${T("الاسم")}</th><th>${T("القسم")}</th><th>${T("الوقت")}</th><th>${T("التحقق")}</th></tr></thead>
+              <tbody>
+              ${trn.attendees.map(a => {
+                let duplicateWarning = '';
+                if (_allAdminTrainings) {
+                  const pastAttendedList = (attendedBefore.get(_trnAttendedBeforeKey(trn.title, a.empCode)) || [])
+                    .filter(t => t.id !== trn.id);
+                  if (pastAttendedList.length > 0) {
+                    const count = pastAttendedList.length;
+                    const dates = pastAttendedList.map(t => new Date(t.createdMs).toISOString().split('T')[0]).join(' ، ');
+                    const countText = count === 1 ? T('مرة واحدة') : `${count} ${T("مرات")}`;
+                    const dateLabel = count === 1 ? T('بتاريخ:') : T('بتواريخ:');
+                    duplicateWarning = `<div style="margin-top:4px;font-size:11px;color:#fff;background:var(--amber);padding:2px 6px;border-radius:4px;display:inline-block;">${T("⚠️ تنبيه: حضر الموظف هذه المحاضرة مسبقاً (")}${countText}) ${dateLabel} [${dates}]</div>`;
+                  }
+                }
+
+                return `
+                <tr>
+                  <td style="font-family:monospace; font-weight:bold;">${escapeHtml(a.empCode)}</td>
+                  <td>
+                    ${escapeHtml(a.name)}
+                    ${duplicateWarning}
+                  </td>
+                  <td>${escapeHtml(a.department)}</td>
+                  <td style="font-size:12px; color:var(--muted);">${new Date(a.attendedAt).toLocaleTimeString(LOC())}</td>
+                  <td>
+                    <button class="um-btn ${a.verified ? 'del' : 'pass'}" onclick="toggleTrnVerification(${jsArg(trn.id)}, ${jsArg(a.empCode)}, ${!a.verified})" style="padding:4px 8px; font-size:11px;">
+                      ${a.verified ? T('❌ إلغاء') : T('✅ تأكيد')}
+                    </button>
+                  </td>
+                </tr>
+                `;
+              }).join('')}
+              ${trn.attendees.length === 0 ? T('<tr><td colspan="5" style="text-align:center; color:var(--muted);">لا يوجد حضور حتى الآن. رمز الجلسة ظاهر للعمال.</td></tr>') : ''}
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="submit-btn" style="flex:1; background:var(--danger);" onclick="closeTrainingSession(${jsArg(trn.id)})">${T("🛑 إنهاء وإغلاق المحاضرة")}</button>
+            <button class="um-btn" style="flex:1;" onclick="addManualTrnAttendee(${jsArg(trn.id)})">${T("➕ إضافة حضور يدوي")}</button>
+            <button class="um-btn" style="flex:1;" onclick="exportTrainingExcel(${jsArg(trn.id)})">${T("📥 تصدير Excel")}</button>
+            <button class="um-btn" style="flex:1;" onclick="openTrainingMediaModal(${jsArg(trn.id)})">${T("🎥 تسجيل واختبار")}</button>
+          </div>
+        </div>
+      </div>`;
+    });
+  } else {
+    html += T('<div class="empty">لا توجد محاضرات جارية. يمكنك إنشاء محاضرة جديدة.</div>');
+  }
+
+  if (closedSessions.length > 0) {
+    html += `<h4 style="margin-top:24px;">${T("المحاضرات السابقة (")}${closedSessions.length})</h4>`;
+    const displaySessions = hasFilters ? closedSessions.slice(0, 500) : closedSessions.slice(0, 10);
+
+    displaySessions.forEach(trn => {
+      html += `
+      <div class="ticket" style="margin-bottom:8px;">
+        <div class="ticket-body" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-weight:700;">${escapeHtml(trn.title)}</div>
+            <div style="font-size:12px; color:var(--muted);">
+              ${escapeHtml(trn.date)} | ${escapeHtml(trn.trainer || T('غير محدد'))} ${T("| حضور:")} ${trn.attendees.filter(a=>a.verified).length}
+            </div>
+          </div>
+          <div>
+            <button class="um-btn" onclick="exportTrainingExcel(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px;">📥 Excel</button>
+            <button class="um-btn" onclick="openTrainingMediaModal(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px; margin-inline-start:4px;">${T("🎥 تسجيل واختبار")}</button>
+            <button class="um-btn del" onclick="softDeleteTraining(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px; margin-inline-start:4px;">${T("🗑️ حذف")}</button>
+          </div>
+        </div>
+      </div>`;
+    });
+    if (!hasFilters && closedSessions.length > 10) {
+      html += `<div style="text-align:center; font-size:13px; color:var(--primary); margin-top:12px; padding:8px; border: 1px dashed var(--paper-line); border-radius: 8px;">
+        ${T("تم عرض أحدث 10 محاضرات من إجمالي")} ${closedSessions.length} ${T("محاضرة. استخدم فلاتر البحث بالأعلى لعرض الباقي.")}
+      </div>`;
+    } else if (hasFilters) {
+      html += `<div style="text-align:center; font-size:13px; color:var(--primary); margin-top:12px; padding:8px;">
+        ${T("تم العثور على")} ${closedSessions.length} ${T("نتيجة مطابقة.")}
+      </div>`;
+    }
+  }
+
+  if (trashSessions.length > 0) {
+    html += T('<h4 style="margin-top:24px; color:var(--danger);">🗑️ سلة محذوفات المحاضرات</h4>');
+    trashSessions.forEach(trn => {
+      html += `
+      <div class="ticket" style="margin-bottom:8px; border-color:var(--danger); opacity:0.8;">
+        <div class="ticket-body" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-weight:700; text-decoration:line-through;">${escapeHtml(trn.title)}</div>
+            <div style="font-size:12px; color:var(--muted);">${escapeHtml(trn.date)} ${T("| حُذفت في:")} ${trn.deletedAt ? new Date(trn.deletedAt).toLocaleDateString(LOC()) : ''}</div>
+          </div>
+          <div>
+            <button class="um-btn pass" onclick="restoreTraining(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px;">${T("🔄 استعادة")}</button>
+            <button class="um-btn del" onclick="permanentDeleteTraining(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px; margin-inline-start:4px;">${T("❌ نهائي")}</button>
+          </div>
+        </div>
+      </div>`;
+    });
+  }
+
+  liveEl.innerHTML = html;
+}
+
+window.applyTrainingFilters = function() {
+  if (_allAdminTrainings && _allAdminTrainings.length > 0) {
+    renderAdminLiveSessions(_allAdminTrainings);
+  }
+};
+
+function clearTrainingFilters() {
+  document.getElementById('filter_trn_fromDate').value = '';
+  document.getElementById('filter_trn_toDate').value = '';
+  document.getElementById('filter_trn_topic').value = '';
+  document.getElementById('filter_trn_trainer').value = '';
+  if (_allAdminTrainings) renderAdminLiveSessions(_allAdminTrainings);
+}
+
+async function bulkExportTrainings() {
+  if (!_allAdminTrainings) return;
+
+  const fFrom = document.getElementById('filter_trn_fromDate')?.value;
+  const fTo = document.getElementById('filter_trn_toDate')?.value;
+  const fTopic = document.getElementById('filter_trn_topic')?.value?.toLowerCase();
+  const fTrainer = document.getElementById('filter_trn_trainer')?.value?.toLowerCase();
+
+  const closedSessions = _allAdminTrainings.filter(t => t.status === 'closed' && !t.isDeleted);
+  const filtered = closedSessions.filter(t => {
+    let match = true;
+    if (fFrom && new Date(t.date || t.createdAt) < new Date(fFrom)) match = false;
+    if (fTo && new Date(t.date || t.createdAt) > new Date(fTo)) match = false;
+    if (fTopic && !((t.topic || t.title || '').toLowerCase().includes(fTopic))) match = false;
+    if (fTrainer && !((t.trainer || '').toLowerCase().includes(fTrainer))) match = false;
+    return match;
+  });
+
+  if (filtered.length === 0) {
+    showToast(T('لا توجد محاضرات مطابقة للفلاتر لتصديرها.'), 'error');
+    return;
+  }
+
+  showToast(T('جاري تحضير ملف الإكسيل...'), 'info');
+  const ids = filtered.map(t => t.id);
+
+  try {
+    const res = await fetch('/api/trainings/export-bulk', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${getToken()}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ids })
+    });
+
+    if (res.ok) {
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Filtered_Trainings_${new Date().toISOString().split('T')[0]}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast(T('تم تحميل الملف المجمع بنجاح!'), 'success');
+    } else {
+      showToast(T('فشل في تصدير البيانات المجمعة'), 'error');
+    }
+  } catch (err) {
+    console.error(err);
+    showToast(T('حدث خطأ أثناء الاتصال بالخادم'), 'error');
+  }
+}
+
+async function uploadTrainingsExcel(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const dataUrl = e.target.result;
+    const base64Data = dataUrl.split(',')[1];
+
+    showToast(T('جاري رفع السجل واستيراد البيانات...'), 'info');
+
+    try {
+      const res = await authFetch('/api/trainings/upload-excel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ base64Data })
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast(`${T("تم استيراد")} ${json.count} ${T("محاضرة بنجاح!")}`, 'success');
+        loadAdminTraining(true);
+      } else {
+        showToast(json.message || T('حدث خطأ أثناء الرفع'), 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast(T('خطأ في الاتصال بالخادم'), 'error');
+    }
+
+    event.target.value = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function onTrnTargetModeChange() {
+  const mode = document.getElementById('trn_targetMode').value;
+  const extraRow = document.getElementById('trn_targetExtraRow');
+  const deptWrap = document.getElementById('trn_targetDeptWrap');
+  const codesWrap = document.getElementById('trn_targetCodesWrap');
+  if (mode === 'all') {
+    extraRow.style.display = 'none';
+    return;
+  }
+  extraRow.style.display = 'grid';
+  deptWrap.style.display = mode === 'department' ? 'block' : 'none';
+  codesWrap.style.display = mode === 'workers' ? 'block' : 'none';
+  if (mode === 'department') {
+    const deptSelect = document.getElementById('trn_targetDept');
+    if (deptSelect && !deptSelect.dataset.loaded) {
+      const depts = await loadRealDepartments();
+      deptSelect.innerHTML = depts.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join('');
+      deptSelect.dataset.loaded = '1';
+    }
+  }
+}
+
+async function createTrainingSession() {
+  const title = document.getElementById('trn_topic').value.trim();
+  const targetMode = document.getElementById('trn_targetMode').value;
+  const date = document.getElementById('trn_date').value;
+  const loc = document.getElementById('trn_location').value;
+  const stime = document.getElementById('trn_startTime').value;
+  const etime = document.getElementById('trn_endTime').value;
+  const trainer = (document.getElementById('trn_trainer')?.value || '').trim();
+  const trainerCode = (document.getElementById('trn_trainerCode')?.value || '').trim();
+  const msgEl = document.getElementById('trn_createMsg');
+
+  if (!title || !date || !stime || !etime) {
+    msgEl.textContent = T('الرجاء ملء جميع الحقول المطلوبة (*)');
+    msgEl.className = 'wl-msg error show';
+    return;
+  }
+
+  let targetDept = '';
+  let targetEmpCodes = '';
+  if (targetMode === 'department') {
+    targetDept = (document.getElementById('trn_targetDept')?.value || '').trim();
+    if (!targetDept) {
+      msgEl.textContent = T('اختر القسم المستهدف');
+      msgEl.className = 'wl-msg error show';
+      return;
+    }
+  } else if (targetMode === 'workers') {
+    targetEmpCodes = (document.getElementById('trn_targetCodes')?.value || '').trim();
+    if (!targetEmpCodes) {
+      msgEl.textContent = T('اكتب كود أو أكواد العمال المستهدفين');
+      msgEl.className = 'wl-msg error show';
+      return;
+    }
+  }
+
+  try {
+    const res = await authFetch('/api/trainings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title, targetMode, targetDept, targetEmpCodes, date, location: loc, startTime: stime, endTime: etime, trainer, trainerCode
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      msgEl.textContent = T('✅ تم إنشاء المحاضرة بنجاح');
+      msgEl.className = 'wl-msg success show';
+      document.getElementById('trn_topic').value = '';
+      document.getElementById('trn_targetMode').value = 'all';
+      onTrnTargetModeChange();
+      if (document.getElementById('trn_targetDept')) document.getElementById('trn_targetDept').value = '';
+      if (document.getElementById('trn_targetCodes')) document.getElementById('trn_targetCodes').value = '';
+      document.getElementById('trn_location').value = '';
+      if (document.getElementById('trn_trainer')) document.getElementById('trn_trainer').value = '';
+      if (document.getElementById('trn_trainerCode')) document.getElementById('trn_trainerCode').value = '';
+      window.populateTrainerInfo();
+      setTimeout(() => {
+        msgEl.className = 'wl-msg';
+        loadAdminTraining(true);
+      }, 1500);
+    } else {
+      msgEl.textContent = data.error || T('فشل الإنشاء');
+      msgEl.className = 'wl-msg error show';
+    }
+  } catch(e) {
+    msgEl.textContent = T('خطأ اتصال');
+    msgEl.className = 'wl-msg error show';
+  }
+}
+
+async function closeTrainingSession(id) {
+  if (!confirm(T('هل أنت متأكد من إنهاء وإغلاق المحاضرة؟ (لن يتمكن العمال من تسجيل الحضور بعد ذلك)'))) return;
+  try {
+    const res = await authFetch(`/api/trainings/${id}/close`, { method: 'PUT' });
+    if (res.ok) loadAdminTraining(true);
+  } catch(e) {}
+}

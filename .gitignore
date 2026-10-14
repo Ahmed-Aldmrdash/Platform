@@ -1,0 +1,19 @@
+node_modules/
+
+.env
+.env.*
+!.env.example
+
+*.log
+
+# Runtime data: snapshots, generated files, uploaded recordings
+data/
+public/uploads/
+
+# Local tooling
+.claude/
+.omc/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

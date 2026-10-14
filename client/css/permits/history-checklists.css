@@ -1,0 +1,409 @@
+/* Employee badge, readonly fields, my-permits history, checklist sections and the role-based hiding rules. */
+
+.emp-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(213, 30, 39, 0.1), rgba(213, 30, 39, 0.04));
+  border: 1px solid rgba(213, 30, 39, 0.25);
+  border-radius: 20px;
+  padding: 5px 6px 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  animation: badgePop .3s cubic-bezier(.22, .68, 0, 1.2) both;
+}
+
+@keyframes badgePop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.emp-dot {
+  font-size: 14px;
+}
+
+.emp-name {
+  font-weight: 800;
+  color: var(--ink);
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emp-code-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.emp-logout-btn {
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  margin-inline-start: 2px;
+  transition: opacity .12s;
+}
+
+.emp-logout-btn:hover {
+  opacity: 0.85;
+}
+
+.field input[readonly] {
+  background: rgba(213, 30, 39, 0.04);
+  border-color: rgba(213, 30, 39, 0.2);
+  color: var(--ink);
+  cursor: default;
+}
+
+.field input[readonly]:focus {
+  border-color: rgba(213, 30, 39, 0.2);
+}
+
+.my-history-header {
+  margin-bottom: 16px;
+  padding: 18px;
+  background: linear-gradient(135deg, var(--ink) 0%, #2d0406 100%);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.6);
+}
+
+.my-history-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.my-history-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 4px;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 1px;
+}
+
+.my-history-filter-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.mh-filter-btn {
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--charcoal-2);
+  color: var(--muted);
+  font-family: 'Cairo', sans-serif;
+  transition: all .12s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.mh-filter-btn.active {
+  background: var(--amber);
+  color: #fff;
+  border-color: var(--amber);
+}
+
+.mh-filter-btn:hover:not(.active) {
+  background: #e9e9e9;
+}
+
+.permit-history-card {
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--paper-line);
+  transition: box-shadow .15s;
+}
+
+.permit-history-card:hover {
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5);
+}
+
+.phc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.phc-type-pill {
+  display: inline-block;
+  background: var(--steel);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 20px;
+  margin-bottom: 4px;
+}
+
+.phc-id {
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.5px;
+}
+
+.phc-date {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.phc-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 14px;
+  margin: 8px 0;
+  font-size: 13px;
+}
+
+.phc-meta div span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.phc-desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 8px 0;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 7px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.phc-msg {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 8px 0 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.phc-msg.pending {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--muted);
+}
+
+.phc-msg.approved {
+  background: rgba(31, 122, 61, 0.08);
+  color: var(--success);
+}
+
+.phc-msg.rejected {
+  background: rgba(200, 20, 33, 0.07);
+  color: var(--danger);
+}
+
+.phc-msg.muted {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--muted);
+}
+
+.phc-submitted {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.chk-section-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11.5px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--steel);
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 5px 10px;
+  background: rgba(213, 30, 39, 0.06);
+  border-right: 3px solid var(--steel);
+  border-radius: 0 6px 6px 0;
+}
+
+.checklist .check-row:first-of-type {
+  border-top: none;
+}
+
+.tools-checklist {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(213, 30, 39, 0.03);
+  border: 1.5px solid var(--paper-line);
+  border-radius: 8px;
+}
+
+.tool-check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  min-height: 44px;
+  background: #fff;
+  border: 1.5px solid var(--paper-line);
+  border-radius: 20px;
+  font-size: clamp(12px, 3vw, 13px);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .12s;
+  -webkit-user-select: none;
+  user-select: none;
+  justify-content: center;
+  text-align: center;
+}
+
+.tool-check-label:hover {
+  border-color: var(--amber);
+  background: rgba(213, 30, 39, 0.04);
+}
+
+.tool-check-label input[type="checkbox"] {
+  -webkit-appearance: auto !important;
+  appearance: auto !important;
+  accent-color: #a81c1c !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px;
+  margin: 0 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.tool-check-label:has(input:checked),
+.tool-check-label.active {
+  background-color: #fee2e2 !important;
+  border-color: #dc2626 !important;
+  color: #991b1b !important;
+}
+
+.tool-other-wrap {
+  width: 100%;
+  margin-top: 4px;
+  grid-column: 1 / -1;
+}
+
+.tool-other-input {
+  width: 100%;
+  border: 1.5px solid var(--paper-line);
+  background: #FBFAF5;
+  border-radius: 8px;
+  padding: 8px 11px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+.tool-other-input:focus {
+  outline: none;
+  border-color: var(--amber-dark);
+}
+
+.tools-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0;
+}
+
+.tool-tag {
+  display: inline-block;
+  background: rgba(213, 30, 39, 0.08);
+  border: 1px solid rgba(213, 30, 39, 0.25);
+  color: var(--amber-dark);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.doc-control-footer {
+  margin-top: 14px;
+  padding: 7px 12px;
+  background: var(--charcoal-2);
+  border: 1px solid var(--paper-line);
+  border-radius: 7px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* CSS fallback for role-based hiding; applyRbacUI() keeps body[data-session] current. */
+body[data-session="worker"] #tabSup,
+body[data-session="worker"] #tabUsers,
+body[data-session="worker"] #tabEmployees,
+body[data-session="worker"] #viewSup,
+body[data-session="worker"] #viewUsers,
+body[data-session="worker"] #viewEmployees,
+body[data-session="worker"] #tabSupHazard,
+body[data-session="worker"] #viewSupHazard,
+body[data-session="worker"] #tabTrainingAdmin,
+body[data-session="worker"] #viewTrainingAdmin,
+body[data-session="worker"] #userBadgeArea {
+  display: none !important;
+}
+
+body[data-session="supervisor"] #tabWorker,
+body[data-session="supervisor"] #tabMyHistory,
+body[data-session="supervisor"] #tabMyHazards,
+body[data-session="supervisor"] #viewWorker,
+body[data-session="supervisor"] #viewMyHistory,
+body[data-session="supervisor"] #viewMyHazards,
+body[data-session="supervisor"] #tabHazardWorker,
+body[data-session="supervisor"] #viewHazardWorker,
+body[data-session="supervisor"] #tabTrainingWorker,
+body[data-session="supervisor"] #viewTrainingWorker,
+body[data-session="supervisor"] #empBadgeArea {
+  display: none !important;
+}
+
+.badge-count {
+  display: inline-block;
+  background-color: var(--danger);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-inline-start: 4px;
+  vertical-align: middle;
+}
