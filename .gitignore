@@ -7,8 +7,8 @@ node_modules/
 *.log
 
 # Runtime data: snapshots, generated files, uploaded recordings
-data/
-public/uploads/
+/data/
+/public/uploads/
 
 # Local tooling
 .claude/
