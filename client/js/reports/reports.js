@@ -28,7 +28,7 @@ function renderReportsTab() {
   const root = document.getElementById('reportsContent');
   if (!root) return;
   root.innerHTML = `
-    <div class="sup-header-row" style="margin-bottom:8px">
+    <div class="sup-header-row u-mb-2">
       <h3>${T('📑 تقرير السلامة الشامل')}</h3>
     </div>
     <p class="rep-intro">${T(REPORTS_INTRO)}</p>
@@ -130,7 +130,7 @@ function buildReportsPanel() {
     <div class="ticket rep-mail" id="repScheduleCard" hidden>
       <div class="ticket-head"><div><div class="ttype">${T('🗓️ إرسال التقرير تلقائيًا')}</div></div></div>
       <div class="ticket-body">
-        <div class="rep-hint" style="margin-bottom:10px">${T('السيرفر بيبعت التقرير لوحده أول كل فترة عن الفترة اللي خلصت، ومعاه مقارنة بالفترة اللي قبلها.')}</div>
+        <div class="rep-hint u-mb-3">${T('السيرفر بيبعت التقرير لوحده أول كل فترة عن الفترة اللي خلصت، ومعاه مقارنة بالفترة اللي قبلها.')}</div>
         <div class="rep-sched-row">
           <label class="rep-sched-on">
             <input type="checkbox" id="repSchedEnabled" />
@@ -142,15 +142,15 @@ function buildReportsPanel() {
           </select>
           <input type="time" id="repSchedTime" value="07:00" aria-label="${T('الميعاد')}" />
         </div>
-        <div class="rep-mail-row" style="margin-top:10px">
+        <div class="rep-mail-row u-mt-3">
           <input type="text" id="repSchedTo" dir="ltr" inputmode="email" maxlength="600"
                  placeholder="name@company.com" aria-label="${T('إيميلات الإرسال التلقائي')}" />
           <button class="btn btn-primary" type="button" id="repSchedSaveBtn">${T('💾 حفظ')}</button>
         </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+        <div class="u-flex u-gap-3 u-flex-wrap u-mt-3">
           <button class="btn btn-export" type="button" id="repSchedSendBtn">${T('📤 ابعت نسخة دلوقتي')}</button>
         </div>
-        <div class="rep-hint" id="repSchedStatus" style="margin-top:8px"></div>
+        <div class="rep-hint u-mt-2" id="repSchedStatus"></div>
       </div>
     </div>
 
@@ -355,7 +355,7 @@ async function reportsLoadPreview() {
     if (seq !== reportsState.loadSeq || !document.body.contains(box)) return null;
     if (!res.ok) {
       const msg = (new DOMParser().parseFromString(html, 'text/html').querySelector('p.text, .sheet, body') || {}).textContent;
-      box.innerHTML = `<div class="empty" style="color:var(--danger-text)"><div class="icon">⚠️</div>${escapeHtml((msg || '').trim().slice(0, 300) || T('تعذّر تجهيز التقرير'))}</div>`;
+      box.innerHTML = `<div class="empty u-c-danger-text"><div class="icon">⚠️</div>${escapeHtml((msg || '').trim().slice(0, 300) || T('تعذّر تجهيز التقرير'))}</div>`;
       return null;
     }
     const frame = document.createElement('iframe');
@@ -385,7 +385,7 @@ async function reportsLoadPreview() {
     return frame;
   } catch (e) {
     if (seq === reportsState.loadSeq) {
-      box.innerHTML = `<div class="empty" style="color:var(--danger-text)"><div class="icon">⚠️</div>${T('تعذّر الاتصال بالسيرفر — حاول تاني')}</div>`;
+      box.innerHTML = `<div class="empty u-c-danger-text"><div class="icon">⚠️</div>${T('تعذّر الاتصال بالسيرفر — حاول تاني')}</div>`;
     }
     return null;
   }

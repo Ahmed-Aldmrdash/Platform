@@ -29,7 +29,7 @@ function openTrainingMediaModal(trainingId) {
   }
 
   const html = `
-    <h3 style="margin-top:0;">🎥 ${T('تسجيل ومسابقة')} — ${escapeHtml(trn.title)}</h3>
+    <h3 class="u-mt-0">🎥 ${T('تسجيل ومسابقة')} — ${escapeHtml(trn.title)}</h3>
 
     <div class="qm-section">
       <div class="app-modal-field">
@@ -294,12 +294,12 @@ function openWorkerRecordingModal(url) {
   const isLocalFile = url.startsWith('/uploads/trainings/');
   const html = isLocalFile
     ? `
-      <h3 style="margin-top:0;">🎥 ${T("تسجيل المحاضرة")}</h3>
+      <h3 class="u-mt-0">🎥 ${T("تسجيل المحاضرة")}</h3>
       <video controls preload="metadata" class="wq-video-player" src="${escapeHtml(url)}"></video>
     `
     : `
-      <h3 style="margin-top:0;">🎥 ${T("تسجيل المحاضرة")}</h3>
-      <p style="font-size:13px; color:var(--text-muted);">${T("التسجيل ده رابط خارجي — هيتفتح في تاب جديد.")}</p>
+      <h3 class="u-mt-0">🎥 ${T("تسجيل المحاضرة")}</h3>
+      <p class="u-fs-sm u-c-text-muted">${T("التسجيل ده رابط خارجي — هيتفتح في تاب جديد.")}</p>
       <div class="app-modal-actions">
         <a class="btn btn-info" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${T("🔗 فتح التسجيل")}</a>
       </div>
@@ -316,7 +316,7 @@ async function openWorkerQuizModal(trainingId) {
     if (!res.ok) {
       if (data.reviewExpired) {
         openAppModal(`
-          <h3 style="margin-top:0;">📝 ${T("اختبار المحاضرة")}</h3>
+          <h3 class="u-mt-0">📝 ${T("اختبار المحاضرة")}</h3>
           <p class="wq-expired-note">⏳ ${T("انتهت مدة إتاحة هذا الاختبار للمراجعة.")}</p>
         `);
         return;
@@ -327,9 +327,9 @@ async function openWorkerQuizModal(trainingId) {
     _workerQuizState = { trainingId, questions: data.questions || [], answers: new Array((data.questions || []).length).fill(null) };
     if (!data.canAttempt) {
       openAppModal(`
-        <h3 style="margin-top:0;">📝 ${T("اختبار المحاضرة")}</h3>
+        <h3 class="u-mt-0">📝 ${T("اختبار المحاضرة")}</h3>
         <p>${T("استنفدت عدد محاولات الاختبار المسموح بها.")} ${data.myAttempt ? (T('آخر نتيجة: ') + data.myAttempt.lastScore + '%') : ''}</p>
-        <p style="font-size:13px; color:var(--text-muted);">${T("اطلب من مسؤول السلامة يفتحلك محاولة إضافية.")}</p>
+        <p class="u-fs-sm u-c-text-muted">${T("اطلب من مسؤول السلامة يفتحلك محاولة إضافية.")}</p>
       `);
       return;
     }
@@ -342,7 +342,7 @@ async function openWorkerQuizModal(trainingId) {
 function renderWorkerQuizModal(passThreshold, remainingAttempts) {
   const total = _workerQuizState.questions.length;
   const html = `
-    <h3 style="margin-top:0;">📝 ${T("اختبار المحاضرة")}</h3>
+    <h3 class="u-mt-0">📝 ${T("اختبار المحاضرة")}</h3>
     <div class="wq-meta-row">
       <span class="wq-meta-chip">🎯 ${T("نسبة النجاح")}: ${passThreshold}%</span>
       <span class="wq-meta-chip">🔁 ${T("المحاولات المتبقية")}: ${remainingAttempts}</span>

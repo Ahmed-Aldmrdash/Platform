@@ -25,12 +25,12 @@ async function renderMyPenalties() {
     }
 
     listEl.innerHTML = penalties.map(p => `
-      <div class="sup-card" style="margin-bottom:12px;border-right:4px solid var(--danger-solid);">
+      <div class="sup-card u-mb-3" style="border-right: 4px solid var(--danger-solid)">
         <div class="sup-top">
           <div><div class="hz-status-badge hz-high">${T("⚖️ جزاء")}</div></div>
           <div class="tnum">${escapeHtml(p.date || '')}</div>
         </div>
-        <div style="margin:10px 0;font-size:14px;line-height:1.6;">${escapeHtml(p.reason || '')}</div>
+        <div class="u-fs-md u-lh-relaxed" style="margin: 10px 0">${escapeHtml(p.reason || '')}</div>
         <div class="meta-grid">
           <div><span>${T("مشرف السيفتي")}</span>${escapeHtml(p.issuedBy || '—')}</div>
         </div>
@@ -70,7 +70,7 @@ async function renderPenaltiesAdmin() {
     }
 
     listEl.innerHTML = penaltiesAdminCache.map(p => `
-      <div class="sup-card penalty-card" style="margin-bottom:12px;border-right:4px solid var(--danger-solid);">
+      <div class="sup-card penalty-card u-mb-3" style="border-right: 4px solid var(--danger-solid)">
         <div class="sup-top">
           <div>
             <div class="hz-status-badge hz-high">⚖️ ${escapeHtml(p.empName || p.empCode || '')}</div>
@@ -83,7 +83,7 @@ async function renderPenaltiesAdmin() {
           <div><span>${T("القسم")}</span>${escapeHtml(p.department || '—')}</div>
           <div><span>${T("مشرف السيفتي")}</span>${escapeHtml(p.issuedBy || '—')}</div>
         </div>
-        <div style="margin:10px 0;font-size:14px;line-height:1.6;">${escapeHtml(p.reason || '')}</div>
+        <div class="u-fs-md u-lh-relaxed" style="margin: 10px 0">${escapeHtml(p.reason || '')}</div>
         ${canManage ? `
         <div class="card-danger">
           <button class="btn btn-danger btn-sm" onclick="openDeletePenaltyModal(${jsArg(p.id)})">${T("🗑️ حذف الجزاء")}</button>

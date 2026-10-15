@@ -69,7 +69,7 @@ function _dashHeroAndFilters(meta, opts) {
           <h1 class="dash-hero-title">${dicon('bars', 24)} ${T("لوحة التحكم والإحصائيات")}</h1>
           <p class="dash-hero-sub">${escapeHtml(roleLabel)} &nbsp;·&nbsp; ${now}</p>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div class="u-flex u-gap-2 u-items-center u-flex-wrap">
           <span class="dash-hero-badge">HSE Platform · Elsewedy Polymers</span>
           ${meta.role !== 'worker' ? `<button class="btn btn-export btn-sm" onclick="exportDashboardExcel()">${dicon('download', 15)} ${T("تصدير Excel")}</button>` : ''}
           ${meta.role !== 'worker' ? `<button class="btn btn-export btn-sm" id="dashExportChartsBtn" onclick="exportDashboardExcelWithCharts()">${T("📊 تصدير بالرسوم البيانية")}</button>` : ''}
@@ -149,12 +149,12 @@ function renderPersonalDashboard(container, data, role, isSingleEmployeeView, yt
   const penaltyLabel = isDept ? T('جزاءات القسم') : isAdminViewingOne ? T('الجزاءات على الموظف') : T('الجزاءات عليك');
 
   const employeeBanner = isAdminViewingOne ? `
-    <div class="dash-emp-banner" style="max-width:1200px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-top:16px;">
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-        <span style="color:var(--brand-700);">${dicon('person', 26)}</span>
+    <div class="dash-emp-banner u-mx-auto u-flex u-items-center u-justify-between u-flex-wrap u-gap-3 u-mt-4" style="max-width: 1200px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px">
+      <div class="u-flex u-items-center u-gap-3 u-flex-wrap">
+        <span class="u-c-brand-700">${dicon('person', 26)}</span>
         <div>
-          <div style="font-weight:700;font-size:15px;">${escapeHtml(viewingEmp && viewingEmp.name || T('موظف غير معروف'))}</div>
-          <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">
+          <div class="u-fw-700 u-fs-lg">${escapeHtml(viewingEmp && viewingEmp.name || T('موظف غير معروف'))}</div>
+          <div class="u-fs-sm u-c-text-muted u-mt-1">
             ${viewingEmp && viewingEmp.jobTitle ? `${escapeHtml(viewingEmp.jobTitle)} · ` : ''}${viewingEmp && viewingEmp.department ? `${escapeHtml(viewingEmp.department)} · ` : ''}${T("كود:")} ${escapeHtml(viewingEmp && viewingEmp.empCode || '')}
           </div>
         </div>
@@ -177,14 +177,14 @@ function renderPersonalDashboard(container, data, role, isSingleEmployeeView, yt
         <div class="dash-chart-card">
           <div class="dash-chart-title">${dicon('cap', 17)} <span>${T("ساعات التدريب")}</span></div>
           <div style="padding:12px 4px;">
-            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+            <div class="u-flex u-justify-between u-fs-sm u-mb-2">
               <span>${trainHoursSoFar.toLocaleString(LOC())} ${T("من")} ${EMP_TARGET_TRAIN_HOURS} ${T("ساعة")}</span>
-              <span style="font-weight:700;">${trainPct}%</span>
+              <span class="u-fw-700">${trainPct}%</span>
             </div>
             <div style="background:var(--border);height:10px;border-radius:5px;overflow:hidden;">
               <div style="height:100%;width:${trainPct}%;background:${trainPct >= 100 ? 'var(--success-solid)' : 'var(--brand-600)'};"></div>
             </div>
-            <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
+            <div class="u-mt-2 u-fs-xs u-c-text-muted">
               ${trainRemaining > 0 ? `${T("متبقّي")} <b>${trainRemaining}</b> ${T("ساعة تدريب علشان توصل للتارجت")}` : T('🎉 وصلت لتارجت التدريب!')}
             </div>
           </div>
@@ -192,14 +192,14 @@ function renderPersonalDashboard(container, data, role, isSingleEmployeeView, yt
         <div class="dash-chart-card">
           <div class="dash-chart-title">${dicon('alert', 17)} <span>${T("بلاغات الخطورة")}</span></div>
           <div style="padding:12px 4px;">
-            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+            <div class="u-flex u-justify-between u-fs-sm u-mb-2">
               <span>${hazSoFar} ${T("من")} ${EMP_TARGET_HAZARDS} ${T("بلاغ")}</span>
-              <span style="font-weight:700;">${hazPct}%</span>
+              <span class="u-fw-700">${hazPct}%</span>
             </div>
             <div style="background:var(--border);height:10px;border-radius:5px;overflow:hidden;">
               <div style="height:100%;width:${hazPct}%;background:${hazPct >= 100 ? 'var(--success-solid)' : 'var(--warning-solid)'};"></div>
             </div>
-            <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
+            <div class="u-mt-2 u-fs-xs u-c-text-muted">
               ${hazRemaining > 0 ? `${T("متبقّي")} <b>${hazRemaining}</b> ${T("بلاغ خطورة علشان توصل للتارجت")}` : T('🎉 وصلت لتارجت البلاغات!')}
             </div>
           </div>
@@ -211,7 +211,7 @@ function renderPersonalDashboard(container, data, role, isSingleEmployeeView, yt
     ${_dashHeroAndFilters(meta, { showEmpFilter: isDept || isAdminViewingOne })}
     ${employeeBanner}
 
-    <div id="dashboardContent" style="max-width:1200px;margin:0 auto;padding:0 16px;">
+    <div class="u-mx-auto" id="dashboardContent" style="max-width: 1200px; padding: 0 16px">
 
       <!-- KPI summary row -->
       <div class="dash-kpi-grid">

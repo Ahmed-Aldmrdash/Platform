@@ -299,7 +299,7 @@ function showAdminProfileModal(previousHolder) {
     <div class="force-pw-card">
       <h3>${T('👤 سجّل بياناتك قبل ما تكمل')}</h3>
       <p>${T('الحساب ده ممكن يستخدمه أكتر من شخص، فمحتاجين نعرف مين بيستخدمه دلوقتي. البيانات دي بتتحفظ على كودك الوظيفي انت — مش هتتطلب منك تاني كل ما تدخل، مرة واحدة بس.')}</p>
-      <p style="font-size:12.5px;opacity:.75">${T('الإيميل ده هيستخدم بس لو احتجت كلمة سر مؤقتة من "نسيت كلمة السر؟" في المستقبل — دخولك دلوقتي تم بنجاح بالفعل.')}</p>
+      <p class="u-fs-sm" style="opacity: .75">${T('الإيميل ده هيستخدم بس لو احتجت كلمة سر مؤقتة من "نسيت كلمة السر؟" في المستقبل — دخولك دلوقتي تم بنجاح بالفعل.')}</p>
       ${previousHolder && previousHolder.name ? `<div class="bk-email-warn">${T('آخر واحد استخدم الحساب ده:')} <b>${escapeHtml(previousHolder.name)}</b>${previousHolder.empCode ? ` (${escapeHtml(previousHolder.empCode)})` : ''}</div>` : ''}
       <input type="text" id="apName" placeholder="${T('اسمك')}" value="${escapeHtml(currentUserName || '')}" />
       <input type="tel" id="apPhone" dir="ltr" placeholder="${T('رقم الموبايل (واتساب) — 01xxxxxxxxx')}" autocomplete="tel" />
@@ -354,7 +354,7 @@ function showAdminForgotPassword() {
       <input type="text" id="fpUser" placeholder="${T('اسم المستخدم')}" value="${escapeHtml((document.getElementById('loginUser') || {}).value || '')}" autocomplete="username" />
       <input type="text" id="fpCode" placeholder="${T('الكود الوظيفي')}" value="${escapeHtml((document.getElementById('loginEmpCode') || {}).value || '')}" oninput="this.value=this.value.toUpperCase()" />
       <div class="force-pw-error" id="fpError"></div>
-      <div style="display:flex;gap:8px;">
+      <div class="u-flex u-gap-2">
         <button class="btn btn-primary btn-block" id="fpSubmit" type="button">${T('ابعتلي كلمة سر مؤقتة')}</button>
         <button class="btn btn-secondary" type="button" onclick="document.getElementById('adminForgotOverlay').remove()">${T('إلغاء')}</button>
       </div>

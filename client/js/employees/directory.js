@@ -69,7 +69,7 @@ async function renderModelEmployeeSection() {
     wrap.innerHTML = `
       <div class="emp-leaderboard-wrap">
         ${headerHtml}
-        <div style="padding:20px;text-align:center;color:var(--text-muted);">${T("لا توجد بيانات كافية لعرض القائمة")}${_modelEmpDeptFilter !== 'الكل' ? T(' لهذا القسم') : ''}</div>
+        <div class="u-p-5 u-text-center u-c-text-muted">${T("لا توجد بيانات كافية لعرض القائمة")}${_modelEmpDeptFilter !== 'الكل' ? T(' لهذا القسم') : ''}</div>
       </div>`;
     return;
   }
@@ -138,7 +138,7 @@ function renderEmployeesTable(list) {
         </table>
       </div>
       <div id="empTableMore"></div>
-      <div id="empTableCount" style="font-size:12px;color:var(--text-muted);margin-top:8px;text-align:left;"></div>
+      <div class="u-fs-xs u-c-text-muted u-mt-2 u-text-end" id="empTableCount"></div>
     `;
   }
 
@@ -192,7 +192,7 @@ function renderEmployeesTableRows(list) {
   window._currentVisibleEmployees = list;
 
   if (list.length === 0) {
-    tbody.innerHTML = T('<tr><td colspan="8"><div class="empty" style="padding:20px;text-align:center;"><div class="icon">👤</div>لا توجد نتائج مطابقة للبحث</div></td></tr>');
+    tbody.innerHTML = T('<tr><td colspan="8"><div class="empty u-p-5 u-text-center"><div class="icon">👤</div>لا توجد نتائج مطابقة للبحث</div></td></tr>');
     if (moreEl) moreEl.innerHTML = '';
     if (countEl) countEl.innerText = T('إجمالي: 0 موظف');
     return;
@@ -214,36 +214,36 @@ function renderEmployeesTableRows(list) {
 
     return `
     <tr>
-      <td style="color:var(--text-muted);font-size:12px;">${i + 1}</td>
-      <td style="font-size:13px;font-weight:700;letter-spacing:1px;color:var(--brand-700);">
+      <td class="u-c-text-muted u-fs-xs">${i + 1}</td>
+      <td class="u-fs-sm u-fw-700 u-c-brand-700" style="letter-spacing: 1px">
         ${escapeHtml(e.empCode || e.code)}
       </td>
-      <td style="font-weight:700;">${escapeHtml(e.name || '—')}</td>
+      <td class="u-fw-700">${escapeHtml(e.name || '—')}</td>
       <td>
-        <div style="font-size:13px;">${escapeHtml(e.department || '—')}</div>
-        <div style="font-size:11px;color:var(--text-muted);">${escapeHtml(e.jobTitle || '—')}</div>
+        <div class="u-fs-sm">${escapeHtml(e.department || '—')}</div>
+        <div class="u-fs-xs u-c-text-muted">${escapeHtml(e.jobTitle || '—')}</div>
       </td>
       <td>
-        <div style="font-size:12px; font-weight:bold; margin-bottom:4px;">${hCount} / ${hTarget} ${T("بلاغ")}</div>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <div style="flex:1;background:var(--border);height:8px;border-radius:4px;overflow:hidden;min-width:40px;">
+        <div class="u-fs-xs u-fw-700 u-mb-1">${hCount} / ${hTarget} ${T("بلاغ")}</div>
+        <div class="u-flex u-items-center u-gap-2">
+          <div class="u-flex-1" style="background: var(--border); height: 8px; border-radius: 4px; overflow: hidden; min-width: 40px">
             <div style="height:100%;width:${hPerc}%;background:var(--brand-600);"></div>
           </div>
-          <span class="emp-role-badge ${hBadgeClass}" style="min-width:35px;text-align:center;font-size:10px;">${hPerc}%</span>
+          <span class="emp-role-badge ${hBadgeClass} u-text-center u-fs-xs" style="min-width: 35px">${hPerc}%</span>
         </div>
       </td>
       <td>
-        <div style="font-size:12px; font-weight:bold; margin-bottom:4px;">${tHours} / ${tTarget} ${T("ساعات")}</div>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <div style="flex:1;background:var(--border);height:8px;border-radius:4px;overflow:hidden;min-width:40px;">
+        <div class="u-fs-xs u-fw-700 u-mb-1">${tHours} / ${tTarget} ${T("ساعات")}</div>
+        <div class="u-flex u-items-center u-gap-2">
+          <div class="u-flex-1" style="background: var(--border); height: 8px; border-radius: 4px; overflow: hidden; min-width: 40px">
             <div style="height:100%;width:${tPerc}%;background:var(--brand-600);"></div>
           </div>
-          <span class="emp-role-badge ${tBadgeClass}" style="min-width:35px;text-align:center;font-size:10px;">${tPerc}%</span>
+          <span class="emp-role-badge ${tBadgeClass} u-text-center u-fs-xs" style="min-width: 35px">${tPerc}%</span>
 
         </div>
       </td>
       <td>
-        <div style="font-size:12px; font-weight:bold; margin-bottom:4px; color:var(--danger-text);">${dCount} ${T("تجربة")}</div>
+        <div class="u-fs-xs u-fw-700 u-mb-1 u-c-danger-text">${dCount} ${T("تجربة")}</div>
       </td>
       <td>
         <div class="um-action-btns">

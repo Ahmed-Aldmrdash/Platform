@@ -183,7 +183,7 @@ async function renderInspectionSections() {
   } catch(e) {
     console.error('Inspection sections load error', e);
     const gridEl = document.getElementById('inspSectionsGrid');
-    if (gridEl) gridEl.innerHTML = T('<div class="empty" style="color:var(--danger-text);">فشل تحميل الأقسام</div>');
+    if (gridEl) gridEl.innerHTML = T('<div class="empty u-c-danger-text">فشل تحميل الأقسام</div>');
   }
 }
 
@@ -285,7 +285,7 @@ async function renderInspectionSectionDetail() {
     <div class="adv-filter-box">
       <div class="adv-filter-head">
         <div class="adv-filter-title">${T("🔍 فلترة وأدوات")}</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <div class="u-flex u-gap-2 u-flex-wrap">
           <button class="btn btn-export btn-sm" type="button" onclick="inspExport('items')">${T("⬇ تصدير سجل الأصناف")}</button>
           <button class="btn btn-export btn-sm" type="button" onclick="inspExport('monthly')">${T("⬇ تصدير فحص الشهر")}</button>
           <button class="btn btn-export btn-sm" type="button" onclick="document.getElementById('inspLegacyExcelInput').click()" title="${T('الملف القديم بتاع قسم')} ${escapeHtml(inspState.sectionName)} ${T('بس')}">${T("📥 رفع سجل قديم لقسم")} "${escapeHtml(inspState.sectionName)}"</button>
@@ -293,8 +293,8 @@ async function renderInspectionSectionDetail() {
           <button class="btn btn-primary btn-sm" type="button" onclick="inspOpenAddItemModal()">${T("+ إضافة صنف")}</button>
         </div>
       </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <input id="inspFilterQ" type="text" placeholder="${T("بحث برقم/اسم/قسم/مكان الصنف…")}" class="form-input" style="flex:1;min-width:200px;padding:9px 12px;border-radius:10px;border:1px solid var(--border);" oninput="inspDebouncedFilter()" />
+      <div class="u-flex u-gap-3 u-flex-wrap">
+        <input id="inspFilterQ" type="text" placeholder="${T("بحث برقم/اسم/قسم/مكان الصنف…")}" class="form-input u-flex-1" style="min-width: 200px; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--border)" oninput="inspDebouncedFilter()" />
         <select id="inspFilterDept" class="insp-status-select" onchange="inspApplyFilters()">
           <option value="">${T("كل الأقسام/الأماكن")}</option>
         </select>
@@ -326,17 +326,17 @@ async function inspImportLegacyBulk(event) {
   const paint = () => {
     const done = rows.filter(r => r.state !== 'pending' && r.state !== 'working').length;
     box.innerHTML = `
-      <div class="adv-filter-box" style="margin-bottom:14px;">
+      <div class="adv-filter-box u-mb-4">
         <div class="adv-filter-head">
           <div class="adv-filter-title">${T('📥 رفع ملفات الفحص القديمة')} — ${T('برنامج')} ${escapeHtml(cat)} (${done}/${rows.length})</div>
           ${done === rows.length ? `<button class="btn btn-secondary btn-sm" type="button" onclick="document.getElementById('inspBulkImportBox').style.display='none'">${T('إخفاء')}</button>` : ''}
         </div>
-        <div style="max-height:300px;overflow:auto;font-size:12.5px;">
+        <div class="u-fs-sm" style="max-height: 300px; overflow: auto">
           ${rows.map(r => `
-            <div style="display:flex;gap:8px;align-items:center;padding:5px 2px;border-bottom:1px solid var(--border);">
+            <div class="u-flex u-gap-2 u-items-center" style="padding: 5px 2px; border-bottom: 1px solid var(--border)">
               <span style="width:18px;">${r.state === 'ok' ? '✅' : r.state === 'skip' ? '⚠️' : r.state === 'err' ? '❌' : r.state === 'working' ? '⏳' : '•'}</span>
-              <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" dir="auto">${escapeHtml(r.name)}</span>
-              <span style="color:var(--text-muted);">${escapeHtml(r.msg)}</span>
+              <span class="u-flex-1 u-nowrap" style="min-width: 0; overflow: hidden; text-overflow: ellipsis" dir="auto">${escapeHtml(r.name)}</span>
+              <span class="u-c-text-muted">${escapeHtml(r.msg)}</span>
             </div>`).join('')}
         </div>
       </div>`;
@@ -451,7 +451,7 @@ async function inspLoadItems() {
     renderInspItemsTable(data.items || []);
   } catch(e) {
     console.error('Inspection items load error', e);
-    wrap.innerHTML = T('<div class="empty" style="color:var(--danger-text);">فشل تحميل الأصناف</div>');
+    wrap.innerHTML = T('<div class="empty u-c-danger-text">فشل تحميل الأصناف</div>');
   }
 }
 
@@ -482,15 +482,15 @@ function renderInspItemsTable(items) {
             <tr>
               <td>${i+1}</td>
               <td>${escapeHtml(it.itemNumber || '—')}</td>
-              <td style="font-weight:700;text-align:right;">${escapeHtml(it.name)}</td>
+              <td class="u-fw-700 u-text-start">${escapeHtml(it.name)}</td>
               <td>${escapeHtml(it.department || '—')}</td>
               <td>${escapeHtml(it.location || '—')}</td>
               <td>${inspStatusBadge(it.status)}</td>
-              <td style="max-width:160px;white-space:normal;text-align:right;">${escapeHtml((it.record && it.record.notes) || '—')}</td>
-              <td style="white-space:nowrap;">${it.record && it.record.inspectionDate ? escapeHtml(String(it.record.inspectionDate).slice(0,10)) : '—'}</td>
+              <td class="u-ws-normal u-text-start" style="max-width: 160px">${escapeHtml((it.record && it.record.notes) || '—')}</td>
+              <td class="u-nowrap">${it.record && it.record.inspectionDate ? escapeHtml(String(it.record.inspectionDate).slice(0,10)) : '—'}</td>
               <td>${escapeHtml((it.record && it.record.inspector) || '—')}</td>
               <td>
-                <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
+                <div class="u-flex u-gap-2 u-justify-center u-flex-wrap">
                   <button class="btn btn-primary btn-sm" type="button" onclick="inspOpenRecordModal(${jsArg(it.id)})">${T("تسجيل فحص")}</button>
                   <button class="btn btn-secondary btn-sm btn-icon" type="button" onclick="inspOpenEditItemModal(${jsArg(it.id)})" title="${T("تعديل بيانات الصنف")}" aria-label="${T("تعديل بيانات الصنف")}">✏️</button>
                   ${it.record ? `<button class="btn btn-danger btn-sm" type="button" onclick="inspDeleteRecord(${jsArg(it.record.id)})" title="${T("حذف نتيجة فحص الشهر")}">${T("حذف الفحص")}</button>` : ''}
@@ -648,7 +648,7 @@ function inspOpenRecordModal(itemId) {
   const defaultInspector = rec && rec.inspector ? rec.inspector : (typeof currentUserName !== 'undefined' ? (currentUserName || '') : '');
   openAppModal(`
     <h3>${T("تسجيل نتيجة فحص —")} ${escapeHtml(it.name)}</h3>
-    <p style="color:var(--text-muted);font-size:12.5px;margin:-10px 0 16px;">${T(ARABIC_MONTHS[inspState.month-1])} ${inspState.year}</p>
+    <p class="u-c-text-muted u-fs-sm" style="margin: -10px 0 16px">${T(ARABIC_MONTHS[inspState.month-1])} ${inspState.year}</p>
     <div class="app-modal-field">
       <label>${T("نتيجة الفحص *")}</label>
       <select id="inspRecStatus">

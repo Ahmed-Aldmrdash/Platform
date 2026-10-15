@@ -7,7 +7,7 @@ function renderDashboardHTML(container, data) {
     ${_dashHeroAndFilters(meta, { showEmpFilter: true, execSnapshot: _dashExecSnapshotHTML(data) })}
 
     <!-- Content Wrapper -->
-    <div id="dashboardContent" style="max-width:1200px;margin:0 auto;padding:0 16px;">
+    <div class="u-mx-auto" id="dashboardContent" style="max-width: 1200px; padding: 0 16px">
 
       <!-- KPI Cards -->
       <div class="dash-kpi-grid">
@@ -78,7 +78,7 @@ function renderDashboardHTML(container, data) {
       <!-- ترتيب الأقسام: بيتحسب من نفس أرقام الكروت اللي فوق، وبيحترم فلتر القسم -->
       ${(meta.role === 'super_admin' || meta.role === 'hse_admin' || meta.role === 'hse_director') ? `
       <div class="dash-section-title">${dicon('bars', 17)} ${T("ترتيب الأقسام حسب الالتزام بالأهداف")}${_dashDeptFilter ? ` — ${T("قسم")} ${escapeHtml(_dashDeptFilter)}` : ''}</div>
-      <div class="exec-leaderboard" id="dashDeptLeaderboard" style="margin-bottom:24px;">
+      <div class="exec-leaderboard u-mb-6" id="dashDeptLeaderboard">
         <div class="loading">${T("جارِ التحميل…")}</div>
       </div>
       ` : ''}
@@ -245,7 +245,7 @@ function _dashRenderDeptCompliance(scoredAll, q, scopeDept, penaltyMap) {
     .sort((a, b) => b.score - a.score || b.n - a.n);
 
   if (!rows.length) {
-    boardEl.innerHTML = `<div class="empty" style="padding:20px"><div class="icon">📊</div>${T('لا توجد بيانات كافية بعد')}</div>`;
+    boardEl.innerHTML = `<div class="empty u-p-5"><div class="icon">📊</div>${T('لا توجد بيانات كافية بعد')}</div>`;
     return;
   }
   const shown = scopeDept
@@ -263,11 +263,11 @@ function _dashRenderDeptCompliance(scoredAll, q, scopeDept, penaltyMap) {
           <div class="exec-leaderboard-bar-bg">
             <div class="exec-leaderboard-bar-fill ${cls}" style="width:${Math.max(2, r.score)}%"></div>
           </div>
-          <div class="dash-board-sub">${T('تدريب')} ${r.trainPct}% · ${T('بلاغات')} ${r.hazPct}%${r.penalties ? ` · <span style="color:var(--danger-text);font-weight:700;">${T('جزاءات')} ${r.penalties} ⚖️</span>` : ''}${scopeDept ? ` · ${T('الترتيب')} ${rank} ${T('من')} ${rows.length}` : ''}</div>
+          <div class="dash-board-sub">${T('تدريب')} ${r.trainPct}% · ${T('بلاغات')} ${r.hazPct}%${r.penalties ? ` · <span class="u-c-danger-text u-fw-700">${T('جزاءات')} ${r.penalties} ⚖️</span>` : ''}${scopeDept ? ` · ${T('الترتيب')} ${rank} ${T('من')} ${rows.length}` : ''}</div>
         </div>
         <div class="exec-leaderboard-score">${r.score}</div>
       </div>`;
-  }).join('') : `<div class="empty" style="padding:16px">${T('القسم ده مالوش بيانات كافية للترتيب')}</div>`);
+  }).join('') : `<div class="empty u-p-4">${T('القسم ده مالوش بيانات كافية للترتيب')}</div>`);
 }
 
 // Annual targets split into quarters and prorated by quarters elapsed, counted from Jan 1. Only this dashboard section uses it.

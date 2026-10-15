@@ -48,16 +48,16 @@ async function renderUsersPanel(){
           <tbody>
             ${users.map((u,i) => `
               <tr>
-                <td style="color:var(--text-muted);font-size:12px;">${i+1}</td>
-                <td style="font-weight:700;">${escapeHtml(u.name)}</td>
-                <td style="font-size:13px;">${escapeHtml(u.username)}</td>
+                <td class="u-c-text-muted u-fs-xs">${i+1}</td>
+                <td class="u-fw-700">${escapeHtml(u.name)}</td>
+                <td class="u-fs-sm">${escapeHtml(u.username)}</td>
                 <td>
                   <span class="role-badge ${escapeHtml(u.role)}">${escapeHtml(roleLabel(u.role))}</span>
-                  ${(u.role === 'dept_admin' || u.role === 'maint_admin') && u.department ? `<div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${escapeHtml(u.department)}</div>` : ''}
+                  ${(u.role === 'dept_admin' || u.role === 'maint_admin') && u.department ? `<div class="u-fs-xs u-c-text-muted u-mt-1">${escapeHtml(u.department)}</div>` : ''}
                   ${u.mustChangePassword ? `<div class="um-default-pw">⚠️ ${T("كلمة سر مؤقتة — لأول شخص بس")}</div>` : ''}
-                  <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">👥 ${(u.members||[]).length ? `${T("عمل كلمة سر شخصية:")} ${(u.members||[]).length}` : T("محدش عمل كلمة سر شخصية لسه")}</div>
+                  <div class="u-fs-xs u-c-text-muted u-mt-1">👥 ${(u.members||[]).length ? `${T("عمل كلمة سر شخصية:")} ${(u.members||[]).length}` : T("محدش عمل كلمة سر شخصية لسه")}</div>
                 </td>
-                <td style="color:var(--text-muted);font-size:12px;">${u.createdAt ? new Date(u.createdAt).toLocaleDateString(LOC()) : '—'}</td>
+                <td class="u-c-text-muted u-fs-xs">${u.createdAt ? new Date(u.createdAt).toLocaleDateString(LOC()) : '—'}</td>
                 <td>
                   <div class="um-action-btns">
                     <button class="btn btn-secondary btn-sm" onclick="openEditUserModal(${jsArg(u.id)})">${T("✏️ تعديل")}</button>
@@ -73,7 +73,7 @@ async function renderUsersPanel(){
       </div>
     `;
   } catch(e){
-    listEl.innerHTML = T('<div class="empty" style="color:var(--danger-text);">فشل تحميل المستخدمين</div>');
+    listEl.innerHTML = T('<div class="empty u-c-danger-text">فشل تحميل المستخدمين</div>');
   }
 }
 
@@ -82,8 +82,8 @@ function openUserMembersModal(userId) {
   if (!user) return;
   const members = user.members || [];
   const html = `
-    <h3 style="margin-top:0;">👥 ${T("أعضاء حساب")} ${escapeHtml(user.username)}</h3>
-    <p style="font-size:12.5px; color:var(--text-muted); margin-top:0;">${T("كل واحد من دول عمل كلمة سر شخصية لنفسه بكوده الوظيفي، ومحدش غيره يعرفها. لو حد نسي كلمة سره، اضغط \"إعادة تعيين\" عشان يتطلب منه يعمل واحدة جديدة أول ما يدخل تاني.")}</p>
+    <h3 class="u-mt-0">👥 ${T("أعضاء حساب")} ${escapeHtml(user.username)}</h3>
+    <p class="u-fs-sm u-c-text-muted u-mt-0">${T("كل واحد من دول عمل كلمة سر شخصية لنفسه بكوده الوظيفي، ومحدش غيره يعرفها. لو حد نسي كلمة سره، اضغط \"إعادة تعيين\" عشان يتطلب منه يعمل واحدة جديدة أول ما يدخل تاني.")}</p>
     ${members.length ? `
       <div class="um-table-wrap">
         <table class="um-table">
@@ -91,9 +91,9 @@ function openUserMembersModal(userId) {
           <tbody>
             ${members.map(m => `
               <tr>
-                <td style="font-weight:700;">${escapeHtml(m.name || '—')}</td>
+                <td class="u-fw-700">${escapeHtml(m.name || '—')}</td>
                 <td dir="ltr">${escapeHtml(m.empCode)}</td>
-                <td style="color:var(--text-muted); font-size:12px;">${m.createdAt ? new Date(m.createdAt).toLocaleDateString(LOC()) : '—'}</td>
+                <td class="u-c-text-muted u-fs-xs">${m.createdAt ? new Date(m.createdAt).toLocaleDateString(LOC()) : '—'}</td>
                 <td><button class="btn btn-warning btn-sm" onclick="resetMemberPassword(${jsArg(userId)}, ${jsArg(m.empCode)}, ${jsArg(m.name || m.empCode)})">${T("🔄 إعادة تعيين")}</button></td>
               </tr>
             `).join('')}
@@ -259,7 +259,7 @@ function openEditUserModal(userId){
     if (user.phone) bits.push(`${T('موبايل')}: <span dir="ltr">${escapeHtml(user.phone)}</span>`);
     if (user.email) bits.push(`${T('إيميل')}: <span dir="ltr">${escapeHtml(user.email)}</span>`);
     if (user.department) bits.push(`${T('القسم')}: ${escapeHtml(user.department)}`);
-    if (user.mustChangePassword) bits.push(`<span style="color:var(--warning-text);">${T('كلمة السر المشتركة بتشتغل مرة واحدة: أول شخص يعمل كلمة سره الشخصية وبعدها تتلغي')}</span>`);
+    if (user.mustChangePassword) bits.push(`<span class="u-c-warning-text">${T('كلمة السر المشتركة بتشتغل مرة واحدة: أول شخص يعمل كلمة سره الشخصية وبعدها تتلغي')}</span>`);
     infoEl.innerHTML = bits.length ? bits.join(' · ') : T('مفيش بيانات تواصل مسجّلة للحساب ده لسه');
   }
 

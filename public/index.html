@@ -112,23 +112,18 @@
         <div class="wl-sub">HSE Platform · Elsewedy Polymers</div>
 
         <div id="wl-step1">
-          <div class="field" style="text-align: right">
+          <div class="field u-text-start">
             <label
               ><span data-i18n="wlCodeLabel">الكود الوظيفي</span>
               <span class="req-star">*</span>
             </label>
-            <input
+            <input class="u-text-center u-fs-2xl u-fw-700"
               id="wl_empCode"
               type="text"
               placeholder="أدخل كودك الوظيفي"
               data-i18n-placeholder="wlCodePlaceholder"
               autocomplete="off"
-              style="
-                text-align: center;
-                font-size: 20px;
-                letter-spacing: 2px;
-                font-weight: 700;
-              "
+              style="letter-spacing: 2px"
               oninput="this.value=this.value.toUpperCase()"
               onkeydown="if(event.key==='Enter') checkEmpCode()"
             />
@@ -149,7 +144,7 @@
         </div>
 
         <div id="wl-step-password" style="display: none">
-          <div class="field" style="text-align: right">
+          <div class="field u-text-start">
             <label><span data-i18n="wlPassword">كلمة السر</span> <span class="req-star">*</span></label>
             <input id="wl_password" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter') workerPasswordLogin()" />
           </div>
@@ -163,19 +158,19 @@
 
         <div id="wl-step-setup" style="display: none">
           <div class="wl-new-badge" data-i18n="wlSetupNote">أول مرة تدخل؟ اعمل كلمة سر خاصة بيك وسجّل رقم موبايلك. هتدخل بكلمة السر دي كل مرة بعد كده، ولو نسيتها هيوصلك كود على واتساب على الرقم ده.</div>
-          <div class="field" style="text-align: right">
+          <div class="field u-text-start">
             <label><span data-i18n="wlNewPassword">كلمة السر الجديدة (6 حروف/أرقام على الأقل)</span> <span class="req-star">*</span></label>
             <input id="wl_newPw" type="password" autocomplete="new-password" />
           </div>
-          <div class="field" style="text-align: right">
+          <div class="field u-text-start">
             <label><span data-i18n="wlConfirmPassword">تأكيد كلمة السر</span> <span class="req-star">*</span></label>
             <input id="wl_newPw2" type="password" autocomplete="new-password" />
           </div>
-          <div class="field" style="text-align: right">
+          <div class="field u-text-start">
             <label><span data-i18n="wlPhone">رقم الموبايل (واتساب)</span> <span class="req-star">*</span></label>
             <input id="wl_phone" type="tel" inputmode="tel" placeholder="01xxxxxxxxx" dir="ltr" autocomplete="tel" />
           </div>
-          <div class="field" style="text-align: right">
+          <div class="field u-text-start">
             <label><span data-i18n="wlEmail">الإيميل (اختياري)</span></label>
             <input id="wl_email" type="email" inputmode="email" placeholder="name@example.com" dir="ltr" autocomplete="email" onkeydown="if(event.key==='Enter') workerSetupPassword()" />
           </div>
@@ -192,26 +187,15 @@
           <button type="button" class="btn btn-secondary btn-block wl-back" onclick="wlShowStep('wl-step-password')" data-i18n="wlBackToPassword">رجوع لكلمة السر</button>
         </div>
 
-        <div
+        <div class="u-text-center"
           id="wl-welcome"
-          style="display: none; text-align: center; padding: 16px 0 8px"
+          style="display: none; padding: 16px 0 8px"
         >
-          <div style="font-size: 32px; margin-bottom: 8px">👋</div>
-          <div
+          <div class="u-fs-3xl u-mb-2">👋</div>
+          <div class="u-fs-lg u-fw-700 u-c-text u-lh-relaxed"
             id="wl-welcomeText"
-            style="
-              font-size: 15px;
-              font-weight: 700;
-              color: var(--text);
-              line-height: 1.8;
-            "
           ></div>
-          <div
-            style="
-              margin-top: 12px;
-              font-size: 12px;
-              color: var(--text-muted);
-            "
+          <div class="u-mt-3 u-fs-xs u-c-text-muted"
           >
             جارِ تحميل لوحة التحكم…
           </div>
@@ -267,23 +251,17 @@
             <button
               type="button"
               id="btnGlobalSync"
-              class="notif-bell-btn"
+              class="notif-bell-btn u-c-text"
               onclick="globalSyncData()"
               title="تحديث البيانات"
-              style="color:var(--text);"
             >
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke-dasharray="42 8" transform="rotate(-90 12 12)"/><polygon points="19,4.5 19,10 13.5,7.2" fill="currentColor" stroke="none"/></svg>
             </button>
 
             <div
               id="notifContainer"
-              class="notif-wrapper"
-              style="
-                position: relative;
-                display: inline-flex;
-                align-items: center;
-                display: none;
-              "
+              class="notif-wrapper u-inline-flex u-items-center"
+              style="position: relative; display: none"
             >
               <button
                 type="button"
@@ -304,7 +282,7 @@
                 style="display: none"
               >
                 <div class="notif-header">
-                  <h3 style="margin: 0; font-size: 1.1rem; font-weight: bold">
+                  <h3 class="u-m-0 u-fs-xl u-fw-700">
                     الإشعارات
                   </h3>
                   <button
@@ -493,15 +471,15 @@
         </div>
       </div>
 
-      <div id="viewInspections" style="display: none; padding: 12px">
+      <div class="u-p-3" id="viewInspections" style="display: none">
         <div id="inspectionsContent"></div>
       </div>
 
-      <div id="viewAuditLog" style="display: none; padding: 12px">
+      <div class="u-p-3" id="viewAuditLog" style="display: none">
         <div id="auditLogContent"></div>
       </div>
 
-      <div id="viewReports" style="display: none; padding: 12px">
+      <div class="u-p-3" id="viewReports" style="display: none">
         <div id="reportsContent"></div>
       </div>
 
@@ -521,7 +499,7 @@
           <div class="ticket-body">
             <div class="field" id="hz_codeFieldWrap">
               <label>الكود الوظيفي (اختياري — للتعبئة التلقائية)</label>
-              <div style="display: flex; gap: 8px; align-items: center">
+              <div class="u-flex u-gap-2 u-items-center">
                 <input
                   id="hz_empCode"
                   type="text"
@@ -534,9 +512,9 @@
                   onblur="lookupHazardEmpCode()"
                 />
               </div>
-              <div
+              <div class="u-fs-xs u-mt-1"
                 id="hz_codeMsg"
-                style="font-size: 12px; margin-top: 4px; min-height: 16px"
+                style="min-height: 16px"
               ></div>
             </div>
             <div class="row2">
@@ -619,7 +597,7 @@
               ></textarea>
             </div>
 
-            <div class="section-title" style="color: var(--brand-700)">
+            <div class="section-title u-c-brand-700">
               مصفوفة تقييم الخطورة (Risk Matrix Calculator)
             </div>
             <div class="row2">
@@ -651,18 +629,10 @@
               </div>
             </div>
 
-            <div
-              style="
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                margin-bottom: 16px;
-                background: var(--surface-2);
-                padding: 12px;
-                border-radius: 8px;
-              "
+            <div class="u-flex u-items-center u-gap-3 u-mb-4 u-p-3"
+              style="background: var(--surface-2); border-radius: 8px"
             >
-              <strong style="font-size: 14px; color: var(--text-muted)"
+              <strong class="u-fs-md u-c-text-muted"
                 >مستوى الخطورة:</strong
               >
               <div id="hz_riskBadge" class="hz-risk-badge hz-low">
@@ -721,8 +691,7 @@
             </button>
             <div
               id="hz_msg"
-              class="wl-msg"
-              style="margin-top: 10px; text-align: center"
+              class="wl-msg u-mt-3 u-text-center"
             ></div>
 
             <div class="hz-footer">
@@ -802,7 +771,7 @@
           <div class="adv-filter-box">
             <div class="adv-filter-head">
               <h4 class="adv-filter-title">
-                <span style="font-size: 20px">🔍</span> بحث وتصفية تصاريح العمل
+                <span class="u-fs-2xl">🔍</span> بحث وتصفية تصاريح العمل
               </h4>
             </div>
 
@@ -873,7 +842,7 @@
       </div>
 
       <div id="viewSupHazard" style="display: none">
-        <div class="sup-header-row" style="margin-bottom: 16px">
+        <div class="sup-header-row u-mb-4">
           <h3>⚠️ بلاغات الخطورة والشكاوى</h3>
         </div>
         <div class="toolbar">
@@ -936,7 +905,7 @@
         <div class="adv-filter-box">
           <div class="adv-filter-head">
             <h4 class="adv-filter-title">
-              <span style="font-size: 20px">🔍</span> بحث وتصفية البلاغات
+              <span class="u-fs-2xl">🔍</span> بحث وتصفية البلاغات
             </h4>
           </div>
 
@@ -1013,12 +982,12 @@
       </div>
 
       <div id="viewUsers" style="display: none">
-        <div class="sup-header-row" style="margin-bottom: 16px">
+        <div class="sup-header-row u-mb-4">
           <h3>👥 إدارة الحسابات والمستخدمين</h3>
         </div>
 
         <div class="um-add-card">
-          <div class="section-title" style="margin-top: 0">
+          <div class="section-title u-mt-0">
             إضافة مستخدم جديد
           </div>
           <div class="row2">
@@ -1107,12 +1076,11 @@
 
         <div id="um_editModal" class="um-modal-overlay" style="display: none">
           <div class="um-modal-card">
-            <div class="section-title" style="margin-top: 0">
+            <div class="section-title u-mt-0">
               ✏️ تعديل بيانات المستخدم
             </div>
-            <p
+            <p class="u-c-text-muted u-fs-sm u-m-0 u-mb-3"
               id="um_editModalName"
-              style="color: var(--text-muted); font-size: 13px; margin: 0 0 12px"
             ></p>
 
             <div class="field">
@@ -1175,7 +1143,7 @@
             <div class="field">
               <label
                 >كلمة المرور الجديدة
-                <span style="font-size: 11px; color: var(--text-muted)">(اختياري)</span>
+                <span class="u-fs-xs u-c-text-muted">(اختياري)</span>
               </label>
               <input
                 id="um_editNewPass"
@@ -1186,7 +1154,7 @@
             <div class="field">
               <label
                 >الكود الوظيفي المسموح له بالدخول
-                <span style="font-size: 11px; color: var(--text-muted)">(اختياري — لو اتحدد، محدش غيره يقدر يدخل على الحساب)</span>
+                <span class="u-fs-xs u-c-text-muted">(اختياري — لو اتحدد، محدش غيره يقدر يدخل على الحساب)</span>
               </label>
               <input
                 id="um_editEmpCode"
@@ -1215,7 +1183,7 @@
       </div>
 
       <div id="viewEmployees" style="display: none">
-        <div class="sup-header-row" style="margin-bottom: 16px">
+        <div class="sup-header-row u-mb-4">
           <h3>🗂️ دليل الموظفين</h3>
         </div>
 
@@ -1248,29 +1216,15 @@
               📤 تصدير Excel
             </button>
             <div
-              class="emp-dir-search-wrap"
-              style="display: flex; gap: 10px; align-items: center"
+              class="emp-dir-search-wrap u-flex u-gap-3 u-items-center"
             >
-              <span
-                style="
-                  font-size: 12px;
-                  color: var(--text-muted);
-                  white-space: nowrap;
-                "
+              <span class="u-fs-xs u-c-text-muted u-nowrap"
                 >🎯 التارجت السنوي: 8س / 2ب</span
               >
-              <select
+              <select class="u-p-2"
                 id="empTableTimeframeSelect"
                 onchange="window.currentTableTimeframe=this.value; window.handleEmployeeSearch(document.getElementById('empSearchInput').value)"
-                style="
-                  padding: 8px;
-                  border-radius: 8px;
-                  border: 1px solid var(--border);
-                  font-family: inherit;
-                  outline: none;
-                  cursor: pointer;
-                  background: var(--surface);
-                "
+                style="border-radius: 8px; border: 1px solid var(--border); font-family: inherit; outline: none; cursor: pointer; background: var(--surface)"
               >
                 <option value="2">شهرين</option>
                 <option value="3">3 أشهر</option>
@@ -1307,7 +1261,7 @@
 
         <div id="empModal" class="um-modal-overlay" style="display: none">
           <div class="um-modal-card" style="max-width: 460px">
-            <div class="section-title" style="margin-top: 0" id="empModalTitle">
+            <div class="section-title u-mt-0" id="empModalTitle">
               ➕ إضافة موظف جديد
             </div>
             <div class="row2">
@@ -1399,16 +1353,15 @@
               </div>
               <div class="em-pw-hint">بعد الحفظ ادّي كلمة السر دي للعامل يدخل بيها بكوده. أي جلسة مفتوحة بكلمة السر القديمة هتتقفل.</div>
             </div>
-            <div id="em_msg" class="um-msg" style="margin-top: 8px"></div>
+            <div id="em_msg" class="um-msg u-mt-2"></div>
           </div>
         </div>
       </div>
 
-      <div id="viewTrainingWorker" style="display: none; padding: 12px">
-        <div class="stat-card" style="margin-bottom: 16px">
+      <div class="u-p-3" id="viewTrainingWorker" style="display: none">
+        <div class="stat-card u-mb-4">
           <h3>📊 نسبة حضوري</h3>
-          <div
-            style="font-size: 14px; margin-bottom: 8px"
+          <div class="u-fs-md u-mb-2"
             id="trnWorkerStatText"
           >
             جاري تحميل الإحصائيات...
@@ -1435,17 +1388,17 @@
           </div>
         </div>
 
-        <div id="trnWorkerActiveSessionArea" style="margin-bottom: 16px"></div>
+        <div class="u-mb-4" id="trnWorkerActiveSessionArea"></div>
 
         <h3 class="section-title">سجل حضوري السابق</h3>
         <div id="trnWorkerHistoryList"></div>
 
-        <div class="ticket" style="margin-top: 20px; border-left: 5px solid var(--brand-600)">
+        <div class="ticket u-mt-5" style="border-left: 5px solid var(--brand-600)">
           <div class="ticket-body">
-            <h3 class="section-title" style="margin-top: 0">
+            <h3 class="section-title u-mt-0">
               🎓 عايز محاضرة معينة؟
             </h3>
-            <p style="margin: 0 0 12px 0; font-size: 13px; color: var(--text-muted)">
+            <p class="u-m-0 u-mb-3 u-fs-sm u-c-text-muted">
               اطلب موضوع المحاضرة اللي محتاجها من السيفتي وهيتم مراجعة طلبك.
             </p>
             <div class="field">
@@ -1469,18 +1422,18 @@
             <button class="btn btn-primary btn-block" onclick="submitTrainingRequest()">
               📩 إرسال الطلب
             </button>
-            <div id="trnReqMsg" class="wl-msg" style="margin-top: 8px"></div>
+            <div id="trnReqMsg" class="wl-msg u-mt-2"></div>
           </div>
         </div>
 
-        <div style="margin-top: 20px">
+        <div class="u-mt-5">
           <h3 class="section-title">📋 طلبات المحاضرات اللي بعتها</h3>
           <div id="trnReqMineList"></div>
         </div>
       </div>
 
-      <div id="viewTrainingAdmin" style="display: none; padding: 12px">
-        <div class="ticket" id="createLectureCard" style="margin-bottom: 24px">
+      <div class="u-p-3" id="viewTrainingAdmin" style="display: none">
+        <div class="ticket u-mb-6" id="createLectureCard">
           <div class="ticket-head">
             <div>
               <div class="ttype">➕ إنشاء محاضرة جديدة</div>
@@ -1544,56 +1497,32 @@
                 />
               </div>
             </div>
-            <div
-              style="
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 15px;
-                margin-bottom: 15px;
-              "
+            <div class="u-grid u-gap-4 u-mb-4"
+              style="grid-template-columns: 1fr 1fr"
             >
               <div>
-                <label
-                  style="display: block; font-weight: bold; margin-bottom: 5px"
+                <label class="u-block u-fw-700 u-mb-1"
                   >اسم المحاضر</label
                 >
-                <input
+                <input class="u-w-full u-p-3"
                   type="text"
                   id="trn_trainer"
                   name="trainer"
                   readonly
-                  style="
-                    width: 100%;
-                    padding: 10px;
-                    border: 1px solid var(--border-strong);
-                    border-radius: 6px;
-                    background-color: var(--surface-3);
-                    cursor: not-allowed;
-                    box-sizing: border-box;
-                  "
+                  style="border: 1px solid var(--border-strong); border-radius: 6px; background-color: var(--surface-3); cursor: not-allowed; box-sizing: border-box"
                   placeholder="اسم المحاضر"
                 />
               </div>
               <div>
-                <label
-                  style="display: block; font-weight: bold; margin-bottom: 5px"
+                <label class="u-block u-fw-700 u-mb-1"
                   >كود المحاضر</label
                 >
-                <input
+                <input class="u-w-full u-p-3"
                   type="text"
                   id="trn_trainerCode"
                   name="trainer_code"
                   readonly
-                  style="
-                    width: 100%;
-                    padding: 10px;
-                    border: 1px solid var(--border-strong);
-                    border-radius: 6px;
-                    background-color: var(--surface-3);
-                    cursor: not-allowed;
-                    box-sizing: border-box;
-                    letter-spacing: 1.5px;
-                  "
+                  style="border: 1px solid var(--border-strong); border-radius: 6px; background-color: var(--surface-3); cursor: not-allowed; box-sizing: border-box; letter-spacing: 1.5px"
                   placeholder="الكود الوظيفي"
                 />
               </div>
@@ -1636,13 +1565,12 @@
             </button>
             <div
               id="trn_createMsg"
-              class="wl-msg"
-              style="margin-top: 8px"
+              class="wl-msg u-mt-2"
             ></div>
           </div>
         </div>
 
-        <div id="trnRequestsAdminSection" style="margin-bottom: 24px">
+        <div class="u-mb-6" id="trnRequestsAdminSection">
           <h3 class="section-title">🎓 طلبات محاضرات من العمال</h3>
           <div id="trnRequestsAdminList"></div>
         </div>
@@ -1650,129 +1578,74 @@
         <div id="liveSessionsSection">
           <h3 class="section-title">📡 إدارة الجلسات الحية</h3>
 
-          <div
-            style="
-              background: var(--surface);
-              border: 1px solid var(--border);
-              border-radius: 12px;
-              padding: 16px;
-              margin-bottom: 24px;
-              box-shadow: var(--shadow-2);
-            "
+          <div class="u-p-4 u-mb-6"
+            style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-2)"
           >
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 16px;
-              "
+            <div class="u-flex u-justify-between u-items-center u-mb-4"
             >
-              <h4
-                style="
-                  margin: 0;
-                  font-size: 16px;
-                  color: var(--brand-700);
-                  display: flex;
-                  align-items: center;
-                  gap: 8px;
-                "
+              <h4 class="u-m-0 u-fs-lg u-c-brand-700 u-flex u-items-center u-gap-2"
               >
-                <span style="font-size: 20px">🔍</span> بحث وتصدير سجل المحاضرات
+                <span class="u-fs-2xl">🔍</span> بحث وتصدير سجل المحاضرات
               </h4>
             </div>
 
-            <div
-              style="
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 16px;
-                margin-bottom: 20px;
-              "
+            <div class="u-grid u-gap-4 u-mb-5"
+              style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"
             >
-              <div class="field" style="margin: 0">
-                <label
-                  style="
-                    font-weight: 600;
-                    margin-bottom: 8px;
-                    display: block;
-                    color: var(--text);
-                  "
+              <div class="field u-m-0">
+                <label class="u-fw-600 u-mb-2 u-block u-c-text"
                   >من تاريخ</label
                 >
                 <input
                   type="date"
                   id="filter_trn_fromDate"
-                  class="um-input"
-                  style="width: 100%; border-radius: 8px"
+                  class="um-input u-w-full"
+                  style="border-radius: 8px"
                   onchange="applyTrainingFilters()"
                 />
               </div>
-              <div class="field" style="margin: 0">
-                <label
-                  style="
-                    font-weight: 600;
-                    margin-bottom: 8px;
-                    display: block;
-                    color: var(--text);
-                  "
+              <div class="field u-m-0">
+                <label class="u-fw-600 u-mb-2 u-block u-c-text"
                   >إلى تاريخ</label
                 >
                 <input
                   type="date"
                   id="filter_trn_toDate"
-                  class="um-input"
-                  style="width: 100%; border-radius: 8px"
+                  class="um-input u-w-full"
+                  style="border-radius: 8px"
                   onchange="applyTrainingFilters()"
                 />
               </div>
-              <div class="field" style="margin: 0">
-                <label
-                  style="
-                    font-weight: 600;
-                    margin-bottom: 8px;
-                    display: block;
-                    color: var(--text);
-                  "
+              <div class="field u-m-0">
+                <label class="u-fw-600 u-mb-2 u-block u-c-text"
                   >الموضوع / المحاضرة</label
                 >
                 <input
                   type="text"
                   id="filter_trn_topic"
-                  class="um-input"
+                  class="um-input u-w-full"
                   placeholder="ابحث باسم المحاضرة..."
-                  style="width: 100%; border-radius: 8px"
+                  style="border-radius: 8px"
                   oninput="applyTrainingFilters()"
                 />
               </div>
-              <div class="field" style="margin: 0">
-                <label
-                  style="
-                    font-weight: 600;
-                    margin-bottom: 8px;
-                    display: block;
-                    color: var(--text);
-                  "
+              <div class="field u-m-0">
+                <label class="u-fw-600 u-mb-2 u-block u-c-text"
                   >اسم المحاضر</label
                 >
                 <input
                   type="text"
                   id="filter_trn_trainer"
-                  class="um-input"
+                  class="um-input u-w-full"
                   placeholder="ابحث باسم المدرب..."
-                  style="width: 100%; border-radius: 8px"
+                  style="border-radius: 8px"
                   oninput="applyTrainingFilters()"
                 />
               </div>
             </div>
 
-            <div
-              style="
-                display: flex;
-                gap: 12px;
-                border-top: 1px solid var(--border);
-                padding-top: 16px;
-              "
+            <div class="u-flex u-gap-3"
+              style="border-top: 1px solid var(--border); padding-top: 16px"
             >
               <button
                 class="btn btn-export btn-fill"
@@ -1804,25 +1677,24 @@
         </div>
       </div>
 
-      <div id="viewDrillWorker" style="display: none; padding: 12px">
-        <div class="stat-card" style="margin-bottom: 16px">
+      <div class="u-p-3" id="viewDrillWorker" style="display: none">
+        <div class="stat-card u-mb-4">
           <h3>🚨 تجارب الطوارئ — إحصائياتي</h3>
-          <div
-            style="font-size: 14px; margin-bottom: 8px"
+          <div class="u-fs-md u-mb-2"
             id="drlWorkerStatText"
           >
             جاري تحميل الإحصائيات...
           </div>
         </div>
 
-        <div id="drlWorkerActiveSessionArea" style="margin-bottom: 16px"></div>
+        <div class="u-mb-4" id="drlWorkerActiveSessionArea"></div>
 
         <h3 class="section-title">سجل حضوري السابق</h3>
         <div id="drlWorkerHistoryList"></div>
       </div>
 
-      <div id="viewDrillAdmin" style="display: none; padding: 12px">
-        <div class="ticket" id="createDrillCard" style="margin-bottom: 24px">
+      <div class="u-p-3" id="viewDrillAdmin" style="display: none">
+        <div class="ticket u-mb-6" id="createDrillCard">
           <div class="ticket-head">
             <div>
               <div class="ttype">➕ إنشاء تجربة طوارئ جديدة</div>
@@ -1847,56 +1719,32 @@
                 />
               </div>
             </div>
-            <div
-              style="
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 15px;
-                margin-bottom: 15px;
-              "
+            <div class="u-grid u-gap-4 u-mb-4"
+              style="grid-template-columns: 1fr 1fr"
             >
               <div>
-                <label
-                  style="display: block; font-weight: bold; margin-bottom: 5px"
+                <label class="u-block u-fw-700 u-mb-1"
                   >اسم المشرف</label
                 >
-                <input
+                <input class="u-w-full u-p-3"
                   type="text"
                   id="drl_trainer"
                   name="trainer"
                   readonly
-                  style="
-                    width: 100%;
-                    padding: 10px;
-                    border: 1px solid var(--border-strong);
-                    border-radius: 6px;
-                    background-color: var(--surface-3);
-                    cursor: not-allowed;
-                    box-sizing: border-box;
-                  "
+                  style="border: 1px solid var(--border-strong); border-radius: 6px; background-color: var(--surface-3); cursor: not-allowed; box-sizing: border-box"
                   placeholder="اسم المشرف"
                 />
               </div>
               <div>
-                <label
-                  style="display: block; font-weight: bold; margin-bottom: 5px"
+                <label class="u-block u-fw-700 u-mb-1"
                   >كود المشرف</label
                 >
-                <input
+                <input class="u-w-full u-p-3"
                   type="text"
                   id="drl_trainerCode"
                   name="trainer_code"
                   readonly
-                  style="
-                    width: 100%;
-                    padding: 10px;
-                    border: 1px solid var(--border-strong);
-                    border-radius: 6px;
-                    background-color: var(--surface-3);
-                    cursor: not-allowed;
-                    box-sizing: border-box;
-                    letter-spacing: 1.5px;
-                  "
+                  style="border: 1px solid var(--border-strong); border-radius: 6px; background-color: var(--surface-3); cursor: not-allowed; box-sizing: border-box; letter-spacing: 1.5px"
                   placeholder="الكود الوظيفي"
                 />
               </div>
@@ -1931,8 +1779,7 @@
             </button>
             <div
               id="drl_createMsg"
-              class="wl-msg"
-              style="margin-top: 8px"
+              class="wl-msg u-mt-2"
             ></div>
           </div>
         </div>
@@ -1954,24 +1801,22 @@
         </div>
       </div>
 
-      <div id="viewPenaltiesWorker" style="display: none; padding: 12px">
+      <div class="u-p-3" id="viewPenaltiesWorker" style="display: none">
         <h3 class="section-title">⚖️ الجزاءات المسجلة عليك</h3>
         <div id="myPenaltiesList"></div>
       </div>
 
-      <div id="viewPenaltiesAdmin" style="display: none; padding: 12px">
+      <div class="u-p-3" id="viewPenaltiesAdmin" style="display: none">
         <div
-          class="ticket"
+          class="ticket u-mb-5"
           id="penaltiesAdminActions"
-          style="margin-bottom: 20px"
         >
           <div class="ticket-head">
             <div><div class="ttype">⚖️ إدارة الجزاءات</div></div>
           </div>
           <div class="ticket-body">
-            <div
+            <div class="u-flex u-gap-3 u-flex-wrap"
               id="penaltiesAdminButtons"
-              style="display: flex; gap: 10px; flex-wrap: wrap"
             >
               <button
                 class="btn btn-primary btn-sm"
@@ -2000,14 +1845,9 @@
                 onchange="uploadPenaltiesExcel(event)"
               />
             </div>
-            <div
+            <div class="u-mt-3 u-c-text-muted u-fs-sm"
               id="penaltiesReadOnlyNotice"
-              style="
-                display: none;
-                margin-top: 10px;
-                color: var(--text-muted);
-                font-size: 13px;
-              "
+              style="display: none"
             >
               ℹ️ لديك صلاحية العرض فقط لجزاءات قسمك — لا يمكنك الإضافة أو الحذف.
             </div>
@@ -2034,7 +1874,7 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card" style="max-width: 460px">
-        <div class="section-title" style="margin-top: 0" id="es_title">📧 إرسال بالإيميل</div>
+        <div class="section-title u-mt-0" id="es_title">📧 إرسال بالإيميل</div>
         <p class="es-hint" id="es_hint"></p>
         <div class="field">
           <label>الإيميل <span class="req-star">*</span></label>
@@ -2070,7 +1910,7 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0">
+        <div class="section-title u-mt-0">
           ➕ إضافة جزاء جديد
         </div>
         <div class="field">
@@ -2124,10 +1964,10 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0; color: var(--danger-text)">
+        <div class="section-title u-mt-0 u-c-danger-text">
           🗑️ حذف الجزاء
         </div>
-        <p style="color: var(--text-muted); font-size: 13px; margin: 0 0 12px">
+        <p class="u-c-text-muted u-fs-sm u-m-0 u-mb-3">
           لازم تكتب سبب حذف الجزاء ده.
         </p>
         <div class="field">
@@ -2184,10 +2024,10 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0; color: var(--danger-text)">
+        <div class="section-title u-mt-0 u-c-danger-text">
           🗑️ حذف الطلب
         </div>
-        <p style="color: var(--text-muted); font-size: 13px; margin: 0 0 12px">
+        <p class="u-c-text-muted u-fs-sm u-m-0 u-mb-3">
           تأكيد حذف الطلب ونقله للأرشيف.
         </p>
 
@@ -2227,7 +2067,7 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0">
+        <div class="section-title u-mt-0">
           توجيه البلاغ للصيانة
         </div>
         <div class="field">
@@ -2275,7 +2115,7 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0">
+        <div class="section-title u-mt-0">
           تأكيد إصلاح الخطورة
         </div>
         <div class="field">
@@ -2312,24 +2152,16 @@
             capture="environment"
             onchange="onHzResolvePhotoPick(event)"
           />
-          <div
+          <div class="u-fs-xs u-c-text-muted u-mt-2"
             id="hz_resolve_photo_hint"
-            style="font-size: 12px; color: var(--text-muted); margin-top: 6px"
           >
             صوّر المكان بعد الإصلاح — الصورة بتتحفظ مع البلاغ وبتظهر في
             الطباعة.
           </div>
-          <img
+          <img class="u-mt-2"
             id="hz_resolve_photo_preview"
             alt="معاينة صورة بعد الإصلاح"
-            style="
-              display: none;
-              max-width: 100%;
-              max-height: 180px;
-              margin-top: 8px;
-              border-radius: 8px;
-              border: 1px solid var(--border);
-            "
+            style="display: none; max-width: 100%; max-height: 180px; border-radius: 8px; border: 1px solid var(--border)"
           />
         </div>
         <div class="btn-row is-fill modal-actions">
@@ -2353,7 +2185,7 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0; color: var(--danger-text)">
+        <div class="section-title u-mt-0 u-c-danger-text">
           رفض الإصلاح (عدم اختصاص)
         </div>
         <div class="field">
@@ -2388,7 +2220,7 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0; color: var(--danger-text)">
+        <div class="section-title u-mt-0 u-c-danger-text">
           رفض بلاغ الخطورة
         </div>
         <div class="field">

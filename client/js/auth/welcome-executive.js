@@ -70,10 +70,10 @@ async function renderExecutiveView(){
             </div>
             <div class="exec-leaderboard-score">${b.score}</div>
           </div>
-        `).join('') : `<div class="empty" style="padding:24px"><div class="icon">✦</div>${L ? 'Not enough data yet' : T('لا توجد بيانات كافية بعد')}</div>`}
+        `).join('') : `<div class="empty u-p-6"><div class="icon">✦</div>${L ? 'Not enough data yet' : T('لا توجد بيانات كافية بعد')}</div>`}
       </div>
 
-      <div style="text-align:center; margin-top:26px">
+      <div class="u-text-center u-mt-6">
         <button class="btn btn-secondary" onclick="logout()">${L ? 'Logout' : T('تسجيل الخروج')}</button>
       </div>
       <div class="exec-footer-note">

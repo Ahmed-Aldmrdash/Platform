@@ -41,10 +41,10 @@ async function renderPmDeptFilters(){
       window._pmRealDepts = realDepts;
       const currentVal = currentPmDeptFilter === 'الكل' ? '' : currentPmDeptFilter;
       dArea.innerHTML = `
-        <input type="text" id="pmDeptFilterInput" class="dept-filter-input" list="pmDeptDatalist"
+        <input type="text" id="pmDeptFilterInput" class="dept-filter-input u-flex-1" list="pmDeptDatalist"
           placeholder="${T("🏢 اختر أو اكتب اسم القسم...")}" value="${escapeAttr(currentVal)}"
           oninput="onPmDeptFilterInput(this.value)" autocomplete="off"
-          style="min-width:220px;flex:1;max-width:320px;">
+          style="min-width: 220px; max-width: 320px">
         <datalist id="pmDeptDatalist">
           ${realDepts.map(d => `<option value="${escapeAttr(d)}"></option>`).join('')}
         </datalist>
@@ -171,7 +171,7 @@ async function loadPermitsPage({ append = false, silent = false } = {}) {
   } catch (e) {
     if (seq !== _pmLoadSeq) return;
     if (!silent && container) {
-      container.innerHTML = `<div class="empty" style="color:var(--danger-text)"><div class="icon">⚠️</div>${T('تعذّر تحميل التصاريح — حاول تاني')}</div>`;
+      container.innerHTML = `<div class="empty u-c-danger-text"><div class="icon">⚠️</div>${T('تعذّر تحميل التصاريح — حاول تاني')}</div>`;
     }
   }
 }
@@ -284,9 +284,9 @@ function permitDetailsHtml(p) {
     checklistBySection[sec].push(c);
   });
   const checklistHtml = Object.entries(checklistBySection).map(([sec, items]) => `
-      <div style="font-size:11.5px;font-weight:700;color:var(--text-2);letter-spacing:0.5px;padding:6px 0 3px;border-bottom:1px solid var(--border);margin-bottom:3px;">${escapeHtml(T(sec))}</div>
+      <div class="u-fs-xs u-fw-700 u-c-text-2 u-mb-1" style="letter-spacing: 0.5px; padding: 6px 0 3px; border-bottom: 1px solid var(--border)">${escapeHtml(T(sec))}</div>
       ${items.map(c=>`
-      <div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);font-size:12.5px;">
+      <div class="u-flex u-justify-between u-gap-2 u-fs-sm" style="padding: 4px 0; border-bottom: 1px solid var(--border)">
         <span>${escapeHtml(T(c.question))}</span>
         <span style="font-weight:700;color:${c.answer==='لا'?'var(--danger-text)':c.answer==='نعم'?'var(--success-text)':'var(--text-muted)'};white-space:nowrap;">${escapeHtml(T(c.answer))}</span>
       </div>`).join('')}
@@ -294,20 +294,20 @@ function permitDetailsHtml(p) {
   const risksHtml = (p.risks||[]).map(r=>`
       <div class="risk-summary">
         <b>${escapeHtml(r.source)}</b> — L${escapeHtml(String(r.l))}×S${escapeHtml(String(r.s))} = ${escapeHtml(String(r.score))}
-        ${r.control ? `<br><span style="color:var(--text-muted);">${escapeHtml(r.control)}</span>` : ''}
+        ${r.control ? `<br><span class="u-c-text-muted">${escapeHtml(r.control)}</span>` : ''}
       </div>
-    `).join('') || `<div class="risk-summary" style="color:var(--text-muted);">${T("لا توجد مخاطر مسجلة")}</div>`;
+    `).join('') || `<div class="risk-summary u-c-text-muted">${T("لا توجد مخاطر مسجلة")}</div>`;
 
   return `
-        <div class="section-title" style="margin-top:14px;">${T("قائمة التحقق")}</div>
+        <div class="section-title u-mt-4">${T("قائمة التحقق")}</div>
         ${checklistHtml}
         ${p.checklistNote ? `<div class="review-note">${T("ملاحظة:")} ${escapeHtml(p.checklistNote)}</div>` : ''}
         <div class="section-title">${T("تقييم المخاطر")}</div>
         ${risksHtml}
         ${p.workersNames ? `<div class="section-title">${T("القائمون بالعمل")}</div><div class="desc">${escapeHtml(p.workersNames)}</div>` : ''}
-        ${p.equipment ? `<div class="meta-grid" style="margin-top:8px;"><div><span>${T("المعدة/الماكينة")}</span>${escapeHtml(p.equipment)}</div></div>` : ''}
+        ${p.equipment ? `<div class="meta-grid u-mt-2"><div><span>${T("المعدة/الماكينة")}</span>${escapeHtml(p.equipment)}</div></div>` : ''}
         ${(p.tools && (Array.isArray(p.tools) ? p.tools.length > 0 : p.tools)) ? `
-          <div class="section-title" style="margin-top:10px;">${T("الأدوات والعدد")}</div>
+          <div class="section-title u-mt-3">${T("الأدوات والعدد")}</div>
           <div class="tools-display">${Array.isArray(p.tools) ? p.tools.map(t=>`<span class="tool-tag">${escapeHtml(t)}</span>`).join('') : escapeHtml(p.tools)}</div>` : ''}
         ${p.previousPermitNo ? `<div class="reviewed-by">${T("رقم طلب سابق:")} ${escapeHtml(p.previousPermitNo)}</div>`:''}
         ${p.requesterPhone ? `<div class="reviewed-by">${T("تليفون:")} ${escapeHtml(p.requesterPhone)}</div>`:''}
@@ -370,7 +370,7 @@ function renderList(){
       <div class="meta-grid">
         <div><span>${T("القسم")}</span>${escapeHtml(p.department)||'—'}</div>
         <div><span>${T("مكان العمل")}</span>${escapeHtml(p.location)||'—'}</div>
-        <div style="white-space: normal;"><span>${T("الوقت")}</span>${escapeHtml(formatTime12(p.timeFrom))} → ${escapeHtml(formatTime12(p.timeTo))}</div>
+        <div class="u-ws-normal"><span>${T("الوقت")}</span>${escapeHtml(formatTime12(p.timeFrom))} → ${escapeHtml(formatTime12(p.timeTo))}</div>
         <div><span>${T("الصفة")}</span>${escapeHtml(T(p.requesterKind))||'—'}</div>
         <div>
           <span>${T("الكود الوظيفي")}</span>
@@ -378,9 +378,9 @@ function renderList(){
         </div>
       </div>
       ${!p.employeeId ? `
-      <div class="row2 empcode-add-box" style="margin-top:8px;">
+      <div class="row2 empcode-add-box u-mt-2">
         <div class="field">
-          <input id="empcode-${escapeHtml(p.id)}" type="text" placeholder="${T("أدخل الكود الوظيفي (")}${escapeHtml(p.workerName || T('صاحب الطلب'))})" style="direction:ltr;font-size:12px;padding:6px;">
+          <input class="u-fs-xs u-p-2" id="empcode-${escapeHtml(p.id)}" type="text" placeholder="${T("أدخل الكود الوظيفي (")}${escapeHtml(p.workerName || T('صاحب الطلب'))})" style="direction: ltr">
         </div>
         <button class="btn btn-secondary" onclick="savePermitEmployeeCode(${jsArg(p.id)})">${T("💾 حفظ الكود")}</button>
       </div>
@@ -398,7 +398,7 @@ function renderList(){
 
       ${(p.status === 'pending' || p.status === 'pending_dept') ? `
         ${(((currentUserRole === 'dept_admin' || currentUserRole === 'maint_admin') && currentUserDept === p.department)) || currentUserRole === 'super_admin' ? `
-          <div class="row2" style="margin-top:12px;">
+          <div class="row2 u-mt-3">
             <div class="field"><label>${T("اسم مدير المنطقة")}</label><input id="area-${escapeHtml(p.id)}" type="text" placeholder="${T("اختياري")}"></div>
           </div>
           <div class="actions btn-row">
@@ -417,7 +417,7 @@ function renderList(){
       ${p.status === 'pending_hse' ? `
         <div class="reviewed-by">${T("موافقة مبدئية من:")} ${escapeHtml(p.areaHeadReviewedBy)||T('أدمن القسم')} — ${p.areaHeadReviewedAt ? new Date(p.areaHeadReviewedAt).toLocaleString(LOC()) : ''}</div>
         ${(currentUserRole === 'hse_admin' || currentUserRole === 'super_admin') ? `
-          <div class="row2" style="margin-top:12px;">
+          <div class="row2 u-mt-3">
             <div class="field"><label>${T("اسم مشرف السلامة")}</label><input id="safety-${escapeHtml(p.id)}" type="text" placeholder="${T("اختياري")}"></div>
           </div>
           <div class="actions btn-row">

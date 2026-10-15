@@ -81,7 +81,7 @@ async function renderEmployeesPanel() {
   } catch (err) {
     console.error('Error in renderEmployeesPanel:', err);
     window._empPanelRendered = null;
-    if (listEl) listEl.innerHTML = `<p style="color:var(--danger-text); text-align:center; padding:2rem;">${T("فشل تحميل الموظفين:")} ${escapeHtml(err.message)}</p>`;
+    if (listEl) listEl.innerHTML = `<p class="u-c-danger-text u-text-center u-p-8">${T("فشل تحميل الموظفين:")} ${escapeHtml(err.message)}</p>`;
   }
 }
 

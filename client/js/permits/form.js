@@ -26,7 +26,7 @@ function renderForm(){
       sectionId = 'sec_special'; toggleId = 'sec_special_toggle';
     }
     if (toggleId) {
-      toggleHtml = `<label style="font-size:13px; font-weight:normal; margin-inline-start:auto; display:flex; align-items:center; gap:4px; cursor:pointer;"><input type="checkbox" id="${toggleId}" onchange="document.getElementById(${jsArg(sectionId + '_content')}).style.display = this.checked ? 'none' : 'block'"> ${T("لا يوجد")}</label>`;
+      toggleHtml = `<label class="u-fs-sm u-fw-400 u-flex u-items-center u-gap-1" style="margin-inline-start: auto; cursor: pointer"><input type="checkbox" id="${toggleId}" onchange="document.getElementById(${jsArg(sectionId + '_content')}).style.display = this.checked ? 'none' : 'block'"> ${T("لا يوجد")}</label>`;
     }
 
     const rows = section.items.map((q) => {
@@ -41,7 +41,7 @@ function renderForm(){
         </div>
       </div>`;
     }).join('');
-    return `<div id="${sectionId}_wrap"><div class="chk-section-label" style="display:flex; align-items:center;"><span>${T(section.sectionTitle)}</span>${toggleHtml}</div><div id="${sectionId}_content">${rows}</div></div>`;
+    return `<div id="${sectionId}_wrap"><div class="chk-section-label u-flex u-items-center"><span>${T(section.sectionTitle)}</span>${toggleHtml}</div><div id="${sectionId}_content">${rows}</div></div>`;
   }
   const checklistHtml =
     buildSectionHtml(HSE_CHECKLIST.general) +
@@ -95,8 +95,8 @@ function renderForm(){
           <div class="field">
             <label>${T("إلى الساعة")} <span class="req-star">*</span></label>
             <input id="f_to" type="time" required>
-            <label class="custom-pill-check" style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 6px; user-select: none;">
-              <span style="font-size: 0.85rem; color: var(--text-2); font-weight: 500;">${T("نهاية مفتوحة / حتى انتهاء العمل")}</span>
+            <label class="custom-pill-check u-inline-flex u-items-center u-gap-2 u-mt-2" style="cursor: pointer; user-select: none">
+              <span class="u-fs-md u-c-text-2 u-fw-500">${T("نهاية مفتوحة / حتى انتهاء العمل")}</span>
               <input type="checkbox" id="f_open_end" class="pill-checkbox-input" onchange="window.toggleOpenEnd(this)">
               <span class="pill-checkbox-box"></span>
             </label>
@@ -105,13 +105,13 @@ function renderForm(){
 
         <div class="section-title">${T("بيانات مقدّم الطلب (مسئول التنفيذ)")}</div>
         <div class="field">
-          <label>${T("الكود الوظيفي")} <small style="font-weight:400;color:var(--text-muted);">${T("(اكتب كودك لتعبئة بياناتك تلقائياً)")}</small></label>
-          <div style="display:flex;gap:8px;align-items:center;">
+          <label>${T("الكود الوظيفي")} <small class="u-fw-400 u-c-text-muted">${T("(اكتب كودك لتعبئة بياناتك تلقائياً)")}</small></label>
+          <div class="u-flex u-gap-2 u-items-center">
             <input id="f_emp" type="text" placeholder="${T("مثال: EMP001")}"
                    style="letter-spacing:1.5px;"
                    oninput="this.value=this.value.toUpperCase()" onblur="lookupPermitEmpCode()">
           </div>
-          <div id="f_empMsg" style="font-size:12px;margin-top:3px;min-height:14px;"></div>
+          <div class="u-fs-xs u-mt-1" id="f_empMsg" style="min-height: 14px"></div>
         </div>
         <div class="row2">
           <div class="field">
@@ -151,7 +151,7 @@ function renderForm(){
           <input id="f_equip" type="text" placeholder="${T("اختياري")}">
         </div>
         <div class="field">
-          <label>${T("الأدوات والعدد")} <small style="font-weight:400;color:var(--text-muted);">${T("(بعد فحصها وقبولها)")}</small></label>
+          <label>${T("الأدوات والعدد")} <small class="u-fw-400 u-c-text-muted">${T("(بعد فحصها وقبولها)")}</small></label>
           <div class="tools-checklist" id="toolsChecklist">
             ${TOOLS_LIST.map((tool, i) => `
             <label class="tool-check-label">
@@ -222,10 +222,10 @@ function addRiskRow(){
   div.id = id;
   div.innerHTML = `
     <div class="field"><label>${T("مصدر الخطر")}</label><input class="risk-source" type="text" placeholder="${T("مثال: سقوط من ارتفاع")}"></div>
-    <div class="row2" style="align-items:flex-end;">
+    <div class="row2 u-items-end">
       <div class="field"><label>${T("الاحتمالية L (1-5)")}</label><select class="risk-l" onchange="calcRisk(this)">${RISK_LEVELS.map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div>
       <div class="field"><label>${T("الشدة S (1-5)")}</label><select class="risk-s" onchange="calcRisk(this)">${RISK_LEVELS.map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div>
-      <div class="risk-badge" style="margin-bottom:12px;"></div>
+      <div class="risk-badge u-mb-3"></div>
     </div>
     <div class="field"><label>${T("إجراءات التحكم والوقاية")}</label><textarea class="risk-control" placeholder="${T("اختياري")}"></textarea></div>
   `;
@@ -391,12 +391,12 @@ async function submitPermit(){
   document.getElementById('formArea').innerHTML = `
     <div class="ticket">
       <div class="confirm">
-        <div style="font-size:30px;">✅</div>
+        <div class="u-fs-3xl">✅</div>
         <h2>${T("تم إرسال الطلب")}</h2>
         <div class="tnum-big">${escapeHtml(permit.id)}</div>
         <span class="stamp pending big-stamp">${T("قيد الانتظار")}</span>
         <p>${T(type.fullLabel)} ${T("— هيوصل الطلب للمشرف على طول عشان يوافق عليه")}</p>
-        <p style="font-size:12.5px;color:var(--text-muted);margin-top:10px;">${T("احتفظ برقم الطلب ده — اضغط زر")} "${T("تتبع الطلب ده")}" ${T("أو افتح تاب")} "${T("📁 سجل طلباتي")}" ${T("عشان تعرف حالته أول ما المشرف يرد")}</p>
+        <p class="u-fs-sm u-c-text-muted u-mt-3">${T("احتفظ برقم الطلب ده — اضغط زر")} "${T("تتبع الطلب ده")}" ${T("أو افتح تاب")} "${T("📁 سجل طلباتي")}" ${T("عشان تعرف حالته أول ما المشرف يرد")}</p>
         <div class="btn-row confirm-actions">
           <button class="btn btn-primary" onclick="renderForm()">${T("+ طلب جديد")}</button>
           <button class="btn btn-secondary" onclick="goTrackWithId(${jsArg(permit.id)})">${T("📁 سجل طلباتي")}</button>

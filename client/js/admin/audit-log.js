@@ -29,15 +29,15 @@ async function renderAuditLog() {
 
   root.innerHTML = `
     ${isSuperAdmin ? `
-    <div class="ticket" style="margin-bottom:20px;">
+    <div class="ticket u-mb-5">
       <div class="ticket-head"><div><div class="ttype">${T("💾 النسخ الاحتياطي واسترجاع البيانات")}</div></div></div>
-      <div class="ticket-body" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <div class="ticket-body u-flex u-gap-3 u-flex-wrap u-items-center">
         <button class="btn btn-export" type="button" onclick="downloadFullBackup()">${T("⬇ تنزيل نسخة احتياطية كاملة")}</button>
-        <label class="btn btn-secondary" style="cursor:pointer;margin:0;">
+        <label class="btn btn-secondary u-m-0" style="cursor: pointer">
           ${T("⬆ استرجاع من نسخة احتياطية")}
           <input type="file" id="backupRestoreInput" accept=".json,.gz" style="display:none" onchange="restoreFullBackup(event)" />
         </label>
-        <span style="font-size:12px;color:var(--text-muted);">${T("النسخة الاحتياطية ملف واحد يشمل كل بيانات النظام (.json، أو .json.gz اللي بيوصل على الإيميل) — الاسترجاع يستبدل البيانات الحالية بالكامل.")}</span>
+        <span class="u-fs-xs u-c-text-muted">${T("النسخة الاحتياطية ملف واحد يشمل كل بيانات النظام (.json، أو .json.gz اللي بيوصل على الإيميل) — الاسترجاع يستبدل البيانات الحالية بالكامل.")}</span>
       </div>
       <div class="ticket-body" id="backupEmailBox" style="border-top:1px solid var(--border);">
         <div class="loading">${T("جارِ التحميل…")}</div>
@@ -47,7 +47,7 @@ async function renderAuditLog() {
       </div>
     </div>` : ''}
 
-    <div class="sup-header-row" style="margin-bottom:16px">
+    <div class="sup-header-row u-mb-4">
       <h3>${T("سجل التدقيق — من عمل إيه وإمتى")}
         <span class="audit-live-badge"><span class="audit-live-dot"></span> ${T("تحديث لحظي")}</span>
       </h3>
@@ -111,7 +111,7 @@ async function auditLoadList(isSilent) {
   } catch (e) {
     if (!isSilent) {
       console.error('Audit log load error', e);
-      listEl.innerHTML = T('<div class="empty" style="color:var(--danger-text);">فشل تحميل سجل التدقيق</div>');
+      listEl.innerHTML = T('<div class="empty u-c-danger-text">فشل تحميل سجل التدقيق</div>');
     }
   }
 }

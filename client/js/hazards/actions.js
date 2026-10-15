@@ -400,7 +400,9 @@ async function clearModuleData(moduleName, refreshFn) {
   if (!step1) return;
 
   const typed = await appPrompt(`${T("لتأكيد المسح النهائي، اكتب كلمة")} "${T("تأكيد")}" ${T("بالظبط:")}`, { tone: 'danger', confirmLabel: T('مسح نهائي') });
-  if (typed !== 'تأكيد') {
+  // The prompt shows the word in the current language, so accept it as well as the Arabic one.
+  const word = (typed || '').trim();
+  if (word !== 'تأكيد' && word !== T('تأكيد')) {
     showToast(T('اتلغت عملية المسح — لازم تكتب "تأكيد" بالظبط'), 'info');
     return;
   }

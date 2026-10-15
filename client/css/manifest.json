@@ -21,5 +21,6 @@
   "components/viewer-motion.css",
   "inspections/inspections.css",
   "training/quiz.css",
-  "admin/audit-reports.css"
+  "admin/audit-reports.css",
+  "components/utilities.css"
 ]

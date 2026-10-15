@@ -260,7 +260,7 @@ async function openHazardAlertSettings() {
     _renderHazardAlertBox(_hzAlertCache);
   } catch (e) {
     const box = document.getElementById('hzAlertBox');
-    if (box) box.innerHTML = `<div style="color:var(--danger-text);font-size:13px;">${T('فشل تحميل الإعدادات')}</div>`;
+    if (box) box.innerHTML = `<div class="u-c-danger-text u-fs-sm">${T('فشل تحميل الإعدادات')}</div>`;
   }
 }
 
@@ -283,42 +283,42 @@ function _renderHazardAlertBox(s) {
     : `${last.ok ? '✅' : '❌'} ${T('آخر تنبيه:')} ${escapeHtml(last.hazardId || '')} — ${new Date(last.at).toLocaleString('ar-EG')}${last.ok ? '' : ` — ${escapeHtml(last.error || '')}`}`;
 
   box.innerHTML = `
-    <div style="font-weight:700;font-size:16px;margin-bottom:6px;">${T('🔴 تنبيه بلاغات الخطورة العالية بالإيميل')}</div>
-    <div style="font-size:12px;color:var(--text-muted);line-height:1.8;margin-bottom:10px;">
+    <div class="u-fw-700 u-fs-lg u-mb-2">${T('🔴 تنبيه بلاغات الخطورة العالية بالإيميل')}</div>
+    <div class="u-fs-xs u-c-text-muted u-lh-relaxed u-mb-3">
       ${T('أول ما يتسجّل بلاغ خطورة عالية (High) بيتبعت إيميل فوري بتفاصيل البلاغ وصورته للأسماء اللي تحت دي بس.')}
     </div>
     ${s.smtpConfigured
-      ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">${T('بيتبعت من:')} <b dir="ltr">${escapeHtml(s.from || '')}</b></div>`
+      ? `<div class="u-fs-xs u-c-text-muted u-mb-3">${T('بيتبعت من:')} <b dir="ltr">${escapeHtml(s.from || '')}</b></div>`
       : `<div class="bk-email-warn">${T('⚠️ إيميل الإرسال لسه مش متظبط — اظبطه من شاشة سجل التدقيق ← "بيانات إيميل الإرسال"، وبعدها التنبيه هيشتغل.')}</div>`}
 
-    <label style="display:flex;align-items:center;gap:8px;font-weight:700;cursor:pointer;margin:0 0 10px;">
+    <label class="u-flex u-items-center u-gap-2 u-fw-700 u-m-0 u-mb-3" style="cursor: pointer">
       <input type="checkbox" id="hzAlertEnabled" ${s.highRiskEnabled ? 'checked' : ''} />
       ${T('فعّل التنبيه الفوري للخطورة العالية')}
     </label>
 
-    <div style="font-weight:700;font-size:13px;margin-bottom:6px;">${T('المستلمين')}</div>
-    <div id="hzAlertRows">${recipients.map(_hzAlertRowHtml).join('') || `<div style="font-size:12px;color:var(--text-muted);padding:6px 0;">${T('مفيش مستلمين — ضيف واحد.')}</div>`}</div>
+    <div class="u-fw-700 u-fs-sm u-mb-2">${T('المستلمين')}</div>
+    <div id="hzAlertRows">${recipients.map(_hzAlertRowHtml).join('') || `<div class="u-fs-xs u-c-text-muted" style="padding: 6px 0">${T('مفيش مستلمين — ضيف واحد.')}</div>`}</div>
     <button type="button" class="btn btn-secondary btn-sm hza-add" onclick="hzAlertAddRow()">${T('➕ إضافة مستلم')}</button>
 
-    <label style="display:flex;align-items:center;gap:8px;font-weight:700;cursor:pointer;margin:0 0 8px;">
+    <label class="u-flex u-items-center u-gap-2 u-fw-700 u-m-0 u-mb-2" style="cursor: pointer">
       <input type="checkbox" id="hzAlertOverdue" ${s.overdueEnabled ? 'checked' : ''} />
       ${T('ذكّرني بالبلاغات العالية اللي فضلت مفتوحة بعد')}
       <input type="number" id="hzAlertHours" min="1" max="720" value="${Number(s.overdueHours) || 48}" style="width:80px;" />
       ${T('ساعة')}
     </label>
-    <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">${T('التذكير بيتبعت مرة واحدة بس لكل بلاغ.')}</div>
+    <div class="u-fs-xs u-c-text-muted u-mb-3">${T('التذكير بيتبعت مرة واحدة بس لكل بلاغ.')}</div>
 
-    <label style="display:flex;align-items:center;gap:8px;font-weight:700;cursor:pointer;margin:0 0 4px;">
+    <label class="u-flex u-items-center u-gap-2 u-fw-700 u-m-0 u-mb-1" style="cursor: pointer">
       <input type="checkbox" id="hzAlertAfterPhoto" ${s.requireAfterPhoto === false ? '' : 'checked'} />
       ${T('اطلب صورة "بعد الإصلاح" قبل إغلاق أي بلاغ')}
     </label>
-    <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">${T('الصورة بتتحفظ مع البلاغ وبتظهر في نسخة الطباعة.')}</div>
+    <div class="u-fs-xs u-c-text-muted u-mb-4">${T('الصورة بتتحفظ مع البلاغ وبتظهر في نسخة الطباعة.')}</div>
 
     <div class="btn-row">
       <button class="btn btn-primary" type="button" onclick="saveHazardAlertSettings()">${T('💾 حفظ')}</button>
       <button class="btn btn-export" type="button" id="hzAlertTestBtn" onclick="testHazardAlertEmail()" ${s.smtpConfigured ? '' : 'disabled'}>${T('📤 ابعت تجربة')}</button>
     </div>
-    <div id="hzAlertStatus" style="font-size:12px;margin-top:10px;color:var(--text-muted);">${lastTxt}</div>
+    <div class="u-fs-xs u-mt-3 u-c-text-muted" id="hzAlertStatus">${lastTxt}</div>
   `;
 }
 
@@ -341,7 +341,7 @@ function hzAlertRemoveRow(i) {
   const rows = hzAlertReadRows();
   rows.splice(i, 1);
   const el = document.getElementById('hzAlertRows');
-  el.innerHTML = rows.length ? rows.map(_hzAlertRowHtml).join('') : `<div style="font-size:12px;color:var(--text-muted);padding:6px 0;">${T('مفيش مستلمين — ضيف واحد.')}</div>`;
+  el.innerHTML = rows.length ? rows.map(_hzAlertRowHtml).join('') : `<div class="u-fs-xs u-c-text-muted" style="padding: 6px 0">${T('مفيش مستلمين — ضيف واحد.')}</div>`;
 }
 
 async function saveHazardAlertSettings() {
@@ -599,10 +599,10 @@ async function renderHzFilters() {
       window._hzRealDepts = realDepts;
       const currentVal = currentHzDeptFilter === 'الكل' ? '' : currentHzDeptFilter;
       dArea.innerHTML = `
-        <input type="text" id="hzDeptFilterInput" class="dept-filter-input" list="hzDeptDatalist"
+        <input type="text" id="hzDeptFilterInput" class="dept-filter-input u-flex-1" list="hzDeptDatalist"
           placeholder="${T("🏢 اختر أو اكتب اسم القسم...")}" value="${escapeAttr(currentVal)}"
           oninput="onHzDeptFilterInput(this.value)" autocomplete="off"
-          style="min-width:220px;flex:1;max-width:320px;">
+          style="min-width: 220px; max-width: 320px">
         <datalist id="hzDeptDatalist">
           ${realDepts.map(d => `<option value="${escapeAttr(d)}"></option>`).join('')}
         </datalist>

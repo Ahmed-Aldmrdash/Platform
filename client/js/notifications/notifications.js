@@ -314,10 +314,10 @@ function showAppToast(title, message, onClick) {
   const toast = document.createElement('div');
   toast.className = 'app-toast';
   toast.innerHTML = `
-    <div style="font-size: 24px;">🔔</div>
-    <div style="flex:1;">
-      <div style="font-weight:700; margin-bottom:4px; font-size:14px;">${escapeHtml(T(title))}</div>
-      <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(T(message))}</div>
+    <div class="u-fs-2xl">🔔</div>
+    <div class="u-flex-1">
+      <div class="u-fw-700 u-mb-1 u-fs-md">${escapeHtml(T(title))}</div>
+      <div class="u-fs-xs u-c-text-muted">${escapeHtml(T(message))}</div>
     </div>
   `;
   if (onClick) {

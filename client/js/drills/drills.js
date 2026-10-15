@@ -30,29 +30,29 @@ async function loadWorkerDrill(isSilent = false) {
       if (alreadyAttended) {
         activeArea.innerHTML = `
           <div class="ticket" style="border-left: 5px solid var(--success-solid);">
-            <div class="ticket-body" style="text-align:center;">
-              <h3 style="color:var(--success-text); margin:0 0 8px 0;">${T("✅ تم تسجيل حضورك بنجاح")}</h3>
-              <p style="margin:0; font-size:14px;">${T("تجربة:")} <strong>${escapeHtml(activeSession.title)}</strong></p>
+            <div class="ticket-body u-text-center">
+              <h3 class="u-c-success-text u-m-0 u-mb-2">${T("✅ تم تسجيل حضورك بنجاح")}</h3>
+              <p class="u-m-0 u-fs-md">${T("تجربة:")} <strong>${escapeHtml(activeSession.title)}</strong></p>
             </div>
           </div>`;
       } else {
         activeArea.innerHTML = `
           <div class="ticket" style="border-left: 5px solid var(--danger-solid);">
             <div class="ticket-body">
-              <h3 style="margin:0 0 4px 0; color:var(--danger-text);">${T("🚨 تجربة أداء جارية الآن")}</h3>
-              <p style="margin:0 0 12px 0; font-size:14px; font-weight:700;">${escapeHtml(activeSession.title)} | ${escapeHtml(activeSession.location)}</p>
+              <h3 class="u-m-0 u-mb-1 u-c-danger-text">${T("🚨 تجربة أداء جارية الآن")}</h3>
+              <p class="u-m-0 u-mb-3 u-fs-md u-fw-700">${escapeHtml(activeSession.title)} | ${escapeHtml(activeSession.location)}</p>
               <div class="pin-row">
                 <input type="text" id="drlWorkerPin" class="pin-input" placeholder="${T("أدخل رمز الجلسة (PIN)")}" maxlength="4">
                 <button class="btn btn-primary pin-row-btn" onclick="submitDrillAttendance(${jsArg(activeSession.id)})">${T("✅ تسجيل حضوري")}</button>
               </div>
-              <div id="drlWorkerMsg" class="wl-msg" style="margin-top:8px;"></div>
+              <div id="drlWorkerMsg" class="wl-msg u-mt-2"></div>
             </div>
           </div>`;
       }
     } else {
       activeArea.innerHTML = `
         <div class="ticket">
-          <div class="ticket-body" style="text-align:center; color:var(--text-muted); font-size:14px;">
+          <div class="ticket-body u-text-center u-c-text-muted u-fs-md">
             ${T("لا توجد تجارب أداء جارية في الوقت الحالي.")}
           </div>
         </div>`;
@@ -70,17 +70,17 @@ async function loadWorkerDrill(isSilent = false) {
                 const stText = h.status || '';
                 let stHtml = escapeHtml(T(stText));
                 if (stText.includes('غائب')) {
-                  stHtml = `<span class="badge badge-danger" style="background:var(--danger-tint); color:var(--danger-text); border:1px solid var(--danger-line); padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${escapeHtml(T(stText))}</span>`;
+                  stHtml = `<span class="badge badge-danger u-c-danger-text u-fw-700 u-fs-xs u-nowrap u-inline-block" style="background: var(--danger-tint); border: 1px solid var(--danger-line); padding: 4px 8px; border-radius: 6px">${escapeHtml(T(stText))}</span>`;
                 } else if (stText.includes('مؤكد')) {
-                  stHtml = `<span class="badge badge-success" style="background:var(--success-tint); color:var(--success-text); border:1px solid var(--success-line); padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${escapeHtml(T(stText))}</span>`;
+                  stHtml = `<span class="badge badge-success u-c-success-text u-fw-700 u-fs-xs u-nowrap u-inline-block" style="background: var(--success-tint); border: 1px solid var(--success-line); padding: 4px 8px; border-radius: 6px">${escapeHtml(T(stText))}</span>`;
                 } else {
-                  stHtml = `<span class="badge badge-warning" style="background:var(--warning-tint); color:var(--warning-text); border:1px solid var(--warning-line); padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${escapeHtml(T(stText))}</span>`;
+                  stHtml = `<span class="badge badge-warning u-c-warning-text u-fw-700 u-fs-xs u-nowrap u-inline-block" style="background: var(--warning-tint); border: 1px solid var(--warning-line); padding: 4px 8px; border-radius: 6px">${escapeHtml(T(stText))}</span>`;
                 }
                 return `
                 <tr>
-                  <td style="font-size:12px; color:var(--text-muted);">${escapeHtml(h.date)}</td>
-                  <td style="font-weight:700; font-size:13px;">${escapeHtml(h.title)}</td>
-                  <td style="font-size:12px; font-weight:700;">${stHtml}</td>
+                  <td class="u-fs-xs u-c-text-muted">${escapeHtml(h.date)}</td>
+                  <td class="u-fw-700 u-fs-sm">${escapeHtml(h.title)}</td>
+                  <td class="u-fs-xs u-fw-700">${stHtml}</td>
                 </tr>`;
               }).join('')}
             </tbody>
@@ -249,11 +249,11 @@ async function loadAdminDrill(isSilent = false) {
         const attVerified = (drl.attendees || []).filter(a=>a.verified).length;
         const isLegacy = drl.source === 'legacy_import';
         html += `
-        <div class="ticket" style="margin-bottom:8px;">
-          <div class="ticket-body" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div class="ticket u-mb-2">
+          <div class="ticket-body u-flex u-justify-between u-items-center u-flex-wrap u-gap-3">
             <div>
-              <div style="font-weight:700;">${escapeHtml(drl.title)} ${isLegacy ? T('<span style="font-size:11px; background:var(--surface-3); color:var(--text-2); padding:2px 6px; border-radius:4px;">بيانات مستوردة</span>') : ''}</div>
-              <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(drl.date || '')} | 📍 ${escapeHtml(drl.location || '')} ${T("| حضور مؤكد:")} ${attVerified} / ${attCount}</div>
+              <div class="u-fw-700">${escapeHtml(drl.title)} ${isLegacy ? T('<span style="font-size:11px; background:var(--surface-3); color:var(--text-2); padding:2px 6px; border-radius:4px;">بيانات مستوردة</span>') : ''}</div>
+              <div class="u-fs-xs u-c-text-muted">${escapeHtml(drl.date || '')} | 📍 ${escapeHtml(drl.location || '')} ${T("| حضور مؤكد:")} ${attVerified} / ${attCount}</div>
             </div>
             <div class="btn-row">
               <button class="btn btn-info btn-sm" onclick="toggleDrlAttendeesView(${jsArg(drl.id)})">${T("👥 الحضور")}</button>
@@ -263,7 +263,7 @@ async function loadAdminDrill(isSilent = false) {
             </div>
           </div>
           <div id="drlAttWrap_${escapeHtml(drl.id)}" style="display:none; padding:0 16px 16px;">
-            ${isLegacy ? `<div style="font-size:12px; color:var(--warning-text); background:var(--warning-tint); border:1px solid var(--warning-line); padding:8px; border-radius:6px; margin-bottom:8px;">${T("⚠️ هذه تجربة قديمة مستوردة من تقارير ورقية سابقة، ولا يوجد لها سجل حضور رقمي (بأكواد الموظفين) — الأسماء المذكورة أدناه (إن وجدت) مأخوذة من نص التقرير الأصلي فقط.")}</div>` : ''}
+            ${isLegacy ? `<div class="u-fs-xs u-c-warning-text u-p-2 u-mb-2" style="background: var(--warning-tint); border: 1px solid var(--warning-line); border-radius: 6px">${T("⚠️ هذه تجربة قديمة مستوردة من تقارير ورقية سابقة، ولا يوجد لها سجل حضور رقمي (بأكواد الموظفين) — الأسماء المذكورة أدناه (إن وجدت) مأخوذة من نص التقرير الأصلي فقط.")}</div>` : ''}
             <div class="um-table-wrap">
               <table class="um-table">
                 <thead><tr>
@@ -433,58 +433,58 @@ async function openDrillReportModal(drillId) {
         <div class="drill-report-title">${T("📝 ريبورت التجربة:")} ${escapeHtml(drl.title || '')}</div>
         <button class="btn btn-ghost btn-icon btn-sm" title="${T('إغلاق')}" aria-label="${T('إغلاق')}" onclick="document.getElementById('drlReportModalOverlay').remove()">×</button>
       </div>
-      <div style="padding:20px; max-height:75vh; overflow:auto;">
-        <div class="field" style="margin-bottom:12px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("وصف الحادث/السيناريو (بين قوسين)")}</label>
-          <input type="text" id="drf_scenario" value="${escapeAttr(r.scenario || '')}" placeholder="${T("مثال: سقوط زيت اثناء النقل")}" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">
+      <div class="u-p-5" style="max-height: 75vh; overflow: auto">
+        <div class="field u-mb-3">
+          <label class="u-fw-700 u-block u-mb-1">${T("وصف الحادث/السيناريو (بين قوسين)")}</label>
+          <input class="u-w-full u-p-2" type="text" id="drf_scenario" value="${escapeAttr(r.scenario || '')}" placeholder="${T("مثال: سقوط زيت اثناء النقل")}" style="border: 1px solid var(--border-strong); border-radius: 6px">
         </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("الغرض من التجربة")}</label>
-          <textarea id="drf_purpose" rows="4" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">${escapeHtml(r.purpose || '')}</textarea>
+        <div class="field u-mb-3">
+          <label class="u-fw-700 u-block u-mb-1">${T("الغرض من التجربة")}</label>
+          <textarea class="u-w-full u-p-2" id="drf_purpose" rows="4" style="border: 1px solid var(--border-strong); border-radius: 6px">${escapeHtml(r.purpose || '')}</textarea>
         </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("تفاصيل تنفيذ التجربة (سطر لكل خطوة)")}</label>
-          <textarea id="drf_steps" rows="6" placeholder="${T("- تم إجراء التجربة ب...&#10;- قام العامل ... بـ ...&#10;- ...")}" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">${escapeHtml(arrToLines(r.narrativeSteps))}</textarea>
+        <div class="field u-mb-3">
+          <label class="u-fw-700 u-block u-mb-1">${T("تفاصيل تنفيذ التجربة (سطر لكل خطوة)")}</label>
+          <textarea class="u-w-full u-p-2" id="drf_steps" rows="6" placeholder="${T("- تم إجراء التجربة ب...&#10;- قام العامل ... بـ ...&#10;- ...")}" style="border: 1px solid var(--border-strong); border-radius: 6px">${escapeHtml(arrToLines(r.narrativeSteps))}</textarea>
         </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("مقدمة نتيجة التجربة (اختياري)")}</label>
-          <input type="text" id="drf_resultIntro" value="${escapeAttr(r.resultIntro || '')}" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">
+        <div class="field u-mb-3">
+          <label class="u-fw-700 u-block u-mb-1">${T("مقدمة نتيجة التجربة (اختياري)")}</label>
+          <input class="u-w-full u-p-2" type="text" id="drf_resultIntro" value="${escapeAttr(r.resultIntro || '')}" style="border: 1px solid var(--border-strong); border-radius: 6px">
         </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("نقاط نتيجة التجربة (سطر لكل نقطة)")}</label>
-          <textarea id="drf_results" rows="5" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">${escapeHtml(arrToLines(r.resultPoints))}</textarea>
+        <div class="field u-mb-3">
+          <label class="u-fw-700 u-block u-mb-1">${T("نقاط نتيجة التجربة (سطر لكل نقطة)")}</label>
+          <textarea class="u-w-full u-p-2" id="drf_results" rows="5" style="border: 1px solid var(--border-strong); border-radius: 6px">${escapeHtml(arrToLines(r.resultPoints))}</textarea>
         </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("الإيجابيات (سطر لكل نقطة)")}</label>
-          <textarea id="drf_positives" rows="4" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">${escapeHtml(arrToLines(r.positives))}</textarea>
+        <div class="field u-mb-3">
+          <label class="u-fw-700 u-block u-mb-1">${T("الإيجابيات (سطر لكل نقطة)")}</label>
+          <textarea class="u-w-full u-p-2" id="drf_positives" rows="4" style="border: 1px solid var(--border-strong); border-radius: 6px">${escapeHtml(arrToLines(r.positives))}</textarea>
         </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("السلبيات (سطر لكل نقطة، اتركه فارغاً لو لا يوجد)")}</label>
-          <textarea id="drf_negatives" rows="3" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">${escapeHtml(arrToLines(r.negatives))}</textarea>
+        <div class="field u-mb-3">
+          <label class="u-fw-700 u-block u-mb-1">${T("السلبيات (سطر لكل نقطة، اتركه فارغاً لو لا يوجد)")}</label>
+          <textarea class="u-w-full u-p-2" id="drf_negatives" rows="3" style="border: 1px solid var(--border-strong); border-radius: 6px">${escapeHtml(arrToLines(r.negatives))}</textarea>
         </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("نقاط للتحسين (سطر لكل نقطة)")}</label>
-          <textarea id="drf_improvements" rows="3" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">${escapeHtml(arrToLines(r.improvements))}</textarea>
+        <div class="field u-mb-3">
+          <label class="u-fw-700 u-block u-mb-1">${T("نقاط للتحسين (سطر لكل نقطة)")}</label>
+          <textarea class="u-w-full u-p-2" id="drf_improvements" rows="3" style="border: 1px solid var(--border-strong); border-radius: 6px">${escapeHtml(arrToLines(r.improvements))}</textarea>
         </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("عبارة الشكر الختامية (اختياري)")}</label>
-          <textarea id="drf_thanks" rows="2" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">${escapeHtml(r.thanksNote || '')}</textarea>
+        <div class="field u-mb-3">
+          <label class="u-fw-700 u-block u-mb-1">${T("عبارة الشكر الختامية (اختياري)")}</label>
+          <textarea class="u-w-full u-p-2" id="drf_thanks" rows="2" style="border: 1px solid var(--border-strong); border-radius: 6px">${escapeHtml(r.thanksNote || '')}</textarea>
         </div>
-        <div class="row2" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+        <div class="row2 u-grid u-gap-3 u-mb-3" style="grid-template-columns: 1fr 1fr">
           <div class="field">
-            <label style="font-weight:700; display:block; margin-bottom:4px;">${T("صفة المسؤول الموقّع")}</label>
-            <input type="text" id="drf_respTitle" value="${escapeAttr(r.responsibleTitle || T('مسئول البيئة والسلامة'))}" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">
+            <label class="u-fw-700 u-block u-mb-1">${T("صفة المسؤول الموقّع")}</label>
+            <input class="u-w-full u-p-2" type="text" id="drf_respTitle" value="${escapeAttr(r.responsibleTitle || T('مسئول البيئة والسلامة'))}" style="border: 1px solid var(--border-strong); border-radius: 6px">
           </div>
           <div class="field">
-            <label style="font-weight:700; display:block; margin-bottom:4px;">${T("اسم المسؤول الموقّع")}</label>
-            <input type="text" id="drf_respName" value="${escapeAttr(r.responsibleName || '')}" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">
+            <label class="u-fw-700 u-block u-mb-1">${T("اسم المسؤول الموقّع")}</label>
+            <input class="u-w-full u-p-2" type="text" id="drf_respName" value="${escapeAttr(r.responsibleName || '')}" style="border: 1px solid var(--border-strong); border-radius: 6px">
           </div>
         </div>
-        <div class="field" style="margin-bottom:4px;">
-          <label style="font-weight:700; display:block; margin-bottom:4px;">${T("تاريخ التوقيع")}</label>
-          <input type="text" id="drf_sigDate" value="${escapeAttr(r.signatureDate || drl.date || '')}" style="width:100%; padding:8px; border:1px solid var(--border-strong); border-radius:6px;">
+        <div class="field u-mb-1">
+          <label class="u-fw-700 u-block u-mb-1">${T("تاريخ التوقيع")}</label>
+          <input class="u-w-full u-p-2" type="text" id="drf_sigDate" value="${escapeAttr(r.signatureDate || drl.date || '')}" style="border: 1px solid var(--border-strong); border-radius: 6px">
         </div>
-        <div id="drf_msg" style="margin-top:10px; font-size:13px;"></div>
+        <div class="u-mt-3 u-fs-sm" id="drf_msg"></div>
       </div>
       <div class="btn-row drill-report-actions">
         <button class="btn btn-primary" onclick="saveDrillReport(${jsArg(drillId)})">${T("💾 حفظ الريبورت")}</button>

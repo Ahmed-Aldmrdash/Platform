@@ -83,8 +83,8 @@ async function renderMyHistory(isSilent = false){
       ${st === 'pending_hse' ? `<div class="phc-msg pending">${T("✅ تمت موافقة القسم (بانتظار اعتماد السلامة والصحة المهنية)")}</div>` : ''}
       ${st === 'approved' ? `
         <div class="phc-msg approved">${T("🟢 تم الاعتماد النهائي للطلب — يمكنك الإغلاق بعد الانتهاء")}</div>
-        <div class="closure-box" style="margin-top:8px;">
-          <div class="field"><input id="myhistory-closereason-${escapeHtml(p.id)}" type="text" placeholder="${T("سبب عدم الاكتمال أو الإغلاق الجبري (إن وجد)")}" style="font-size:12px;padding:6px;"></div>
+        <div class="closure-box u-mt-2">
+          <div class="field"><input class="u-fs-xs u-p-2" id="myhistory-closereason-${escapeHtml(p.id)}" type="text" placeholder="${T("سبب عدم الاكتمال أو الإغلاق الجبري (إن وجد)")}"></div>
           <div class="closure-actions btn-row">
             <button class="btn btn-success btn-sm" onclick="workerClosePermit(${jsArg(p.id)},'safe')">${T("✓ اكتمل بأمان")}</button>
             <button class="btn btn-warning btn-sm" onclick="workerClosePermit(${jsArg(p.id)},'incomplete')">${T("لم يكتمل")}</button>

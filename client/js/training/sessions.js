@@ -37,34 +37,34 @@ async function loadWorkerTraining(isSilent = false) {
       if (alreadyAttended) {
         activeArea.innerHTML = `
           <div class="ticket" style="border-left: 5px solid var(--success-solid);">
-            <div class="ticket-body" style="text-align:center;">
-              <h3 style="color:var(--success-text); margin:0 0 8px 0;">${T("✅ تم تسجيل حضورك بنجاح")}</h3>
-              <p style="margin:0; font-size:14px;">${T("محاضرة:")} <strong>${escapeHtml(activeSession.title)}</strong></p>
+            <div class="ticket-body u-text-center">
+              <h3 class="u-c-success-text u-m-0 u-mb-2">${T("✅ تم تسجيل حضورك بنجاح")}</h3>
+              <p class="u-m-0 u-fs-md">${T("محاضرة:")} <strong>${escapeHtml(activeSession.title)}</strong></p>
             </div>
           </div>`;
       } else {
         const attendedBeforeNote = activeSession.attendedBefore ? `
-              <p class="pin-row-note" style="margin:0 0 10px 0; font-size:12.5px; color:var(--brand-700); background:var(--warning-tint); border:1px solid var(--warning-line); border-radius:8px; padding:6px 10px;">
+              <p class="pin-row-note u-m-0 u-mb-3 u-fs-sm u-c-brand-700" style="background: var(--warning-tint); border: 1px solid var(--warning-line); border-radius: 8px; padding: 6px 10px">
                 ${T("⚠️ حضرت محاضرة بنفس الموضوع دي قبل كده")}${activeSession.attendedBeforeDate ? (' (' + escapeHtml(new Date(activeSession.attendedBeforeDate).toLocaleDateString('ar-EG')) + ')') : ''}
               </p>` : '';
         activeArea.innerHTML = `
           <div class="ticket" style="border-left: 5px solid var(--brand-600);">
             <div class="ticket-body">
-              <h3 style="margin:0 0 4px 0; color:var(--brand-700);">${T("📡 محاضرة جارية الآن")}</h3>
-              <p style="margin:0 0 12px 0; font-size:14px; font-weight:700;">${escapeHtml(activeSession.title)} | ${escapeHtml(activeSession.location)}</p>
+              <h3 class="u-m-0 u-mb-1 u-c-brand-700">${T("📡 محاضرة جارية الآن")}</h3>
+              <p class="u-m-0 u-mb-3 u-fs-md u-fw-700">${escapeHtml(activeSession.title)} | ${escapeHtml(activeSession.location)}</p>
               ${attendedBeforeNote}
               <div class="pin-row">
                 <input type="text" id="trnWorkerPin" class="pin-input" placeholder="${T("أدخل رمز الجلسة (PIN)")}" maxlength="4">
                 <button class="btn btn-primary pin-row-btn" onclick="submitAttendance(${jsArg(activeSession.id)})">${T("✅ تسجيل حضوري")}</button>
               </div>
-              <div id="trnWorkerMsg" class="wl-msg" style="margin-top:8px;"></div>
+              <div id="trnWorkerMsg" class="wl-msg u-mt-2"></div>
             </div>
           </div>`;
       }
     } else {
       activeArea.innerHTML = `
         <div class="ticket">
-          <div class="ticket-body" style="text-align:center; color:var(--text-muted); font-size:14px;">
+          <div class="ticket-body u-text-center u-c-text-muted u-fs-md">
             ${T("لا توجد محاضرات جارية في الوقت الحالي.")}
           </div>
         </div>`;
@@ -102,9 +102,9 @@ async function loadWorkerTraining(isSilent = false) {
                 }
                 return `
                 <tr>
-                  <td style="font-size:12px; color:var(--text-muted);">${escapeHtml(h.date)}</td>
-                  <td style="font-weight:700; font-size:13px;">${escapeHtml(h.title)}</td>
-                  <td style="font-size:12px; font-weight:700;">${stHtml}</td>
+                  <td class="u-fs-xs u-c-text-muted">${escapeHtml(h.date)}</td>
+                  <td class="u-fw-700 u-fs-sm">${escapeHtml(h.title)}</td>
+                  <td class="u-fs-xs u-fw-700">${stHtml}</td>
                   <td>${recordingBtn}</td>
                   <td>${quizBtn}</td>
                 </tr>`;
@@ -200,9 +200,9 @@ async function loadMyTrainingRequests() {
               const st = TRN_REQ_STATUS_MAP[r.status] || TRN_REQ_STATUS_MAP.pending;
               return `
               <tr>
-                <td style="font-size:12px; color:var(--text-muted);">${escapeHtml(new Date(r.createdAt || Date.now()).toLocaleDateString('ar-EG'))}</td>
-                <td style="font-weight:700; font-size:13px;">${escapeHtml(r.topicTitle || '')}</td>
-                <td style="font-size:12px; font-weight:700;"><span style="background:${st.bg}; color:${st.color}; border:1px solid ${st.border}; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${T(st.label)}</span></td>
+                <td class="u-fs-xs u-c-text-muted">${escapeHtml(new Date(r.createdAt || Date.now()).toLocaleDateString('ar-EG'))}</td>
+                <td class="u-fw-700 u-fs-sm">${escapeHtml(r.topicTitle || '')}</td>
+                <td class="u-fs-xs u-fw-700"><span style="background:${st.bg}; color:${st.color}; border:1px solid ${st.border}; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${T(st.label)}</span></td>
               </tr>`;
             }).join('')}
           </tbody>
@@ -390,11 +390,11 @@ async function loadTrainingRequestsAdmin() {
                 </td>` : '';
               return `
               <tr>
-                <td style="font-size:12px; color:var(--text-muted);">${escapeHtml(new Date(r.createdAt || Date.now()).toLocaleDateString('ar-EG'))}</td>
-                <td style="font-size:12px;">${escapeHtml(r.workerName || r.empCode || '')}</td>
-                <td style="font-weight:700; font-size:13px;">${escapeHtml(r.topicTitle || '')}</td>
-                <td style="font-size:12px; color:var(--text-muted);">${escapeHtml(r.note || '-')}</td>
-                <td style="font-size:12px; font-weight:700;"><span style="background:${st.bg}; color:${st.color}; border:1px solid ${st.border}; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${T(st.label)}</span></td>
+                <td class="u-fs-xs u-c-text-muted">${escapeHtml(new Date(r.createdAt || Date.now()).toLocaleDateString('ar-EG'))}</td>
+                <td class="u-fs-xs">${escapeHtml(r.workerName || r.empCode || '')}</td>
+                <td class="u-fw-700 u-fs-sm">${escapeHtml(r.topicTitle || '')}</td>
+                <td class="u-fs-xs u-c-text-muted">${escapeHtml(r.note || '-')}</td>
+                <td class="u-fs-xs u-fw-700"><span style="background:${st.bg}; color:${st.color}; border:1px solid ${st.border}; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${T(st.label)}</span></td>
                 ${actionsHtml}
               </tr>`;
             }).join('')}
@@ -461,21 +461,21 @@ function renderAdminLiveSessions(trainings) {
   if (activeSessions.length > 0) {
     activeSessions.forEach(trn => {
       html += `
-      <div class="ticket" style="border-left: 5px solid var(--brand-600); margin-bottom: 16px;">
+      <div class="ticket u-mb-4" style="border-left: 5px solid var(--brand-600)">
         <div class="ticket-body">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div class="u-flex u-justify-between u-items-start">
             <div>
-              <h3 style="margin:0 0 4px 0;">${escapeHtml(trn.title)}</h3>
-              <p style="margin:0; font-size:13px; color:var(--text-muted);">${escapeHtml(trn.location)} ${T("| المستهدف:")} ${escapeHtml(trn.targetGroup)}</p>
+              <h3 class="u-m-0 u-mb-1">${escapeHtml(trn.title)}</h3>
+              <p class="u-m-0 u-fs-sm u-c-text-muted">${escapeHtml(trn.location)} ${T("| المستهدف:")} ${escapeHtml(trn.targetGroup)}</p>
             </div>
-            <div style="background:var(--brand-600); color:var(--on-solid); padding:8px 16px; border-radius:8px; text-align:center;">
-              <div style="font-size:12px; opacity:0.9;">${T("رمز الجلسة (PIN)")}</div>
-              <div style="font-size:24px; font-family:monospace; font-weight:700; letter-spacing:4px;">${escapeHtml(trn.sessionPin)}</div>
+            <div class="u-c-on-solid u-text-center" style="background: var(--brand-600); padding: 8px 16px; border-radius: 8px">
+              <div class="u-fs-xs" style="opacity: 0.9">${T("رمز الجلسة (PIN)")}</div>
+              <div class="u-fs-2xl u-mono u-fw-700" style="letter-spacing: 4px">${escapeHtml(trn.sessionPin)}</div>
             </div>
           </div>
 
           <h4 style="margin:16px 0 8px 0; padding-top:16px; border-top:1px solid var(--border);">${T("📋 الحضور (")}${trn.attendees.length})</h4>
-          <div class="um-table-wrap" style="margin-bottom:16px;">
+          <div class="um-table-wrap u-mb-4">
             <table class="um-table">
               <thead><tr><th>${T("الكود")}</th><th>${T("الاسم")}</th><th>${T("القسم")}</th><th>${T("الوقت")}</th><th>${T("التحقق")}</th></tr></thead>
               <tbody>
@@ -489,19 +489,19 @@ function renderAdminLiveSessions(trainings) {
                     const dates = pastAttendedList.map(t => new Date(t.createdMs).toISOString().split('T')[0]).join(' ، ');
                     const countText = count === 1 ? T('مرة واحدة') : `${count} ${T("مرات")}`;
                     const dateLabel = count === 1 ? T('بتاريخ:') : T('بتواريخ:');
-                    duplicateWarning = `<div style="margin-top:4px;font-size:11px;color:var(--on-solid);background:var(--brand-600);padding:2px 6px;border-radius:4px;display:inline-block;">${T("⚠️ تنبيه: حضر الموظف هذه المحاضرة مسبقاً (")}${countText}) ${dateLabel} [${dates}]</div>`;
+                    duplicateWarning = `<div class="u-mt-1 u-fs-xs u-c-on-solid u-inline-block" style="background: var(--brand-600); padding: 2px 6px; border-radius: 4px">${T("⚠️ تنبيه: حضر الموظف هذه المحاضرة مسبقاً (")}${countText}) ${dateLabel} [${dates}]</div>`;
                   }
                 }
 
                 return `
                 <tr>
-                  <td style="font-family:monospace; font-weight:bold;">${escapeHtml(a.empCode)}</td>
+                  <td class="u-mono u-fw-700">${escapeHtml(a.empCode)}</td>
                   <td>
                     ${escapeHtml(a.name)}
                     ${duplicateWarning}
                   </td>
                   <td>${escapeHtml(a.department)}</td>
-                  <td style="font-size:12px; color:var(--text-muted);">${new Date(a.attendedAt).toLocaleTimeString(LOC())}</td>
+                  <td class="u-fs-xs u-c-text-muted">${new Date(a.attendedAt).toLocaleTimeString(LOC())}</td>
                   <td>
                     <button class="btn btn-sm ${a.verified ? 'btn-secondary' : 'btn-success'}" onclick="toggleTrnVerification(${jsArg(trn.id)}, ${jsArg(a.empCode)}, ${!a.verified})">
                       ${a.verified ? T('❌ إلغاء') : T('✅ تأكيد')}
@@ -510,7 +510,7 @@ function renderAdminLiveSessions(trainings) {
                 </tr>
                 `;
               }).join('')}
-              ${trn.attendees.length === 0 ? T('<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">لا يوجد حضور حتى الآن. رمز الجلسة ظاهر للعمال.</td></tr>') : ''}
+              ${trn.attendees.length === 0 ? T('<tr><td class="u-text-center u-c-text-muted" colspan="5">لا يوجد حضور حتى الآن. رمز الجلسة ظاهر للعمال.</td></tr>') : ''}
               </tbody>
             </table>
           </div>
@@ -529,16 +529,16 @@ function renderAdminLiveSessions(trainings) {
   }
 
   if (closedSessions.length > 0) {
-    html += `<h4 style="margin-top:24px;">${T("المحاضرات السابقة (")}${closedSessions.length})</h4>`;
+    html += `<h4 class="u-mt-6">${T("المحاضرات السابقة (")}${closedSessions.length})</h4>`;
     const displaySessions = hasFilters ? closedSessions.slice(0, 500) : closedSessions.slice(0, 10);
 
     displaySessions.forEach(trn => {
       html += `
-      <div class="ticket" style="margin-bottom:8px;">
-        <div class="ticket-body" style="display:flex; justify-content:space-between; align-items:center;">
+      <div class="ticket u-mb-2">
+        <div class="ticket-body u-flex u-justify-between u-items-center">
           <div>
-            <div style="font-weight:700;">${escapeHtml(trn.title)}</div>
-            <div style="font-size:12px; color:var(--text-muted);">
+            <div class="u-fw-700">${escapeHtml(trn.title)}</div>
+            <div class="u-fs-xs u-c-text-muted">
               ${escapeHtml(trn.date)} | ${escapeHtml(trn.trainer || T('غير محدد'))} ${T("| حضور:")} ${trn.attendees.filter(a=>a.verified).length}
             </div>
           </div>
@@ -551,11 +551,11 @@ function renderAdminLiveSessions(trainings) {
       </div>`;
     });
     if (!hasFilters && closedSessions.length > 10) {
-      html += `<div style="text-align:center; font-size:13px; color:var(--brand-700); margin-top:12px; padding:8px; border: 1px dashed var(--border); border-radius: 8px;">
+      html += `<div class="u-text-center u-fs-sm u-c-brand-700 u-mt-3 u-p-2" style="border: 1px dashed var(--border); border-radius: 8px">
         ${T("تم عرض أحدث 10 محاضرات من إجمالي")} ${closedSessions.length} ${T("محاضرة. استخدم فلاتر البحث بالأعلى لعرض الباقي.")}
       </div>`;
     } else if (hasFilters) {
-      html += `<div style="text-align:center; font-size:13px; color:var(--brand-700); margin-top:12px; padding:8px;">
+      html += `<div class="u-text-center u-fs-sm u-c-brand-700 u-mt-3 u-p-2">
         ${T("تم العثور على")} ${closedSessions.length} ${T("نتيجة مطابقة.")}
       </div>`;
     }
@@ -565,11 +565,11 @@ function renderAdminLiveSessions(trainings) {
     html += T('<h4 style="margin-top:24px; color:var(--danger-text);">🗑️ سلة محذوفات المحاضرات</h4>');
     trashSessions.forEach(trn => {
       html += `
-      <div class="ticket" style="margin-bottom:8px; border-color:var(--danger-solid); opacity:0.8;">
-        <div class="ticket-body" style="display:flex; justify-content:space-between; align-items:center;">
+      <div class="ticket u-mb-2" style="border-color: var(--danger-solid); opacity: 0.8">
+        <div class="ticket-body u-flex u-justify-between u-items-center">
           <div>
-            <div style="font-weight:700; text-decoration:line-through;">${escapeHtml(trn.title)}</div>
-            <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(trn.date)} ${T("| حُذفت في:")} ${trn.deletedAt ? new Date(trn.deletedAt).toLocaleDateString(LOC()) : ''}</div>
+            <div class="u-fw-700" style="text-decoration: line-through">${escapeHtml(trn.title)}</div>
+            <div class="u-fs-xs u-c-text-muted">${escapeHtml(trn.date)} ${T("| حُذفت في:")} ${trn.deletedAt ? new Date(trn.deletedAt).toLocaleDateString(LOC()) : ''}</div>
           </div>
           <div class="btn-row">
             <button class="btn btn-secondary btn-sm" onclick="restoreTraining(${jsArg(trn.id)})">${T("🔄 استعادة")}</button>
