@@ -6,7 +6,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <meta name="theme-color" content="#D51E27" />
+    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F1012" media="(prefers-color-scheme: dark)" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
@@ -66,12 +67,12 @@
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap"
       onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -125,7 +126,6 @@
               style="
                 text-align: center;
                 font-size: 20px;
-                font-family: 'Oswald', sans-serif;
                 letter-spacing: 2px;
                 font-weight: 700;
               "
@@ -202,7 +202,7 @@
             style="
               font-size: 15px;
               font-weight: 700;
-              color: #fff;
+              color: var(--text);
               line-height: 1.8;
             "
           ></div>
@@ -210,7 +210,7 @@
             style="
               margin-top: 12px;
               font-size: 12px;
-              color: rgba(255, 255, 255, 0.5);
+              color: var(--text-muted);
             "
           >
             جارِ تحميل لوحة التحكم…
@@ -270,7 +270,7 @@
               class="notif-bell-btn"
               onclick="globalSyncData()"
               title="تحديث البيانات"
-              style="color:#333333;"
+              style="color:var(--text);"
             >
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke-dasharray="42 8" transform="rotate(-90 12 12)"/><polygon points="19,4.5 19,10 13.5,7.2" fill="currentColor" stroke="none"/></svg>
             </button>
@@ -511,7 +511,7 @@
 
       <div id="viewHazardWorker" style="display: none">
         <div class="ticket">
-          <div class="ticket-head" style="background: var(--amber)">
+          <div class="ticket-head" style="background: var(--brand-600)">
             <div>
               <div class="ttype">⚠️ نموذج الإبلاغ عن الخطورة</div>
               <div class="tnum">Hazard Report</div>
@@ -528,7 +528,6 @@
                   placeholder="أدخل كودك لتعبئة بياناتك تلقائياً"
                   style="
                     text-transform: uppercase;
-                    font-family: 'Oswald', sans-serif;
                     letter-spacing: 1.5px;
                   "
                   oninput="this.value=this.value.toUpperCase()"
@@ -569,7 +568,7 @@
                   readonly
                   tabindex="-1"
                   style="
-                    background-color: #f8fafc;
+                    background-color: var(--surface-2);
                     cursor: default;
                     user-select: none;
                   "
@@ -620,7 +619,7 @@
               ></textarea>
             </div>
 
-            <div class="section-title" style="color: var(--amber)">
+            <div class="section-title" style="color: var(--brand-700)">
               مصفوفة تقييم الخطورة (Risk Matrix Calculator)
             </div>
             <div class="row2">
@@ -658,12 +657,12 @@
                 align-items: center;
                 gap: 12px;
                 margin-bottom: 16px;
-                background: #f9f9f9;
+                background: var(--surface-2);
                 padding: 12px;
                 border-radius: 8px;
               "
             >
-              <strong style="font-size: 14px; color: var(--muted)"
+              <strong style="font-size: 14px; color: var(--text-muted)"
                 >مستوى الخطورة:</strong
               >
               <div id="hz_riskBadge" class="hz-risk-badge hz-low">
@@ -779,7 +778,7 @@
               id="emailPermitsBtn"
               class="export-btn"
               onclick="openEmailSendModal('permits')"
-              style="background: var(--info)"
+              style="background: var(--info-solid)"
             >
               📧 إرسال الشيت بالإيميل
             </button>
@@ -794,7 +793,6 @@
               id="uploadPermitsExcelBtn"
               class="export-btn admin-only"
               onclick="document.getElementById('permitsExcelUploadInput').click()"
-              style="background: var(--slate)"
             >
               📤 رفع تصاريح قديمة (Excel)
             </button>
@@ -802,7 +800,7 @@
               id="clearPermitsBtn"
               class="export-btn admin-only"
               onclick="clearModuleData('permits', renderSupervisor)"
-              style="background: var(--danger, #ef4444); color: #fff"
+              style="background: var(--danger-solid); color: var(--on-solid)"
             >
               🗑️ مسح كل التصاريح
             </button>
@@ -889,8 +887,8 @@
             onclick="openHazardAlertSettings()"
             style="
               margin-inline-start: auto;
-              background: var(--danger);
-              color: #fff;
+              background: var(--danger-solid);
+              color: var(--on-solid);
               display: none;
             "
             title="مين بيستلم إيميل فوري لما يتسجل بلاغ خطورة عالية"
@@ -901,8 +899,8 @@
             class="export-btn"
             onclick="renderSupHazard(false)"
             style="
-              background: var(--primary);
-              color: #fff;
+              background: var(--brand-600);
+              color: var(--on-solid);
               display: flex;
               align-items: center;
               gap: 6px;
@@ -932,7 +930,7 @@
             id="emailHazardsBtn"
             class="export-btn"
             onclick="openEmailSendModal('hazards')"
-            style="background: var(--info); margin-inline-start: 10px"
+            style="background: var(--info-solid); margin-inline-start: 10px"
           >
             📧 إرسال الشيت بالإيميل
           </button>
@@ -947,7 +945,7 @@
             id="uploadHazardsExcelBtn"
             class="export-btn admin-only"
             onclick="document.getElementById('hazardExcelUploadInput').click()"
-            style="background: var(--slate); margin-inline-start: 10px"
+            style="margin-inline-start: 10px"
           >
             📤 رفع سجل Excel
           </button>
@@ -956,8 +954,8 @@
             class="export-btn admin-only"
             onclick="clearModuleData('hazards', () => renderSupHazard(false))"
             style="
-              background: var(--danger, #ef4444);
-              color: #fff;
+              background: var(--danger-solid);
+              color: var(--on-solid);
               margin-inline-start: 10px;
             "
           >
@@ -1133,7 +1131,7 @@
             </div>
             <p
               id="um_editModalName"
-              style="color: var(--muted); font-size: 13px; margin: 0 0 12px"
+              style="color: var(--text-muted); font-size: 13px; margin: 0 0 12px"
             ></p>
 
             <div class="field">
@@ -1196,7 +1194,7 @@
             <div class="field">
               <label
                 >كلمة المرور الجديدة
-                <span style="font-size: 11px; color: #64748b">(اختياري)</span>
+                <span style="font-size: 11px; color: var(--text-muted)">(اختياري)</span>
               </label>
               <input
                 id="um_editNewPass"
@@ -1207,7 +1205,7 @@
             <div class="field">
               <label
                 >الكود الوظيفي المسموح له بالدخول
-                <span style="font-size: 11px; color: #64748b">(اختياري — لو اتحدد، محدش غيره يقدر يدخل على الحساب)</span>
+                <span style="font-size: 11px; color: var(--text-muted)">(اختياري — لو اتحدد، محدش غيره يقدر يدخل على الحساب)</span>
               </label>
               <input
                 id="um_editEmpCode"
@@ -1277,7 +1275,7 @@
               id="clearEmployeesBtn"
               class="export-btn admin-only"
               onclick="clearModuleData('employees', renderEmployeesPanel)"
-              style="background: var(--danger, #ef4444); color: #fff"
+              style="background: var(--danger-solid); color: var(--on-solid)"
             >
               🗑️ مسح كل الموظفين
             </button>
@@ -1288,7 +1286,7 @@
               <span
                 style="
                   font-size: 12px;
-                  color: var(--muted);
+                  color: var(--text-muted);
                   white-space: nowrap;
                 "
                 >🎯 التارجت السنوي: 8س / 2ب</span
@@ -1344,7 +1342,6 @@
                   placeholder="EMP001"
                   oninput="this.value=this.value.toUpperCase()"
                   style="
-                    font-family: 'Oswald', sans-serif;
                     letter-spacing: 1.5px;
                   "
                 />
@@ -1441,7 +1438,7 @@
           <div
             class="trn-progress-wrap"
             style="
-              background: var(--paper-line);
+              background: var(--border);
               height: 12px;
               border-radius: 6px;
               overflow: hidden;
@@ -1453,7 +1450,7 @@
               style="
                 width: 0%;
                 height: 100%;
-                background: var(--amber);
+                background: var(--brand-600);
                 transition: width 0.4s;
               "
             ></div>
@@ -1465,12 +1462,12 @@
         <h3 class="section-title">سجل حضوري السابق</h3>
         <div id="trnWorkerHistoryList"></div>
 
-        <div class="ticket" style="margin-top: 20px; border-left: 5px solid var(--amber)">
+        <div class="ticket" style="margin-top: 20px; border-left: 5px solid var(--brand-600)">
           <div class="ticket-body">
             <h3 class="section-title" style="margin-top: 0">
               🎓 عايز محاضرة معينة؟
             </h3>
-            <p style="margin: 0 0 12px 0; font-size: 13px; color: #6b7280">
+            <p style="margin: 0 0 12px 0; font-size: 13px; color: var(--text-muted)">
               اطلب موضوع المحاضرة اللي محتاجها من السيفتي وهيتم مراجعة طلبك.
             </p>
             <div class="field">
@@ -1509,7 +1506,7 @@
           <div
             class="ticket-head"
             style="
-              background: var(--amber);
+              background: var(--brand-600);
               display: flex;
               justify-content: space-between;
               align-items: center;
@@ -1529,7 +1526,7 @@
               <button
                 class="submit-btn"
                 style="
-                  background: var(--slate);
+                  background: var(--neutral-solid);
                   margin: 0;
                   padding: 8px 12px;
                   font-size: 0.9rem;
@@ -1541,7 +1538,7 @@
               <button
                 class="submit-btn admin-only"
                 style="
-                  background: #ef4444;
+                  background: var(--danger-solid);
                   margin: 0 0 0 8px;
                   padding: 8px 12px;
                   font-size: 0.9rem;
@@ -1616,9 +1613,9 @@
                   style="
                     width: 100%;
                     padding: 10px;
-                    border: 1px solid #d1d5db;
+                    border: 1px solid var(--border-strong);
                     border-radius: 6px;
-                    background-color: #f1f5f9;
+                    background-color: var(--surface-3);
                     cursor: not-allowed;
                     box-sizing: border-box;
                   "
@@ -1638,12 +1635,11 @@
                   style="
                     width: 100%;
                     padding: 10px;
-                    border: 1px solid #d1d5db;
+                    border: 1px solid var(--border-strong);
                     border-radius: 6px;
-                    background-color: #f1f5f9;
+                    background-color: var(--surface-3);
                     cursor: not-allowed;
                     box-sizing: border-box;
-                    font-family: 'Oswald', sans-serif;
                     letter-spacing: 1.5px;
                   "
                   placeholder="الكود الوظيفي"
@@ -1705,11 +1701,11 @@
           <div
             style="
               background: var(--surface);
-              border: 1px solid var(--paper-line);
+              border: 1px solid var(--border);
               border-radius: 12px;
               padding: 16px;
               margin-bottom: 24px;
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+              box-shadow: var(--shadow-2);
             "
           >
             <div
@@ -1724,7 +1720,7 @@
                 style="
                   margin: 0;
                   font-size: 16px;
-                  color: var(--primary);
+                  color: var(--brand-700);
                   display: flex;
                   align-items: center;
                   gap: 8px;
@@ -1748,7 +1744,7 @@
                     font-weight: 600;
                     margin-bottom: 8px;
                     display: block;
-                    color: var(--text-color);
+                    color: var(--text);
                   "
                   >من تاريخ</label
                 >
@@ -1766,7 +1762,7 @@
                     font-weight: 600;
                     margin-bottom: 8px;
                     display: block;
-                    color: var(--text-color);
+                    color: var(--text);
                   "
                   >إلى تاريخ</label
                 >
@@ -1784,7 +1780,7 @@
                     font-weight: 600;
                     margin-bottom: 8px;
                     display: block;
-                    color: var(--text-color);
+                    color: var(--text);
                   "
                   >الموضوع / المحاضرة</label
                 >
@@ -1803,7 +1799,7 @@
                     font-weight: 600;
                     margin-bottom: 8px;
                     display: block;
-                    color: var(--text-color);
+                    color: var(--text);
                   "
                   >اسم المحاضر</label
                 >
@@ -1822,7 +1818,7 @@
               style="
                 display: flex;
                 gap: 12px;
-                border-top: 1px solid var(--paper-line);
+                border-top: 1px solid var(--border);
                 padding-top: 16px;
               "
             >
@@ -1877,7 +1873,7 @@
           <div
             class="ticket-head"
             style="
-              background: #ef4444;
+              background: var(--danger-solid);
               display: flex;
               justify-content: space-between;
               align-items: center;
@@ -1889,7 +1885,7 @@
             <button
               class="submit-btn admin-only"
               style="
-                background: #7c1d1d;
+                background: var(--brand-600);
                 margin: 0;
                 padding: 8px 12px;
                 font-size: 0.9rem;
@@ -1939,9 +1935,9 @@
                   style="
                     width: 100%;
                     padding: 10px;
-                    border: 1px solid #d1d5db;
+                    border: 1px solid var(--border-strong);
                     border-radius: 6px;
-                    background-color: #f1f5f9;
+                    background-color: var(--surface-3);
                     cursor: not-allowed;
                     box-sizing: border-box;
                   "
@@ -1961,12 +1957,11 @@
                   style="
                     width: 100%;
                     padding: 10px;
-                    border: 1px solid #d1d5db;
+                    border: 1px solid var(--border-strong);
                     border-radius: 6px;
-                    background-color: #f1f5f9;
+                    background-color: var(--surface-3);
                     cursor: not-allowed;
                     box-sizing: border-box;
-                    font-family: 'Oswald', sans-serif;
                     letter-spacing: 1.5px;
                   "
                   placeholder="الكود الوظيفي"
@@ -2046,8 +2041,8 @@
                 class="submit-btn"
                 style="
                   width: auto;
-                  background: var(--slate);
-                  border-color: var(--slate);
+                  background: var(--neutral-solid);
+                  border-color: var(--neutral-solid);
                 "
                 onclick="document.getElementById('penaltiesExcelUploadInput').click()"
               >
@@ -2057,8 +2052,8 @@
                 class="submit-btn"
                 style="
                   width: auto;
-                  background: var(--success);
-                  border-color: var(--success);
+                  background: var(--success-solid);
+                  border-color: var(--success-solid);
                 "
                 onclick="exportPenaltiesExcel()"
               >
@@ -2075,8 +2070,8 @@
                 class="submit-btn admin-only"
                 style="
                   width: auto;
-                  background: var(--danger);
-                  border-color: var(--danger);
+                  background: var(--danger-solid);
+                  border-color: var(--danger-solid);
                 "
                 onclick="clearModuleData('penalties', renderPenaltiesAdmin)"
               >
@@ -2088,7 +2083,7 @@
               style="
                 display: none;
                 margin-top: 10px;
-                color: var(--muted);
+                color: var(--text-muted);
                 font-size: 13px;
               "
             >
@@ -2200,10 +2195,10 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0; color: var(--danger)">
+        <div class="section-title" style="margin-top: 0; color: var(--danger-text)">
           🗑️ حذف الجزاء
         </div>
-        <p style="color: var(--muted); font-size: 13px; margin: 0 0 12px">
+        <p style="color: var(--text-muted); font-size: 13px; margin: 0 0 12px">
           لازم تكتب سبب حذف الجزاء ده.
         </p>
         <div class="field">
@@ -2219,8 +2214,8 @@
             class="submit-btn"
             style="
               flex: 1;
-              background-color: var(--danger);
-              border-color: var(--danger);
+              background-color: var(--danger-solid);
+              border-color: var(--danger-solid);
             "
             onclick="confirmDeletePenalty()"
           >
@@ -2268,10 +2263,10 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0; color: var(--danger)">
+        <div class="section-title" style="margin-top: 0; color: var(--danger-text)">
           🗑️ حذف الطلب
         </div>
-        <p style="color: var(--muted); font-size: 13px; margin: 0 0 12px">
+        <p style="color: var(--text-muted); font-size: 13px; margin: 0 0 12px">
           تأكيد حذف الطلب ونقله للأرشيف.
         </p>
 
@@ -2292,8 +2287,8 @@
             class="submit-btn"
             style="
               flex: 1;
-              background-color: var(--danger);
-              border-color: var(--danger);
+              background-color: var(--danger-solid);
+              border-color: var(--danger-solid);
             "
             onclick="confirmDeletePermit()"
           >
@@ -2406,7 +2401,7 @@
           />
           <div
             id="hz_resolve_photo_hint"
-            style="font-size: 12px; color: var(--muted); margin-top: 6px"
+            style="font-size: 12px; color: var(--text-muted); margin-top: 6px"
           >
             صوّر المكان بعد الإصلاح — الصورة بتتحفظ مع البلاغ وبتظهر في
             الطباعة.
@@ -2429,8 +2424,8 @@
             class="submit-btn"
             style="
               flex: 1;
-              background: var(--success);
-              border-color: var(--success);
+              background: var(--success-solid);
+              border-color: var(--success-solid);
             "
             onclick="submitHzResolve()"
           >
@@ -2453,7 +2448,7 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0; color: var(--danger)">
+        <div class="section-title" style="margin-top: 0; color: var(--danger-text)">
           رفض الإصلاح (عدم اختصاص)
         </div>
         <div class="field">
@@ -2472,8 +2467,8 @@
             class="submit-btn"
             style="
               flex: 1;
-              background: var(--danger);
-              border-color: var(--danger);
+              background: var(--danger-solid);
+              border-color: var(--danger-solid);
             "
             onclick="submitHzRejectMaint()"
           >
@@ -2496,7 +2491,7 @@
       style="display: none; z-index: 9999"
     >
       <div class="um-modal-card">
-        <div class="section-title" style="margin-top: 0; color: var(--danger)">
+        <div class="section-title" style="margin-top: 0; color: var(--danger-text)">
           رفض بلاغ الخطورة
         </div>
         <div class="field">
@@ -2515,8 +2510,8 @@
             class="submit-btn"
             style="
               flex: 1;
-              background: var(--danger);
-              border-color: var(--danger);
+              background: var(--danger-solid);
+              border-color: var(--danger-solid);
             "
             onclick="submitHzRejectHse()"
           >

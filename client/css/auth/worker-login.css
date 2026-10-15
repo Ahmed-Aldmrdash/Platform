@@ -9,18 +9,18 @@
   position: relative;
   z-index: 2;
   margin: auto;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--brand-600);
+  border-radius: var(--r-lg);
   padding: clamp(20px, 5vw, 32px) clamp(18px, 5vw, 28px) clamp(18px, 5vw, 28px);
   width: 100%;
   max-width: min(380px, calc(100vw - 24px));
   max-height: 95dvh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(213, 30, 39, 0.15);
+  box-shadow: var(--shadow-3);
   animation: wlSlideIn .35s cubic-bezier(.22, .68, 0, 1.2) both;
 }
 
@@ -39,13 +39,13 @@
 .login-logo-box {
   width: 130px;
   height: 60px;
-  background: #fff;
-  border-radius: 8px;
+  background: var(--logo-tile);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   margin: 0 auto 16px auto;
 }
 
@@ -58,10 +58,10 @@
 }
 
 .wl-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 26px;
+  font-family: var(--font);
+  font-size: var(--fs-2xl);
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   text-align: center;
   margin-bottom: 4px;
   letter-spacing: 0.5px;
@@ -69,16 +69,16 @@
 
 .wl-sub {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
   text-align: center;
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   letter-spacing: 1.5px;
   text-transform: uppercase;
   margin-bottom: 24px;
 }
 
 .worker-login-card .field label {
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--text-2);
   font-size: 12.5px;
   font-weight: 700;
   margin-bottom: 6px;
@@ -87,62 +87,67 @@
 
 .worker-login-card .field input,
 .worker-login-card .field select {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
-  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--input-border);
+  color: var(--text);
+  border-radius: var(--r-md);
   padding: 11px 14px;
-  font-family: 'Cairo', sans-serif;
+  font-family: var(--font);
   font-size: 15px;
   width: 100%;
   transition: border-color .15s;
 }
 
 .worker-login-card .field input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
 }
 
 .worker-login-card .field input:focus,
 .worker-login-card .field select:focus {
   outline: none;
-  border-color: var(--amber);
-  background: rgba(213, 30, 39, 0.08);
+  border-color: var(--brand-600);
+  box-shadow: var(--focus-ring);
 }
 
 .worker-login-card .submit-btn {
-  background: linear-gradient(135deg, var(--amber), var(--amber-dark));
-  box-shadow: 0 4px 16px rgba(213, 30, 39, 0.4), 0 4px 0 var(--amber-dark);
+  background: var(--brand-600);
+  box-shadow: none;
   font-size: 15px;
-  border-radius: 10px;
+  border-radius: var(--r-md);
   margin-top: 6px;
 }
 
+.worker-login-card .submit-btn:hover {
+  background: var(--brand-fill-hover);
+}
+
 .worker-login-card .submit-btn:active {
-  box-shadow: 0 1px 0 var(--amber-dark);
-  transform: translateY(3px);
+  box-shadow: none;
+  transform: translateY(1px);
 }
 
 .wl-new-badge {
-  background: linear-gradient(135deg, rgba(213, 30, 39, 0.2), rgba(213, 30, 39, 0.08));
-  border: 1px dashed rgba(213, 30, 39, 0.4);
-  border-radius: 10px;
+  background: var(--brand-50);
+  border: 1px solid var(--brand-100);
+  border-radius: var(--r-md);
   padding: 10px 14px;
   margin-bottom: 14px;
   font-size: 13px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  color: var(--text);
   text-align: center;
 }
 
 .wl-back-btn {
   width: 100%;
   margin-top: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.6);
-  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text-2);
+  border-radius: var(--r-md);
   padding: 10px;
-  font-family: 'Cairo', sans-serif;
+  min-height: 44px;
+  font-family: var(--font);
   font-size: 13.5px;
   font-weight: 700;
   cursor: pointer;
@@ -150,16 +155,10 @@
 }
 
 .wl-back-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-2);
+  color: var(--text);
 }
 
-.login-v2 .wl-back-btn {
-  background: rgba(0, 0, 0, 0.035);
-  border-color: var(--paper-line);
-  color: var(--muted);
-}
-.login-v2 .wl-back-btn:hover { background: rgba(0, 0, 0, 0.07); color: var(--ink); }
-body[data-theme="dark"] .login-v2 .wl-back-btn { background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.6); }
 
 .wl-divider {
   display: flex;
@@ -173,23 +172,24 @@ body[data-theme="dark"] .login-v2 .wl-back-btn { background: rgba(255, 255, 255,
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border);
 }
 
 .wl-divider span {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.3);
-  font-family: 'Oswald', sans-serif;
+  color: var(--text-muted);
+  font-family: var(--font);
 }
 
 .wl-admin-btn {
   width: 100%;
   padding: 11px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.65);
-  font-family: 'Cairo', sans-serif;
+  min-height: 44px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  font-family: var(--font);
   font-size: 13.5px;
   font-weight: 700;
   cursor: pointer;
@@ -197,38 +197,38 @@ body[data-theme="dark"] .login-v2 .wl-back-btn { background: rgba(255, 255, 255,
 }
 
 .wl-admin-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: var(--surface-2);
+  border-color: var(--input-border);
 }
 
 .wl-msg {
   font-size: 12.5px;
   margin-top: 8px;
-  border-radius: 8px;
+  border-radius: var(--r-md);
   min-height: 18px;
   transition: all .15s;
   padding: 0;
 }
 
 .wl-msg.error {
-  color: #ff6b6b;
+  color: var(--danger-text);
   font-weight: 700;
 }
 
 .wl-msg.info {
-  color: #74c0fc;
+  color: var(--info-text);
   font-weight: 700;
 }
 
 .wl-msg.success {
-  color: #69db7c;
+  color: var(--success-text);
   font-weight: 700;
 }
 
 .wl-identity {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   padding: 12px 14px;
   margin-bottom: 14px;
   text-align: center;
@@ -236,8 +236,8 @@ body[data-theme="dark"] .login-v2 .wl-back-btn { background: rgba(255, 255, 255,
 
 .wl-identity-name {
   font-size: 16px;
-  font-weight: 800;
-  color: #fff;
+  font-weight: 700;
+  color: var(--text);
   margin-bottom: 6px;
 }
 
@@ -247,20 +247,20 @@ body[data-theme="dark"] .login-v2 .wl-back-btn { background: rgba(255, 255, 255,
   justify-content: center;
   gap: 4px 14px;
   font-size: 12.5px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-2);
 }
 
 .wl-identity-meta b {
-  color: #fff;
+  color: var(--text);
   font-weight: 700;
 }
 
 .wl-identity-code {
   margin-top: 6px;
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   letter-spacing: 2px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-muted);
 }
 
 .wl-link-btn {
@@ -268,8 +268,8 @@ body[data-theme="dark"] .login-v2 .wl-back-btn { background: rgba(255, 255, 255,
   margin: 10px auto 0;
   background: none;
   border: none;
-  color: #74c0fc;
-  font-family: 'Cairo', sans-serif;
+  color: var(--info-text);
+  font-family: var(--font);
   font-size: 12.5px;
   font-weight: 700;
   cursor: pointer;
@@ -277,19 +277,15 @@ body[data-theme="dark"] .login-v2 .wl-back-btn { background: rgba(255, 255, 255,
 }
 
 .wl-link-btn:hover {
-  color: #a5d8ff;
+  color: var(--text);
 }
-
-.login-v2 .wl-link-btn { color: #1d6fd1; }
-.login-v2 .wl-link-btn:hover { color: #12508f; }
-body[data-theme="dark"] .login-v2 .wl-link-btn { color: #74c0fc; }
 
 .em-pw-box {
   margin-top: 10px;
   padding: 10px 12px;
-  border: 1px dashed var(--paper-line, #d0d7de);
-  border-radius: 10px;
-  background: rgba(213, 30, 39, 0.04);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
 }
 
 .em-pw-title {
@@ -299,8 +295,8 @@ body[data-theme="dark"] .login-v2 .wl-link-btn { color: #74c0fc; }
 }
 
 .em-pw-status { font-weight: 700; font-size: 12px; margin-inline-start: 4px; }
-.em-pw-status.ok { color: #16a34a; }
-.em-pw-status.none { color: #d97706; }
+.em-pw-status.ok { color: var(--success-text); }
+.em-pw-status.none { color: var(--warning-text); }
 
 .em-pw-row {
   display: flex;
@@ -326,7 +322,7 @@ body[data-theme="dark"] .login-v2 .wl-link-btn { color: #74c0fc; }
 
 .em-pw-hint {
   font-size: 11.5px;
-  color: var(--muted);
+  color: var(--text-muted);
   margin-top: 6px;
   line-height: 1.6;
 }
@@ -339,12 +335,12 @@ body[data-theme="dark"] .login-v2 .wl-link-btn { color: #74c0fc; }
   margin-bottom: 12px;
 }
 
-.um-bulk-hint { font-size: 12px; color: var(--muted); }
+.um-bulk-hint { font-size: 12px; color: var(--text-muted); }
 
 .um-gen-box {
-  border: 1px solid rgba(22, 163, 74, 0.35);
-  background: rgba(22, 163, 74, 0.06);
-  border-radius: 10px;
+  border: 1px solid var(--success-line);
+  background: var(--success-tint);
+  border-radius: var(--r-md);
   padding: 12px;
   margin-bottom: 14px;
 }
@@ -354,7 +350,7 @@ body[data-theme="dark"] .login-v2 .wl-link-btn { color: #74c0fc; }
 
 .um-default-pw {
   font-size: 11px;
-  color: #d97706;
+  color: var(--warning-text);
   font-weight: 700;
   margin-top: 4px;
 }

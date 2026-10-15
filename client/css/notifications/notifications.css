@@ -1,8 +1,8 @@
 /* Notification drawer, toasts, highlight flash, rounded checkboxes and deleted permits. */
 
 .notif-bell-btn {
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
+  background: var(--surface-3);
+  border: 1px solid var(--border-strong);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -16,15 +16,15 @@
 }
 
 .notif-bell-btn:hover {
-  background: #e2e8f0;
+  background: var(--surface-3);
 }
 
 .notif-badge {
   position: absolute;
   top: -4px;
   right: -4px;
-  background: #dc2626;
-  color: #fff;
+  background: var(--danger-solid);
+  color: var(--on-solid);
   border-radius: 50%;
   font-size: 0.72rem;
   font-weight: bold;
@@ -32,20 +32,20 @@
   height: 19px;
   line-height: 19px;
   text-align: center;
-  box-shadow: 0 0 0 2px #fff;
+  box-shadow: 0 0 0 2px var(--surface);
 }
 
 .notif-header h3 {
   margin: 0;
   font-size: 1.05rem;
   font-weight: bold;
-  color: #0f172a;
+  color: var(--text);
 }
 
 .btn-mark-all {
   background: none;
   border: none;
-  color: var(--amber);
+  color: var(--brand-700);
   font-size: 0.8rem;
   font-weight: bold;
   cursor: pointer;
@@ -55,16 +55,16 @@
   padding: 4px 10px;
   font-size: 0.75rem;
   border-radius: 20px;
-  border: 1px solid #cbd5e1;
-  background: #fff;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
   cursor: pointer;
   white-space: nowrap;
 }
 
 .notif-pill.active {
-  background: var(--amber);
-  color: white;
-  border-color: var(--amber);
+  background: var(--brand-600);
+  color: var(--on-solid);
+  border-color: var(--brand-600);
 }
 
 .notif-item {
@@ -72,17 +72,17 @@
   align-items: flex-start;
   gap: 10px;
   padding: 12px 14px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border);
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .notif-item:hover {
-  background: #f8fafc;
+  background: var(--surface-2);
 }
 
 .notif-item.unread {
-  background: #FBEAEC;
+  background: var(--brand-50);
 }
 
 .notif-icon {
@@ -93,7 +93,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
-  background: #e2e8f0;
+  background: var(--surface-3);
   flex-shrink: 0;
 }
 
@@ -104,26 +104,26 @@
 .notif-title {
   font-size: 0.85rem;
   font-weight: bold;
-  color: #0f172a;
+  color: var(--text);
   margin-bottom: 2px;
 }
 
 .notif-msg {
   font-size: 0.78rem;
-  color: #475569;
+  color: var(--text-2);
   line-height: 1.35;
 }
 
 .notif-time {
   font-size: 0.7rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin-top: 4px;
 }
 
 .unread-dot {
   width: 8px;
   height: 8px;
-  background: var(--amber);
+  background: var(--brand-600);
   border-radius: 50%;
   align-self: center;
   flex-shrink: 0;
@@ -148,23 +148,23 @@
   position: fixed;
   top: 20px;
   right: 20px;
-  background: var(--paper);
+  background: var(--surface);
   color: var(--text);
   padding: 16px 20px;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-3);
   display: flex;
   align-items: center;
   gap: 12px;
   z-index: 10000;
-  border-right: 4px solid var(--primary);
+  border-right: 4px solid var(--brand-600);
   animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   max-width: 350px;
 }
 
 .notif-toast .toast-icon {
   font-size: 1.5rem;
-  background: var(--bg-color);
+  background: var(--surface-3);
   width: 40px;
   height: 40px;
   display: flex;
@@ -182,13 +182,13 @@
 
 .notif-toast .toast-content strong {
   font-size: 1rem;
-  color: var(--primary);
+  color: var(--brand-700);
 }
 
 .notif-toast .toast-content p {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--muted);
+  color: var(--text-muted);
   line-height: 1.4;
 }
 
@@ -231,14 +231,14 @@
 
 @keyframes notifHighlight {
   0% {
-    box-shadow: 0 0 0 4px var(--amber), 0 0 20px rgba(213, 30, 39, 0.6);
+    box-shadow: 0 0 0 4px var(--brand-600), var(--shadow-3);
     transform: scale(1.02);
     z-index: 10;
     position: relative;
   }
 
   50% {
-    box-shadow: 0 0 0 4px rgba(213, 30, 39, 0.5), 0 0 10px rgba(213, 30, 39, 0.3);
+    box-shadow: 0 0 0 4px var(--brand-line), var(--shadow-2);
     transform: scale(1);
     z-index: 10;
     position: relative;
@@ -263,8 +263,8 @@
 .pill-checkbox-box {
   width: 22px;
   height: 22px;
-  background-color: #faf9f5;
-  border: 1.5px solid #e2e8f0;
+  background-color: var(--surface);
+  border: 1.5px solid var(--border);
   border-radius: 8px;
   display: inline-flex;
   align-items: center;
@@ -274,17 +274,17 @@
 }
 
 .custom-pill-check:hover .pill-checkbox-box {
-  border-color: #cbd5e1;
+  border-color: var(--border-strong);
 }
 
 .pill-checkbox-input:checked+.pill-checkbox-box {
-  background-color: #dc2626;
-  border-color: #dc2626;
+  background-color: var(--brand-600);
+  border-color: var(--brand-600);
 }
 
 .pill-checkbox-input:checked+.pill-checkbox-box::after {
   content: '✓';
-  color: #ffffff;
+  color: var(--on-solid);
   font-size: 13px;
   font-weight: bold;
   line-height: 1;
@@ -293,7 +293,7 @@
 .sup-card.deleted {
   opacity: 0.7;
   filter: grayscale(1);
-  border: 2px dashed var(--danger);
+  border: 2px dashed var(--danger-solid);
 }
 
 @keyframes spin {

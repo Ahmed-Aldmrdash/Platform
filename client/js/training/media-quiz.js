@@ -100,7 +100,7 @@ function qmShowMsg(id, text, isError) {
   const el = document.getElementById(id);
   if (!el) return;
   el.textContent = text;
-  el.style.color = isError ? 'var(--danger)' : 'var(--success)';
+  el.style.color = isError ? 'var(--danger-text)' : 'var(--success-text)';
   el.style.display = text ? 'block' : 'none';
 }
 
@@ -299,7 +299,7 @@ function openWorkerRecordingModal(url) {
     `
     : `
       <h3 style="margin-top:0;">🎥 ${T("تسجيل المحاضرة")}</h3>
-      <p style="font-size:13px; color:var(--muted);">${T("التسجيل ده رابط خارجي — هيتفتح في تاب جديد.")}</p>
+      <p style="font-size:13px; color:var(--text-muted);">${T("التسجيل ده رابط خارجي — هيتفتح في تاب جديد.")}</p>
       <div class="app-modal-actions">
         <a class="submit-btn" style="text-decoration:none; text-align:center;" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${T("🔗 فتح التسجيل")}</a>
       </div>
@@ -329,7 +329,7 @@ async function openWorkerQuizModal(trainingId) {
       openAppModal(`
         <h3 style="margin-top:0;">📝 ${T("اختبار المحاضرة")}</h3>
         <p>${T("استنفدت عدد محاولات الاختبار المسموح بها.")} ${data.myAttempt ? (T('آخر نتيجة: ') + data.myAttempt.lastScore + '%') : ''}</p>
-        <p style="font-size:13px; color:var(--muted);">${T("اطلب من مسؤول السلامة يفتحلك محاولة إضافية.")}</p>
+        <p style="font-size:13px; color:var(--text-muted);">${T("اطلب من مسؤول السلامة يفتحلك محاولة إضافية.")}</p>
       `);
       return;
     }

@@ -86,9 +86,9 @@ async function renderMyHistory(isSilent = false){
         <div class="closure-box" style="margin-top:8px;">
           <div class="field"><input id="myhistory-closereason-${escapeHtml(p.id)}" type="text" placeholder="${T("سبب عدم الاكتمال أو الإغلاق الجبري (إن وجد)")}" style="font-size:12px;padding:6px;"></div>
           <div class="closure-actions" style="margin-top:4px;">
-            <button style="color:var(--success);" onclick="workerClosePermit(${jsArg(p.id)},'safe')">${T("اكتمل بأمان")}</button>
-            <button style="color:var(--amber);" onclick="workerClosePermit(${jsArg(p.id)},'incomplete')">${T("لم يكتمل")}</button>
-            <button style="color:var(--danger);" onclick="workerClosePermit(${jsArg(p.id)},'forced')">${T("إغلاق جبري")}</button>
+            <button style="color:var(--success-text);" onclick="workerClosePermit(${jsArg(p.id)},'safe')">${T("اكتمل بأمان")}</button>
+            <button style="color:var(--brand-700);" onclick="workerClosePermit(${jsArg(p.id)},'incomplete')">${T("لم يكتمل")}</button>
+            <button style="color:var(--danger-text);" onclick="workerClosePermit(${jsArg(p.id)},'forced')">${T("إغلاق جبري")}</button>
           </div>
         </div>
       ` : ''}

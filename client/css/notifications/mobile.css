@@ -8,7 +8,7 @@
   max-width: 90vw;
   background: var(--surface);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-3);
   border: 1px solid var(--border);
   z-index: 9999;
   display: flex;
@@ -69,23 +69,23 @@
 }
 
 .notif-item:hover {
-  background: #f8fafc;
+  background: var(--surface-2);
 }
 
 .notif-item.unread {
-  background: #f0f9ff;
-  border-right: 4px solid var(--primary);
+  background: var(--info-tint);
+  border-right: 4px solid var(--brand-600);
 }
 
 .notif-item.unread:hover {
-  background: #e0f2fe;
+  background: var(--info-tint);
 }
 
 .notif-icon-wrap {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #e2e8f0;
+  background: var(--surface-3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +94,7 @@
 }
 
 .notif-item.unread .notif-icon-wrap {
-  background: #bae6fd;
+  background: var(--info-tint);
 }
 
 .notif-content {
@@ -117,13 +117,13 @@
 
 .notif-time {
   font-size: 11px;
-  color: var(--muted);
+  color: var(--text-muted);
   white-space: nowrap;
 }
 
 .notif-message {
   font-size: 13px;
-  color: var(--muted);
+  color: var(--text-muted);
   margin: 0;
   line-height: 1.4;
 }
@@ -131,25 +131,25 @@
 .pulse-dot {
   width: 8px;
   height: 8px;
-  background-color: var(--primary);
+  background-color: var(--brand-600);
   border-radius: 50%;
   display: inline-block;
   margin-right: 6px;
-  box-shadow: 0 0 0 rgba(14, 165, 233, 0.4);
+  box-shadow: 0 0 0 0 transparent;
   animation: pulse-animation 2s infinite;
 }
 
 @keyframes pulse-animation {
   0% {
-    box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand-600) 60%, transparent);
   }
 
   70% {
-    box-shadow: 0 0 0 6px rgba(14, 165, 233, 0);
+    box-shadow: 0 0 0 6px transparent;
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
+    box-shadow: 0 0 0 0 transparent;
   }
 }
 
@@ -177,8 +177,8 @@
   top: 20px;
   right: 20px;
   background: var(--surface);
-  border-left: 4px solid var(--primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-left: 4px solid var(--brand-600);
+  box-shadow: var(--shadow-2);
   padding: 16px;
   border-radius: 8px;
   z-index: 10000;

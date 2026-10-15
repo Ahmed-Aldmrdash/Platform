@@ -2,7 +2,7 @@
 
 const { renderPrintDocument, esc } = require('./print-template');
 
-const TONE_COLORS = { success: '#16A34A', danger: '#DC2626', warning: '#D97706', info: '#2563EB', neutral: '#334155' };
+const TONE_COLORS = { success: '#067647', danger: '#B42318', warning: '#B54708', info: '#175CD3', neutral: '#4A4D55' };
 
 /** Public page behind the QR code on printed documents. Shows minimal, escaped data only. */
 function verifyPageHtml({ title, rows, statusLabel, statusColor }) {
@@ -16,8 +16,8 @@ function verifyPageHtml({ title, rows, statusLabel, statusColor }) {
 <meta name="robots" content="noindex, nofollow">
 <title>${safeTitle} — HSE Platform</title>
 <style>
-  body{font-family:'Cairo',Tahoma,sans-serif;background:#0F172A;color:#fff;margin:0;padding:24px;min-height:100vh;box-sizing:border-box;display:flex;align-items:center;justify-content:center;}
-  .card{background:#fff;color:#0F172A;border-radius:16px;padding:28px 24px;max-width:420px;width:100%;box-shadow:0 20px 60px -10px rgba(0,0,0,.5);}
+  body{font-family:'Cairo',Tahoma,sans-serif;background:#F5F6F7;color:#1E1F22;margin:0;padding:24px;min-height:100vh;box-sizing:border-box;display:flex;align-items:center;justify-content:center;}
+  .card{background:#fff;color:#1E1F22;border:1px solid #E4E5E7;border-top:4px solid #D51E27;border-radius:10px;padding:28px 24px;max-width:420px;width:100%;box-shadow:0 4px 12px rgba(16,24,40,.08);}
   .brand{font-size:12px;color:#64748B;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
   h1{font-size:19px;margin:0 0 16px;}
   .status{display:inline-block;padding:8px 18px;border-radius:8px;font-weight:800;font-size:14px;border:2px solid ${color};color:${color};margin-bottom:18px;}

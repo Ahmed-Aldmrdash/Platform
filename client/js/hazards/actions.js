@@ -203,11 +203,11 @@ window.populateTrainerInfo = function() {
   }
 
   nameInput.readOnly = true;
-  nameInput.style.backgroundColor = '#f1f5f9';
+  nameInput.style.backgroundColor = 'var(--surface-3)';
   nameInput.style.cursor = 'not-allowed';
 
   codeInput.readOnly = true;
-  codeInput.style.backgroundColor = '#f1f5f9';
+  codeInput.style.backgroundColor = 'var(--surface-3)';
   codeInput.style.cursor = 'not-allowed';
 };
 

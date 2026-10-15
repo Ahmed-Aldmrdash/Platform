@@ -2,8 +2,9 @@
 
 // Shared A4 print layout (header, logo, tables, signature boxes) and RTL-safe formatting helpers.
 
-const BRAND_RED = '#E2001A';
-const BRAND_DARK = '#8A0E1F';
+// El Sewedy identity (docs/design/el-sewedy-identity-spec.md); printed pages cannot read the app's CSS tokens.
+const BRAND_RED = '#D51E27';
+const BRAND_DARK = '#8F1B20';
 
 function esc(v) {
   if (v === null || v === undefined) return '';
@@ -84,11 +85,11 @@ body {
   background: #E5E7EB; -webkit-print-color-adjust: exact; print-color-adjust: exact;
 }
 .sheet { background: #fff; width: 210mm; max-width: 100%; margin: 14px auto; padding: 13mm 11mm 12mm; box-shadow: 0 4px 24px rgba(0,0,0,.10); }
-.toolbar { position: sticky; top: 0; z-index: 5; background: #111827; color: #fff; padding: 10px 14px; text-align: center; }
+.toolbar { position: sticky; top: 0; z-index: 5; background: #fff; color: #1E1F22; border-bottom: 1px solid #E4E5E7; padding: 10px 14px; text-align: center; }
 .toolbar button { font: inherit; font-weight: 700; border: 0; border-radius: 8px; padding: 8px 18px; margin: 0 4px; cursor: pointer; }
 .toolbar .primary { background: ${BRAND_RED}; color: #fff; }
-.toolbar .pdf { background: #fff; color: #111827; }
-.toolbar .ghost { background: #374151; color: #fff; }
+.toolbar .pdf { background: #fff; color: #1E1F22; border: 1px solid #D2D4D8; }
+.toolbar .ghost { background: #F0F1F3; color: #1E1F22; }
 .toolbar button:disabled { opacity: .6; cursor: progress; }
 .toolbar .hint { display: block; font-size: 9pt; opacity: .75; margin-top: 4px; }
 /* حفظ PDF مباشر: الورقة بتتصوّر بمقاس A4 ثابت (794px) مهما كان عرض الشاشة */
@@ -125,7 +126,7 @@ h1 { font-size: 17pt; margin: 0; color: ${BRAND_DARK}; line-height: 1.3; }
 .kv tr, .data tr { break-inside: avoid; page-break-inside: avoid; }
 .data { width: 100%; font-size: 9.5pt; }
 .data thead { display: table-header-group; }
-.data th { background: #1F2937; color: #fff; padding: 5px 7px; text-align: right; font-weight: 700; border: 1px solid #1F2937; }
+.data th { background: #F0F1F3; color: #1E1F22; padding: 5px 7px; text-align: right; font-weight: 700; border: 1px solid #D2D4D8; }
 .data td { border: 1px solid #E5E7EB; padding: 4px 7px; vertical-align: top; text-align: right; overflow-wrap: anywhere; }
 .data tbody tr:nth-child(even) td { background: #FAFAFA; }
 .data .num { text-align: center; direction: ltr; unicode-bidi: isolate; white-space: nowrap; }

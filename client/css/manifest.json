@@ -1,4 +1,5 @@
 [
+  "base/tokens.css",
   "base/variables-theme.css",
   "base/layout.css",
   "components/design-system.css",

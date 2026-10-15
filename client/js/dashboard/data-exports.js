@@ -44,11 +44,11 @@ const _dashCenterTextPlugin = {
     ctx.save();
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = '800 26px Cairo, sans-serif';
-    ctx.fillStyle = '#1f2937';
+    ctx.font = '800 26px Alexandria, Cairo, sans-serif';
+    ctx.fillStyle = cssToken('--text');
     ctx.fillText(opts.total.toLocaleString(LOC()), cx, cy - 10);
-    ctx.font = '600 12px Cairo, sans-serif';
-    ctx.fillStyle = '#94a3b8';
+    ctx.font = '600 12px Alexandria, Cairo, sans-serif';
+    ctx.fillStyle = cssToken('--text-muted');
     ctx.fillText(opts.label, cx, cy + 14);
     ctx.restore();
   }
@@ -73,16 +73,24 @@ const PERMIT_TYPE_LABELS = {
   lockout:    'فصل وعزل',
 };
 
+// Chart series token per permit type (resolved when the chart is drawn).
 const PERMIT_TYPE_COLORS = {
-  general:    '#333333',
-  height:     '#E2001A',
-  confined:   '#6B6B6B',
-  excavation: '#D97706',
-  lifting:    '#8A0E1F',
-  hot:        '#A6000F',
-  loto:       '#9CA3AF',
-  lockout:    '#9CA3AF',
+  general:    '--chart-2',
+  height:     '--chart-1',
+  confined:   '--chart-3',
+  excavation: '--chart-4',
+  lifting:    '--chart-5',
+  hot:        '--brand-800',
+  loto:       '--chart-7',
+  lockout:    '--chart-7',
 };
+
+// Charts are drawn with resolved colors, so they are redrawn when the theme changes.
+document.addEventListener('themechange', () => {
+  if (!_dashLastData) return;
+  if (document.getElementById('chartPersonalHazard')) renderPersonalCharts(_dashLastData);
+  else if (document.getElementById('chartPermitStatus')) renderDashboardCharts(_dashLastData);
+});
 
 function _destroyChart(id) {
   if (_dashCharts[id]) {

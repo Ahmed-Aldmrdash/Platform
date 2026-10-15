@@ -1,0 +1,152 @@
+/*
+ * Design tokens: the El Sewedy identity in one place (docs/design/el-sewedy-identity-spec.md).
+ * White carries the interface; brand red is an accent. Dark mode overrides the same tokens.
+ */
+
+:root {
+  /* Brand */
+  --brand-600: #D51E27;
+  --brand-700: #B82328;
+  --brand-800: #8F1B20;
+  --brand-50: #FFF5F5;
+  --brand-100: #FBE3E4;
+  --brand-fill-hover: #B82328;
+  --brand-line: #F2B8BB;
+
+  /* Neutrals */
+  --bg: #F5F6F7;
+  --surface: #FFFFFF;
+  --surface-2: #FAFAFB;
+  --surface-3: #F0F1F3;
+  --border: #E4E5E7;
+  --border-strong: #D2D4D8;
+  --input-border: #8B909A;
+  --overlay: rgba(16, 24, 40, 0.45);
+  --logo-tile: #FFFFFF; /* the logo always sits on white, in both themes */
+  --fixed-white: #FFFFFF; /* signature pads, QR codes and photos that must stay white */
+  --media-bg: #0B0C0E; /* photo viewer and video backdrops stay dark in both themes */
+  --media-scrim: rgba(11, 12, 14, 0.9);
+
+  /* Text */
+  --text: #1E1F22;
+  --text-2: #4A4D55;
+  --text-muted: #6B6F78;
+  --on-solid: #FFFFFF;
+  --on-warning: #1E1F22;
+
+  /* Semantic: solid (buttons, icons), text, tint (badges, callouts), line (tinted borders) */
+  --success-solid: #15803D;
+  --success-text: #067647;
+  --success-tint: #ECFDF3;
+  --success-line: #ABEFC6;
+  --warning-solid: #F59E0B;
+  --warning-text: #B54708;
+  --warning-tint: #FFFAEB;
+  --warning-line: #FEDF89;
+  --info-solid: #175CD3;
+  --info-text: #175CD3;
+  --info-tint: #EFF8FF;
+  --info-line: #B2DDFF;
+  --danger-solid: #B42318;
+  --danger-text: #B42318;
+  --danger-tint: #FEF3F2;
+  --danger-line: #FECDCA;
+  --critical-text: #7A271A;
+  --critical-tint: #FEE4E2;
+  --critical-line: #FDA29B;
+  --neutral-text: #4A4D55;
+  --neutral-tint: #F0F1F3;
+  --neutral-solid: #4A4D55; /* dark fill with white text, same in both themes */
+  --neutral-solid-hover: #1E1F22;
+
+  /* Charts: brand first, then neutrals and distinct hues */
+  --chart-1: #D51E27;
+  --chart-2: #3B3F46;
+  --chart-3: #8B909A;
+  --chart-4: #F59E0B;
+  --chart-5: #175CD3;
+  --chart-6: #12B76A;
+  --chart-7: #7A5AF8;
+  --chart-grid: #E4E5E7;
+
+  /* Typography */
+  --font: "Alexandria", "Cairo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-md: 14px;
+  --fs-lg: 16px;
+  --fs-xl: 18px;
+  --fs-2xl: 22px;
+  --fs-3xl: 28px;
+
+  /* Shape, spacing, elevation, layers */
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-pill: 999px;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --shadow-1: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-2: 0 4px 12px rgba(16, 24, 40, 0.08);
+  --shadow-3: 0 16px 40px rgba(16, 24, 40, 0.18);
+  --focus-ring: 0 0 0 3px rgba(213, 30, 39, 0.30);
+  --z-sticky: 10;
+  --z-dropdown: 100;
+  --z-overlay: 1000;
+  --z-toast: 1100;
+
+  color-scheme: light;
+}
+
+body[data-theme="dark"] {
+  --brand-700: #F0686C;
+  --brand-50: rgba(213, 30, 39, 0.14);
+  --brand-100: rgba(213, 30, 39, 0.22);
+  --brand-line: rgba(240, 104, 108, 0.45);
+
+  --bg: #0F1012;
+  --surface: #17181B;
+  --surface-2: #1F2024;
+  --surface-3: #26282D;
+  --border: #2E3036;
+  --border-strong: #3A3D44;
+  --input-border: #6E737C;
+  --overlay: rgba(0, 0, 0, 0.6);
+
+  --text: #ECEDEF;
+  --text-2: #C9CBD0;
+  --text-muted: #A3A7AE;
+
+  --success-text: #4ADE80;
+  --success-tint: rgba(18, 183, 106, 0.14);
+  --success-line: rgba(18, 183, 106, 0.4);
+  --warning-text: #FBBF24;
+  --warning-tint: rgba(245, 158, 11, 0.14);
+  --warning-line: rgba(245, 158, 11, 0.4);
+  --info-text: #60A5FA;
+  --info-tint: rgba(23, 92, 211, 0.18);
+  --info-line: rgba(96, 165, 250, 0.4);
+  --danger-text: #F97066;
+  --danger-tint: rgba(180, 35, 24, 0.18);
+  --danger-line: rgba(249, 112, 102, 0.4);
+  --critical-text: #F97066;
+  --critical-tint: rgba(122, 39, 26, 0.35);
+  --critical-line: #7A271A;
+  --neutral-text: #C9CBD0;
+  --neutral-tint: #26282D;
+
+  --chart-2: #C9CBD0;
+  --chart-grid: #2E3036;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-3: 0 16px 40px rgba(0, 0, 0, 0.6);
+
+  color-scheme: dark;
+}

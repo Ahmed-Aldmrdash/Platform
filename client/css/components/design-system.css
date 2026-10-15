@@ -29,46 +29,46 @@
 .btn-block { display: flex; width: 100%; }
 
 .btn-primary {
-  background: var(--brand-primary);
-  border-color: var(--brand-primary);
-  color: #fff;
-  box-shadow: 0 2px 8px -2px rgba(30, 64, 175, 0.45);
+  background: var(--brand-600);
+  border-color: var(--brand-600);
+  color: var(--on-solid);
+  box-shadow: none;
 }
-.btn-primary:hover { background: var(--brand-primary-dark); border-color: var(--brand-primary-dark); }
+.btn-primary:hover { background: var(--brand-fill-hover); border-color: var(--brand-fill-hover); }
 
 .btn-secondary {
-  background: #fff;
-  border-color: var(--brand-slate-200);
-  color: var(--brand-slate-900);
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
 }
-.btn-secondary:hover { background: var(--brand-slate-100); border-color: var(--brand-slate-500); }
+.btn-secondary:hover { background: var(--surface-3); border-color: var(--text-muted); }
 
 .btn-dark {
-  background: var(--brand-slate-900);
-  border-color: var(--brand-slate-900);
-  color: #fff;
+  background: var(--neutral-solid);
+  border-color: var(--neutral-solid);
+  color: var(--on-solid);
 }
-.btn-dark:hover { background: #000; }
+.btn-dark:hover { background: var(--neutral-solid-hover); border-color: var(--neutral-solid-hover); }
 
 .btn-danger {
-  background: var(--danger);
-  border-color: var(--danger);
-  color: #fff;
+  background: var(--danger-solid);
+  border-color: var(--danger-solid);
+  color: var(--on-solid);
 }
-.btn-danger:hover { background: #B91C1C; border-color: #B91C1C; }
+.btn-danger:hover { background: var(--danger-solid); border-color: var(--danger-solid); }
 .btn-danger-outline {
-  background: #fff;
-  border-color: var(--danger);
-  color: var(--danger);
+  background: var(--surface);
+  border-color: var(--danger-solid);
+  color: var(--danger-text);
 }
-.btn-danger-outline:hover { background: #FEF2F2; }
+.btn-danger-outline:hover { background: var(--danger-tint); }
 
 .btn-success {
-  background: var(--success);
-  border-color: var(--success);
-  color: #fff;
+  background: var(--success-solid);
+  border-color: var(--success-solid);
+  color: var(--on-solid);
 }
-.btn-success:hover { background: #15803D; border-color: #15803D; }
+.btn-success:hover { background: var(--success-solid); border-color: var(--success-solid); }
 
 .form-input,
 .field input,
@@ -80,7 +80,7 @@
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  border-color: var(--brand-primary) !important;
+  border-color: var(--brand-600) !important;
   box-shadow: var(--focus-ring);
   outline: none;
 }
@@ -100,31 +100,31 @@
 .badge-approved,
 .badge-success,
 .badge-green {
-  background: #DCFCE7;
-  color: #15803D;
-  border-color: #BBF7D0;
+  background: var(--success-tint);
+  color: var(--success-text);
+  border-color: var(--success-line);
 }
 .badge-warning,
 .badge-yellow {
-  background: #FEF3C7;
-  color: #B45309;
-  border-color: #FDE68A;
+  background: var(--warning-tint);
+  color: var(--warning-text);
+  border-color: var(--warning-line);
 }
 .badge-danger,
 .badge-red {
-  background: #FEE2E2;
-  color: #B91C1C;
-  border-color: #FECACA;
+  background: var(--danger-tint);
+  color: var(--danger-text);
+  border-color: var(--danger-line);
 }
 .badge-info {
-  background: #DBEAFE;
-  color: #1D4ED8;
-  border-color: #BFDBFE;
+  background: var(--info-tint);
+  color: var(--info-text);
+  border-color: var(--info-line);
 }
 .badge-neutral {
-  background: var(--brand-slate-100);
-  color: var(--brand-slate-700);
-  border-color: var(--brand-slate-200);
+  background: var(--surface-3);
+  color: var(--text-2);
+  border-color: var(--border);
 }
 
 .kpi-grid {
@@ -134,11 +134,11 @@
   margin-bottom: 24px;
 }
 .kpi-card {
-  background: var(--paper);
-  border: 1px solid var(--paper-line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 18px 20px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-1);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -152,11 +152,11 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background: var(--kpi-accent, var(--brand-primary));
+  background: var(--kpi-accent);
 }
-.kpi-card.kpi-danger  { --kpi-accent: var(--danger); }
-.kpi-card.kpi-success { --kpi-accent: var(--success); }
-.kpi-card.kpi-warning { --kpi-accent: var(--warning); }
+.kpi-card.kpi-danger  { --kpi-accent: var(--danger-solid); }
+.kpi-card.kpi-success { --kpi-accent: var(--success-solid); }
+.kpi-card.kpi-warning { --kpi-accent: var(--warning-text); }
 .kpi-card-top {
   display: flex;
   align-items: center;
@@ -169,17 +169,17 @@
 .kpi-value {
   font-size: 28px;
   font-weight: 900;
-  color: var(--brand-slate-900);
+  color: var(--text);
   line-height: 1.1;
 }
 .kpi-label {
   font-size: 12.5px;
-  color: var(--muted);
+  color: var(--text-muted);
   font-weight: 700;
 }
 .kpi-sub {
   font-size: 11.5px;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 
 @keyframes skeleton-shimmer {
@@ -189,7 +189,7 @@
 .skeleton {
   display: block;
   border-radius: 8px;
-  background: linear-gradient(90deg, #EEF1F5 25%, #E2E8F0 37%, #EEF1F5 63%);
+  background: linear-gradient(90deg, var(--surface-3) 25%, var(--border) 37%, var(--surface-3) 63%);
   background-size: 400px 100%;
   animation: skeleton-shimmer 1.4s ease-in-out infinite;
 }
@@ -202,8 +202,8 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,.45);
-  border-top-color: #fff;
+  border: 2px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-top-color: currentColor;
   animation: spin-360 .7s linear infinite;
   display: inline-block;
 }
@@ -213,13 +213,13 @@
   justify-content: center;
   gap: 10px;
   padding: 24px;
-  color: var(--muted);
+  color: var(--text-muted);
   font-weight: 700;
   font-size: 13.5px;
 }
 .loading-inline .btn-spinner {
-  border: 2px solid var(--brand-slate-200);
-  border-top-color: var(--brand-primary);
+  border: 2px solid var(--border);
+  border-top-color: var(--brand-600);
   width: 18px;
   height: 18px;
 }
@@ -227,33 +227,33 @@
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--paper);
+  background: var(--surface);
   border-radius: 12px;
   overflow: hidden;
   font-size: 13.5px;
 }
 .data-table th {
-  background: var(--brand-slate-100);
-  color: var(--brand-slate-700);
-  font-weight: 800;
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-weight: 700;
   text-align: center;
   padding: 10px 12px;
-  border-bottom: 2px solid var(--paper-line);
+  border-bottom: 2px solid var(--border);
   white-space: nowrap;
 }
 .data-table td {
   padding: 10px 12px;
   text-align: center;
-  border-bottom: 1px solid var(--paper-line);
+  border-bottom: 1px solid var(--border);
   vertical-align: middle;
 }
-.data-table tbody tr:hover { background: #F8FAFC; }
+.data-table tbody tr:hover { background: var(--surface-2); }
 .data-table tbody tr:last-child td { border-bottom: none; }
 
 .force-pw-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,21 +261,21 @@
   padding: 16px;
 }
 .force-pw-card {
-  background: #fff;
+  background: var(--surface);
   border-radius: 16px;
   padding: 28px 24px;
   max-width: 420px;
   width: 100%;
-  box-shadow: 0 20px 60px -10px rgba(0,0,0,.35);
+  box-shadow: var(--shadow-3);
 }
 .force-pw-card h3 {
   margin: 0 0 6px;
-  color: var(--brand-slate-900);
+  color: var(--text);
   font-size: 18px;
 }
 .force-pw-card p {
   margin: 0 0 18px;
-  color: var(--muted);
+  color: var(--text-muted);
   font-size: 13.5px;
   line-height: 1.6;
 }
@@ -283,19 +283,19 @@
   width: 100%;
   padding: 11px 14px;
   border-radius: 10px;
-  border: 1px solid var(--paper-line);
+  border: 1px solid var(--border);
   margin-bottom: 12px;
   font-family: inherit;
   font-size: 14px;
   box-sizing: border-box;
 }
 .force-pw-card input:focus {
-  border-color: var(--brand-primary);
+  border-color: var(--brand-600);
   box-shadow: var(--focus-ring);
   outline: none;
 }
 .force-pw-error {
-  color: var(--danger);
+  color: var(--danger-text);
   font-size: 12.5px;
   font-weight: 700;
   margin: -6px 0 12px;

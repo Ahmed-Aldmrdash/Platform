@@ -171,7 +171,7 @@ async function loadPermitsPage({ append = false, silent = false } = {}) {
   } catch (e) {
     if (seq !== _pmLoadSeq) return;
     if (!silent && container) {
-      container.innerHTML = `<div class="empty" style="color:var(--danger)"><div class="icon">⚠️</div>${T('تعذّر تحميل التصاريح — حاول تاني')}</div>`;
+      container.innerHTML = `<div class="empty" style="color:var(--danger-text)"><div class="icon">⚠️</div>${T('تعذّر تحميل التصاريح — حاول تاني')}</div>`;
     }
   }
 }
@@ -284,19 +284,19 @@ function permitDetailsHtml(p) {
     checklistBySection[sec].push(c);
   });
   const checklistHtml = Object.entries(checklistBySection).map(([sec, items]) => `
-      <div style="font-size:11.5px;font-weight:800;color:var(--steel);letter-spacing:0.5px;padding:6px 0 3px;border-bottom:1px solid var(--paper-line);margin-bottom:3px;">${escapeHtml(T(sec))}</div>
+      <div style="font-size:11.5px;font-weight:800;color:var(--text-2);letter-spacing:0.5px;padding:6px 0 3px;border-bottom:1px solid var(--border);margin-bottom:3px;">${escapeHtml(T(sec))}</div>
       ${items.map(c=>`
-      <div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid var(--paper-line);font-size:12.5px;">
+      <div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);font-size:12.5px;">
         <span>${escapeHtml(T(c.question))}</span>
-        <span style="font-weight:700;color:${c.answer==='لا'?'var(--danger)':c.answer==='نعم'?'var(--success)':'var(--muted)'};white-space:nowrap;">${escapeHtml(T(c.answer))}</span>
+        <span style="font-weight:700;color:${c.answer==='لا'?'var(--danger-text)':c.answer==='نعم'?'var(--success-text)':'var(--text-muted)'};white-space:nowrap;">${escapeHtml(T(c.answer))}</span>
       </div>`).join('')}
     `).join('');
   const risksHtml = (p.risks||[]).map(r=>`
       <div class="risk-summary">
         <b>${escapeHtml(r.source)}</b> — L${escapeHtml(String(r.l))}×S${escapeHtml(String(r.s))} = ${escapeHtml(String(r.score))}
-        ${r.control ? `<br><span style="color:var(--muted);">${escapeHtml(r.control)}</span>` : ''}
+        ${r.control ? `<br><span style="color:var(--text-muted);">${escapeHtml(r.control)}</span>` : ''}
       </div>
-    `).join('') || `<div class="risk-summary" style="color:var(--muted);">${T("لا توجد مخاطر مسجلة")}</div>`;
+    `).join('') || `<div class="risk-summary" style="color:var(--text-muted);">${T("لا توجد مخاطر مسجلة")}</div>`;
 
   return `
         <div class="section-title" style="margin-top:14px;">${T("قائمة التحقق")}</div>
@@ -374,7 +374,7 @@ function renderList(){
         <div><span>${T("الصفة")}</span>${escapeHtml(T(p.requesterKind))||'—'}</div>
         <div>
           <span>${T("الكود الوظيفي")}</span>
-          ${p.employeeId ? escapeHtml(p.employeeId) : T('<span style="color:var(--danger);font-weight:700;">غير مسجل ⚠</span>')}
+          ${p.employeeId ? escapeHtml(p.employeeId) : T('<span style="color:var(--danger-text);font-weight:700;">غير مسجل ⚠</span>')}
         </div>
       </div>
       ${!p.employeeId ? `
@@ -434,7 +434,7 @@ function renderList(){
       ${p.status === 'approved' ? `
         ${p.areaHeadReviewedBy ? `<div class="reviewed-by">${T("موافقة رئيس منطقة:")} ${escapeHtml(p.areaHeadReviewedBy)} — ${p.areaHeadReviewedAt ? new Date(p.areaHeadReviewedAt).toLocaleString(LOC()) : ''}</div>` : ''}
         <div class="reviewed-by">${T("اعتمدته الإدارة:")} ${escapeHtml(p.reviewedBy)||T('الإدارة')} — ${p.reviewedAt ? new Date(p.reviewedAt).toLocaleString(LOC()) : ''}</div>
-        <div class="review-note" style="background-color: var(--card-bg); border: 1px dashed var(--success);">
+        <div class="review-note" style="background-color: var(--surface-2); border: 1px dashed var(--success-solid);">
           ${T("🔒 الطلب معتمد ومفتوح. يمكن للموظف إغلاقه من حسابه.")}
         </div>
       ` : ''}
@@ -451,14 +451,14 @@ function renderList(){
         ${p.closure && p.closure.reason ? `<div class="review-note">${T("السبب:")} ${escapeHtml(p.closure.reason)}</div>` : ''}
       ` : ''}
       ${currentFilter === '🗑️ المحذوفات' ? `
-        <div style="margin-top:12px; border-top:1px solid var(--paper-line); padding-top:10px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="margin-top:12px; border-top:1px solid var(--border); padding-top:10px; display: flex; flex-direction: column; gap: 8px;">
           ${(currentUserRole === 'super_admin' || p.deletedByUsername === currentUsername || p.lastDeletedByUsername === currentUsername) ? `
           <div style="display: flex; gap: 8px;">
-            <button class="act-btn" style="flex:1; background:var(--success); color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="restorePermit(${jsArg(p.id)})">${T("🔄 استرجاع")}</button>
-            <button class="act-btn" style="flex:1; background:var(--danger); color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="hardDeletePermit(${jsArg(p.id)})">${T("❌ حذف نهائي")}</button>
+            <button class="act-btn" style="flex:1; background:var(--success-solid); color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="restorePermit(${jsArg(p.id)})">${T("🔄 استرجاع")}</button>
+            <button class="act-btn" style="flex:1; background:var(--danger-solid); color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="hardDeletePermit(${jsArg(p.id)})">${T("❌ حذف نهائي")}</button>
           </div>
           ` : ''}
-          ${(p.lastDeletedByUsername || p.deletedByUsername) ? `<div style="font-size:12px; color:var(--danger); margin-top:4px; font-weight:bold;">${T("حُذف بواسطة:")} ${escapeHtml(p.lastDeletedByUsername || p.deletedByUsername || T('المشرف'))} ${p.deleteReason ? `${T("| السبب:")} ${escapeHtml(p.deleteReason)}` : ''}</div>` : ''}
+          ${(p.lastDeletedByUsername || p.deletedByUsername) ? `<div style="font-size:12px; color:var(--danger-text); margin-top:4px; font-weight:bold;">${T("حُذف بواسطة:")} ${escapeHtml(p.lastDeletedByUsername || p.deletedByUsername || T('المشرف'))} ${p.deleteReason ? `${T("| السبب:")} ${escapeHtml(p.deleteReason)}` : ''}</div>` : ''}
         </div>
       ` : ''}
       ${currentFilter !== '🗑️ المحذوفات' && (currentUserRole === 'super_admin' || currentUserRole === 'hse_admin' || currentUserRole === 'dept_admin' || currentUserRole === 'maint_admin') ? `

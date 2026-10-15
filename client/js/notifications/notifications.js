@@ -194,7 +194,7 @@ function renderNotifications() {
     `;
   }).join('');
 
-  listEl.innerHTML = filteredNotifications.length === 0 ? T('<li style="padding:16px; text-align:center; color:var(--muted);">لا توجد إشعارات</li>') : html;
+  listEl.innerHTML = filteredNotifications.length === 0 ? T('<li style="padding:16px; text-align:center; color:var(--text-muted);">لا توجد إشعارات</li>') : html;
 
   if (unreadCount > 0) {
     badgeEl.textContent = unreadCount;
@@ -317,7 +317,7 @@ function showAppToast(title, message, onClick) {
     <div style="font-size: 24px;">🔔</div>
     <div style="flex:1;">
       <div style="font-weight:700; margin-bottom:4px; font-size:14px;">${escapeHtml(T(title))}</div>
-      <div style="font-size:12px; color:var(--muted);">${escapeHtml(T(message))}</div>
+      <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(T(message))}</div>
     </div>
   `;
   if (onClick) {

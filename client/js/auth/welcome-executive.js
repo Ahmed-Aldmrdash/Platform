@@ -153,13 +153,13 @@ async function lookupPermitEmpCode() {
       set('f_jobTitle', emp.jobTitle);
       const deptEl = safeEl('f_dept');
       if (deptEl) deptEl.value = emp.department || '';
-      if (msgEl) { msgEl.textContent = `✅ ${emp.name} — ${emp.department||''}${emp.jobTitle?' | '+emp.jobTitle:''}`; msgEl.style.color='var(--success)'; }
+      if (msgEl) { msgEl.textContent = `✅ ${emp.name} — ${emp.department||''}${emp.jobTitle?' | '+emp.jobTitle:''}`; msgEl.style.color = 'var(--success-text)'; }
     } else {
-      if (msgEl) { msgEl.textContent = T('الكود غير مسجل، يرجى كتابة البيانات يدوياً'); msgEl.style.color='var(--muted)'; }
+      if (msgEl) { msgEl.textContent = T('الكود غير مسجل، يرجى كتابة البيانات يدوياً'); msgEl.style.color = 'var(--text-muted)'; }
       ['f_name','f_jobTitle'].forEach(id => { const el=safeEl(id); if(el) el.removeAttribute('readonly'); });
     }
   } catch(e) {
-    if (msgEl) { msgEl.textContent = T('خطأ في البحث'); msgEl.style.color='var(--danger)'; }
+    if (msgEl) { msgEl.textContent = T('خطأ في البحث'); msgEl.style.color = 'var(--danger-text)'; }
   }
 }
 

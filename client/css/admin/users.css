@@ -16,14 +16,14 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 24px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
   padding: 6px 14px 6px 6px;
   font-size: clamp(12px, 3vw, 13px);
-  font-weight: 700;
-  color: #1e293b;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  color: var(--text);
+  box-shadow: none;
 }
 
 .chip-avatar {
@@ -33,21 +33,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--on-solid);
   font-size: 12px;
   flex-shrink: 0;
 }
 
 .chip-avatar.super_admin {
-  background: #991b1b;
+  background: var(--brand-800);
 }
 
 .chip-avatar.hse_admin {
-  background: var(--amber);
+  background: var(--brand-600);
 }
 
 .chip-avatar.dept_admin {
-  background: #333333;
+  background: var(--neutral-solid);
 }
 
 .chip-info {
@@ -58,16 +58,16 @@
 
 .chip-role {
   font-size: 10px;
-  color: #64748b;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .profile-dept-pill {
   display: inline-block;
   margin-right: 8px;
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
-  color: #475569;
+  background: var(--surface-3);
+  border: 1px solid var(--border-strong);
+  color: var(--text-2);
   font-size: 10px;
   padding: 2px 8px;
   border-radius: 12px;
@@ -75,12 +75,12 @@
 }
 
 .um-add-card {
-  background: var(--paper);
-  border-radius: var(--radius);
+  background: var(--surface);
+  border-radius: var(--r-lg);
   padding: 18px;
   margin-bottom: 16px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--paper-line);
+  box-shadow: var(--shadow-1);
+  border: 1px solid var(--border);
 }
 
 .um-msg {
@@ -96,21 +96,21 @@
 }
 
 .um-msg.success {
-  background: rgba(31, 122, 61, 0.1);
-  color: var(--success);
+  background: var(--success-tint);
+  color: var(--success-text);
 }
 
 .um-msg.error {
-  background: rgba(200, 20, 33, 0.08);
-  color: var(--danger);
+  background: var(--danger-tint);
+  color: var(--danger-text);
 }
 
 .um-table-wrap {
-  background: var(--paper);
-  border-radius: var(--radius);
+  background: var(--surface);
+  border-radius: var(--r-lg);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-1);
 }
 
 .um-table {
@@ -121,8 +121,8 @@
 }
 
 .um-table thead tr {
-  background: var(--ink);
-  color: #fff;
+  background: var(--surface-2);
+  color: var(--text-2);
 }
 
 .um-table thead th {
@@ -130,17 +130,17 @@
   text-align: right;
   font-weight: 700;
   font-size: 12px;
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   letter-spacing: 0.5px;
 }
 
 .um-table tbody tr {
-  border-bottom: 1px solid var(--paper-line);
+  border-bottom: 1px solid var(--border);
   transition: background .12s;
 }
 
 .um-table tbody tr:hover {
-  background: var(--charcoal-2);
+  background: var(--surface-3);
 }
 
 .um-table tbody td {
@@ -156,7 +156,7 @@
   display: inline-block;
   font-size: 11px;
   font-weight: 700;
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   letter-spacing: 0.8px;
   padding: 3px 9px;
   border-radius: 12px;
@@ -164,21 +164,21 @@
 }
 
 .role-badge.super_admin {
-  background: rgba(124, 29, 29, 0.1);
-  color: var(--critical);
-  border: 1px solid rgba(124, 29, 29, 0.3);
+  background: var(--brand-50);
+  color: var(--critical-text);
+  border: 1px solid var(--brand-line);
 }
 
 .role-badge.hse_admin {
-  background: rgba(226, 0, 26, 0.1);
-  color: var(--amber);
-  border: 1px solid rgba(226, 0, 26, 0.3);
+  background: var(--brand-50);
+  color: var(--brand-700);
+  border: 1px solid var(--brand-line);
 }
 
 .role-badge.dept_admin {
-  background: rgba(51, 51, 51, 0.08);
-  color: #333333;
-  border: 1px solid rgba(51, 51, 51, 0.25);
+  background: var(--surface-3);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
 }
 
 .um-action-btns {
@@ -194,7 +194,7 @@
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  font-family: 'Cairo', sans-serif;
+  font-family: var(--font);
   transition: opacity .12s;
   min-height: 42px;
   display: inline-flex;
@@ -207,15 +207,15 @@
 }
 
 .um-btn.pass {
-  background: rgba(213, 30, 39, 0.08);
-  color: var(--amber);
-  border: 1px solid rgba(213, 30, 39, 0.2);
+  background: var(--brand-50);
+  color: var(--brand-700);
+  border: 1px solid var(--brand-line);
 }
 
 .um-btn.del {
-  background: rgba(200, 20, 33, 0.08);
-  color: var(--danger);
-  border: 1px solid rgba(200, 20, 33, 0.2);
+  background: var(--danger-tint);
+  color: var(--danger-text);
+  border: 1px solid var(--danger-line);
 }
 
 .um-btn.del:disabled {
@@ -226,7 +226,7 @@
 .um-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: var(--overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -238,12 +238,12 @@
 }
 
 .um-modal-card {
-  background: var(--paper);
-  border-radius: var(--radius);
+  background: var(--surface);
+  border-radius: var(--r-lg);
   padding: clamp(16px, 4vw, 24px);
   width: 100%;
   max-width: min(360px, calc(100vw - 24px));
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-3);
   max-height: 90vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;

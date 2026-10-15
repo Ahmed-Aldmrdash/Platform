@@ -119,7 +119,7 @@ function renderDashboardHTML(container, data) {
               trainings.topTopics.map((t, i) => {
                 const max = trainings.topTopics[0].count || 1;
                 const pct = Math.round((t.count / max) * 100);
-                const colors = ['#E2001A','#333333','#D97706','#6B6B6B','#8A0E1F','#9CA3AF'];
+                const colors = ['var(--chart-1)','var(--chart-2)','var(--chart-4)','var(--chart-3)','var(--chart-5)','var(--chart-6)'];
                 return `<div class="dash-topic-row">
                   <div class="dash-topic-name" title="${escapeHtml(t.label)}">${escapeHtml(t.label)}</div>
                   <div class="dash-topic-bar-bg"><div class="dash-topic-bar" style="width:${pct}%;background:${colors[i%colors.length]};"></div></div>
@@ -263,7 +263,7 @@ function _dashRenderDeptCompliance(scoredAll, q, scopeDept, penaltyMap) {
           <div class="exec-leaderboard-bar-bg">
             <div class="exec-leaderboard-bar-fill ${cls}" style="width:${Math.max(2, r.score)}%"></div>
           </div>
-          <div class="dash-board-sub">${T('تدريب')} ${r.trainPct}% · ${T('بلاغات')} ${r.hazPct}%${r.penalties ? ` · <span style="color:var(--danger);font-weight:700;">${T('جزاءات')} ${r.penalties} ⚖️</span>` : ''}${scopeDept ? ` · ${T('الترتيب')} ${rank} ${T('من')} ${rows.length}` : ''}</div>
+          <div class="dash-board-sub">${T('تدريب')} ${r.trainPct}% · ${T('بلاغات')} ${r.hazPct}%${r.penalties ? ` · <span style="color:var(--danger-text);font-weight:700;">${T('جزاءات')} ${r.penalties} ⚖️</span>` : ''}${scopeDept ? ` · ${T('الترتيب')} ${rank} ${T('من')} ${rows.length}` : ''}</div>
         </div>
         <div class="exec-leaderboard-score">${r.score}</div>
       </div>`;
@@ -363,16 +363,19 @@ async function renderDashboardCharts(data) {
   }
   _dashRegisterChartPlugins();
 
-  Chart.defaults.font.family = 'Cairo, sans-serif';
+  Chart.defaults.font.family = 'Alexandria, Cairo, sans-serif';
   Chart.defaults.font.size   = 12;
-  Chart.defaults.color       = '#6B6B6B';
+  Chart.defaults.color       = cssToken('--text-muted');
 
-  const PALETTE = ['#E2001A','#333333','#D97706','#6B6B6B','#8A0E1F','#9CA3AF','#A6000F','#BFBFBF'];
+  const PALETTE = ['--chart-1','--chart-2','--chart-3','--chart-4','--chart-5','--chart-6','--chart-7'].map(cssToken);
+  const SURFACE = cssToken('--surface');
+  const GRID = cssToken('--chart-grid');
+  const STATUS = [cssToken('--success-solid'), cssToken('--warning-solid'), cssToken('--danger-solid')];
 
   const _tip = {
-    backgroundColor: '#1f2937', titleColor: '#fff', bodyColor: '#e5e7eb',
-    padding: 10, cornerRadius: 8, titleFont: { family: 'Cairo, sans-serif', weight: '700' },
-    bodyFont: { family: 'Cairo, sans-serif' }, displayColors: true, boxPadding: 4,
+    backgroundColor: cssToken('--neutral-solid-hover'), titleColor: cssToken('--on-solid'), bodyColor: cssToken('--on-solid'),
+    padding: 10, cornerRadius: 8, titleFont: { family: 'Alexandria, Cairo, sans-serif', weight: '700' },
+    bodyFont: { family: 'Alexandria, Cairo, sans-serif' }, displayColors: true, boxPadding: 4,
   };
 
   _destroyChart('chartPermitStatus');
@@ -385,9 +388,9 @@ async function renderDashboardCharts(data) {
       data: {
         labels: [T('موافق'), T('انتظار'), 'مرفوض'],
         datasets: [{ data: psData,
-          backgroundColor: ['#16A34A','#D97706','#DC2626'],
-          hoverBackgroundColor: ['#15803d','#b45309','#b91c1c'],
-          borderWidth: 2, borderColor: '#fff', hoverBorderWidth: 0, hoverOffset: 4 }]
+          backgroundColor: STATUS,
+          hoverBackgroundColor: STATUS,
+          borderWidth: 2, borderColor: SURFACE, hoverBorderWidth: 0, hoverOffset: 4 }]
       },
       options: { responsive: true, maintainAspectRatio: false, cutout: '72%',
         animation: { animateRotate: true, duration: 800, easing: 'easeOutQuart' },
@@ -410,7 +413,7 @@ async function renderDashboardCharts(data) {
     const typeKeys   = typeEntries.map(e => e[0]);
     const typeLabels = typeKeys.map(k => T(PERMIT_TYPE_LABELS[k] || k));
     const typeVals   = typeEntries.map(e => e[1]);
-    const typeColors = typeKeys.map((k, i) => PERMIT_TYPE_COLORS[k] || PALETTE[i % PALETTE.length]);
+    const typeColors = typeKeys.map((k, i) => (PERMIT_TYPE_COLORS[k] && cssToken(PERMIT_TYPE_COLORS[k])) || PALETTE[i % PALETTE.length]);
     const wrapPT = ctxPT.parentElement;
     if (wrapPT) wrapPT.style.height = Math.max(240, typeVals.length * 40 + 30) + 'px';
 
@@ -431,11 +434,11 @@ async function renderDashboardCharts(data) {
           tooltip: { ..._tip, callbacks: { label: (ctx) => ` ${ctx.parsed.x.toLocaleString(LOC())} ${T("تصريح")}` } },
         },
         scales: {
-          x: { grid: { color: '#EFEFEF', drawTicks: false }, border: { display: false },
+          x: { grid: { color: GRID, drawTicks: false }, border: { display: false },
             ticks: { precision: 0, maxTicksLimit: 6, font: { size: 11 },
               callback: (v) => Number(v).toLocaleString(LOC()) } },
           y: { grid: { display: false }, border: { display: false },
-            ticks: { font: { size: 12, weight: '600' }, color: '#334155' } }
+            ticks: { font: { size: 12, weight: '600' }, color: cssToken('--text-2') } }
         }
       }
     });
@@ -452,9 +455,9 @@ async function renderDashboardCharts(data) {
       data: {
         labels: [T('منخفض'), T('متوسط'), T('عالي'), T('حرج')],
         datasets: [{ data: hsData,
-          backgroundColor: ['#16A34A','#D97706','#DC2626','#7C1D1D'],
-          hoverBackgroundColor: ['#15803d','#b45309','#b91c1c','#5c1414'],
-          borderWidth: 2, borderColor: '#fff', hoverBorderWidth: 0, hoverOffset: 4 }]
+          backgroundColor: [...STATUS, cssToken('--brand-800')],
+          hoverBackgroundColor: [...STATUS, cssToken('--brand-800')],
+          borderWidth: 2, borderColor: SURFACE, hoverBorderWidth: 0, hoverOffset: 4 }]
       },
       options: { responsive: true, maintainAspectRatio: false, cutout: '72%',
         animation: { animateRotate: true, duration: 800, easing: 'easeOutQuart' },
@@ -484,19 +487,19 @@ async function renderDashboardCharts(data) {
         labels: monthLabels,
         datasets: [
           { label: T('تصاريح العمل'), data: Object.values(permits.monthly),
-            borderColor: '#1A1A1A', backgroundColor: 'rgba(26,26,26,0.06)',
-            fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#1A1A1A' },
+            borderColor: PALETTE[1], backgroundColor: cssTokenAlpha('--chart-2', 0.06),
+            fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: PALETTE[1] },
           { label: T('بلاغات الخطورة'), data: Object.values(hazards.monthly),
-            borderColor: '#DC2626', backgroundColor: 'rgba(239,68,68,0.06)',
-            fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#DC2626' },
+            borderColor: PALETTE[0], backgroundColor: cssTokenAlpha('--chart-1', 0.08),
+            fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: PALETTE[0] },
         ]
       },
       options: { responsive: true, maintainAspectRatio: false,
         interaction: { mode: 'index', intersect: false },
         plugins: { legend: { position: 'top', labels: { boxWidth: 14, padding: 16 } } },
         scales: {
-          x: { grid: { color: '#EFEFEF' } },
-          y: { grid: { color: '#EFEFEF' }, beginAtZero: true, ticks: { stepSize: 1 } }
+          x: { grid: { color: GRID } },
+          y: { grid: { color: GRID }, beginAtZero: true, ticks: { stepSize: 1 } }
         }
       }
     });
@@ -510,8 +513,8 @@ async function renderDashboardCharts(data) {
       data: {
         labels: [T('نشط'), 'مغلق'],
         datasets: [{ data: [drills.active, drills.closed],
-          backgroundColor: ['#D97706','#16A34A'],
-          borderWidth: 2, borderColor: '#fff' }]
+          backgroundColor: [STATUS[1], STATUS[0]],
+          borderWidth: 2, borderColor: SURFACE }]
       },
       options: { responsive: true, maintainAspectRatio: false,
         plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } } }
@@ -533,16 +536,16 @@ async function renderDashboardCharts(data) {
         labels: tLabels,
         datasets: [
           { label: T('التدريبات'), data: Object.values(trainings.monthly),
-            backgroundColor: 'rgba(245,158,11,0.8)', borderRadius: 4 },
+            backgroundColor: PALETTE[3], borderRadius: 4 },
           { label: T('تجارب الطوارئ'), data: Object.values(drills.monthly),
-            backgroundColor: 'rgba(239,68,68,0.75)', borderRadius: 4 },
+            backgroundColor: PALETTE[0], borderRadius: 4 },
         ]
       },
       options: { responsive: true, maintainAspectRatio: false,
         plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 12 } } },
         scales: {
           x: { grid: { display: false } },
-          y: { grid: { color: '#EFEFEF' }, beginAtZero: true, ticks: { stepSize: 1 } }
+          y: { grid: { color: GRID }, beginAtZero: true, ticks: { stepSize: 1 } }
         }
       }
     });

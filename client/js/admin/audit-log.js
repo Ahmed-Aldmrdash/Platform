@@ -37,12 +37,12 @@ async function renderAuditLog() {
           ${T("⬆ استرجاع من نسخة احتياطية")}
           <input type="file" id="backupRestoreInput" accept=".json,.gz" style="display:none" onchange="restoreFullBackup(event)" />
         </label>
-        <span style="font-size:12px;color:var(--muted);">${T("النسخة الاحتياطية ملف واحد يشمل كل بيانات النظام (.json، أو .json.gz اللي بيوصل على الإيميل) — الاسترجاع يستبدل البيانات الحالية بالكامل.")}</span>
+        <span style="font-size:12px;color:var(--text-muted);">${T("النسخة الاحتياطية ملف واحد يشمل كل بيانات النظام (.json، أو .json.gz اللي بيوصل على الإيميل) — الاسترجاع يستبدل البيانات الحالية بالكامل.")}</span>
       </div>
-      <div class="ticket-body" id="backupEmailBox" style="border-top:1px solid var(--paper-line);">
+      <div class="ticket-body" id="backupEmailBox" style="border-top:1px solid var(--border);">
         <div class="loading">${T("جارِ التحميل…")}</div>
       </div>
-      <div class="ticket-body" id="backupSnapshotBox" style="border-top:1px solid var(--paper-line);">
+      <div class="ticket-body" id="backupSnapshotBox" style="border-top:1px solid var(--border);">
         <div class="loading">${T("جارِ التحميل…")}</div>
       </div>
     </div>` : ''}
@@ -111,7 +111,7 @@ async function auditLoadList(isSilent) {
   } catch (e) {
     if (!isSilent) {
       console.error('Audit log load error', e);
-      listEl.innerHTML = T('<div class="empty" style="color:var(--danger);">فشل تحميل سجل التدقيق</div>');
+      listEl.innerHTML = T('<div class="empty" style="color:var(--danger-text);">فشل تحميل سجل التدقيق</div>');
     }
   }
 }

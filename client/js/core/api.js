@@ -92,7 +92,7 @@ async function openPrintWithAuth(url, opts = {}) {
   // Open the tab before any await, otherwise popup blockers close it.
   const win = window.open('', '_blank');
   if (win) {
-    try { win.document.write('<p dir="rtl" style="font-family:Tahoma,Arial;text-align:center;margin-top:60px;color:#374151">جاري تجهيز المستند للطباعة…</p>'); } catch (e) { }
+    try { win.document.write('<p dir="rtl" style="font-family:Tahoma,Arial;text-align:center;margin-top:60px">جاري تجهيز المستند للطباعة…</p>'); } catch (e) { }
   }
   try {
     if (typeof opts.before === 'function') await opts.before();
@@ -159,17 +159,17 @@ function showToast(msg, type = 'error') {
       toast.id = '_appToast';
       toast.style.cssText = [
         'position:fixed;bottom:24px;inset-inline-start:50%;transform:translateX(-50%)',
-        'max-width:min(92vw,420px);z-index:99999;padding:12px 20px;border-radius:12px',
-        'font-family:Cairo,sans-serif;font-size:14px;font-weight:700',
-        'box-shadow:0 8px 24px rgba(0,0,0,0.3);transition:opacity .3s;text-align:center',
+        'max-width:min(92vw,420px);z-index:99999;padding:12px 20px;border-radius:var(--r-md)',
+        'font-family:var(--font);font-size:14px;font-weight:600',
+        'box-shadow:var(--shadow-3);transition:opacity .3s;text-align:center',
         'pointer-events:none;'
       ].join(';');
       document.body.appendChild(toast);
     }
     const colors = {
-      error:   { bg:'#C81421', color:'#fff' },
-      success: { bg:'#1F7A3D', color:'#fff' },
-      info:    { bg:'#1A1A1A', color:'#fff' }
+      error:   { bg:'var(--danger-solid)', color:'var(--on-solid)' },
+      success: { bg:'var(--success-solid)', color:'var(--on-solid)' },
+      info:    { bg:'var(--neutral-solid)', color:'var(--on-solid)' }
     };
     const c = colors[type] || colors.info;
     toast.style.background = c.bg;

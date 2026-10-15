@@ -12,7 +12,7 @@
   padding: 9px 16px;
   border-radius: 9px;
   border: none;
-  font-family: 'Cairo', sans-serif;
+  font-family: var(--font);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -25,15 +25,15 @@
 }
 
 .emp-dir-btn.primary {
-  background: var(--amber);
-  color: #fff;
-  box-shadow: 0 3px 0 var(--amber-dark);
+  background: var(--brand-600);
+  color: var(--on-solid);
+  box-shadow: 0 3px 0 var(--brand-fill-hover);
 }
 
 .emp-dir-btn.secondary {
-  background: rgba(213, 30, 39, 0.08);
-  color: var(--amber);
-  border: 1px solid rgba(213, 30, 39, 0.3);
+  background: var(--brand-50);
+  color: var(--brand-700);
+  border: 1px solid var(--brand-line);
 }
 
 .emp-dir-btn:hover {
@@ -48,81 +48,81 @@
 .emp-dir-search {
   width: 100%;
   padding: 9px 12px;
-  border: 1.5px solid var(--paper-line);
+  border: 1.5px solid var(--border);
   border-radius: 9px;
-  font-family: 'Cairo', sans-serif;
+  font-family: var(--font);
   font-size: 14px;
-  background: #FBFAF5;
-  color: var(--ink);
+  background: var(--surface);
+  color: var(--text);
   transition: border-color .15s;
 }
 
 .emp-dir-search:focus {
   outline: none;
-  border-color: var(--amber-dark);
+  border-color: var(--brand-fill-hover);
 }
 
 .emp-role-badge {
   display: inline-block;
   font-size: 11px;
   font-weight: 700;
-  font-family: 'Cairo', sans-serif;
+  font-family: var(--font);
   padding: 3px 9px;
   border-radius: 12px;
   white-space: nowrap;
 }
 
 .emp-role-badge.worker {
-  background: rgba(31, 122, 61, 0.1);
-  color: var(--success);
-  border: 1px solid rgba(31, 122, 61, 0.3);
+  background: var(--success-tint);
+  color: var(--success-text);
+  border: 1px solid var(--success-line);
 }
 
 .emp-role-badge.hse_admin {
-  background: rgba(226, 0, 26, 0.1);
-  color: var(--amber);
-  border: 1px solid rgba(226, 0, 26, 0.3);
+  background: var(--brand-50);
+  color: var(--brand-700);
+  border: 1px solid var(--brand-line);
 }
 
 .emp-role-badge.dept_admin {
-  background: rgba(51, 51, 51, 0.08);
-  color: #333333;
-  border: 1px solid rgba(51, 51, 51, 0.25);
+  background: var(--surface-3);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
 }
 
 .emp-role-badge.contractor {
-  background: rgba(180, 83, 9, 0.1);
-  color: #b45309;
-  border: 1px solid rgba(180, 83, 9, 0.3);
+  background: var(--warning-tint);
+  color: var(--warning-text);
+  border: 1px solid var(--warning-line);
 }
 
 .emp-role-badge.badge-green {
-  background: rgba(31, 122, 61, 0.1);
-  color: var(--success);
-  border: 1px solid rgba(31, 122, 61, 0.3);
+  background: var(--success-tint);
+  color: var(--success-text);
+  border: 1px solid var(--success-line);
   font-family: monospace;
   font-size: 12px;
 }
 
 .emp-role-badge.badge-yellow {
-  background: rgba(255, 193, 7, 0.15);
-  color: #856404;
-  border: 1px solid rgba(255, 193, 7, 0.3);
+  background: var(--warning-tint);
+  color: var(--warning-text);
+  border: 1px solid var(--warning-line);
   font-family: monospace;
   font-size: 12px;
 }
 
 .emp-role-badge.badge-red {
-  background: rgba(220, 53, 69, 0.1);
-  color: #dc3545;
-  border: 1px solid rgba(220, 53, 69, 0.3);
+  background: var(--danger-tint);
+  color: var(--danger-text);
+  border: 1px solid var(--danger-line);
   font-family: monospace;
   font-size: 12px;
 }
 
 .emp-dir-table th:nth-child(2),
 .emp-dir-table td:nth-child(2) {
-  color: var(--amber);
+  color: var(--brand-700);
 }
 
 @media (max-width: 600px) {

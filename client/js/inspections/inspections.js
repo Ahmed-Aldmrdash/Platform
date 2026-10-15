@@ -183,7 +183,7 @@ async function renderInspectionSections() {
   } catch(e) {
     console.error('Inspection sections load error', e);
     const gridEl = document.getElementById('inspSectionsGrid');
-    if (gridEl) gridEl.innerHTML = T('<div class="empty" style="color:var(--danger);">فشل تحميل الأقسام</div>');
+    if (gridEl) gridEl.innerHTML = T('<div class="empty" style="color:var(--danger-text);">فشل تحميل الأقسام</div>');
   }
 }
 
@@ -294,7 +294,7 @@ async function renderInspectionSectionDetail() {
         </div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <input id="inspFilterQ" type="text" placeholder="${T("بحث برقم/اسم/قسم/مكان الصنف…")}" class="form-input" style="flex:1;min-width:200px;padding:9px 12px;border-radius:10px;border:1px solid var(--paper-line);" oninput="inspDebouncedFilter()" />
+        <input id="inspFilterQ" type="text" placeholder="${T("بحث برقم/اسم/قسم/مكان الصنف…")}" class="form-input" style="flex:1;min-width:200px;padding:9px 12px;border-radius:10px;border:1px solid var(--border);" oninput="inspDebouncedFilter()" />
         <select id="inspFilterDept" class="insp-status-select" onchange="inspApplyFilters()">
           <option value="">${T("كل الأقسام/الأماكن")}</option>
         </select>
@@ -333,10 +333,10 @@ async function inspImportLegacyBulk(event) {
         </div>
         <div style="max-height:300px;overflow:auto;font-size:12.5px;">
           ${rows.map(r => `
-            <div style="display:flex;gap:8px;align-items:center;padding:5px 2px;border-bottom:1px solid var(--paper-line);">
+            <div style="display:flex;gap:8px;align-items:center;padding:5px 2px;border-bottom:1px solid var(--border);">
               <span style="width:18px;">${r.state === 'ok' ? '✅' : r.state === 'skip' ? '⚠️' : r.state === 'err' ? '❌' : r.state === 'working' ? '⏳' : '•'}</span>
               <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" dir="auto">${escapeHtml(r.name)}</span>
-              <span style="color:var(--muted);">${escapeHtml(r.msg)}</span>
+              <span style="color:var(--text-muted);">${escapeHtml(r.msg)}</span>
             </div>`).join('')}
         </div>
       </div>`;
@@ -451,7 +451,7 @@ async function inspLoadItems() {
     renderInspItemsTable(data.items || []);
   } catch(e) {
     console.error('Inspection items load error', e);
-    wrap.innerHTML = T('<div class="empty" style="color:var(--danger);">فشل تحميل الأصناف</div>');
+    wrap.innerHTML = T('<div class="empty" style="color:var(--danger-text);">فشل تحميل الأصناف</div>');
   }
 }
 
@@ -648,7 +648,7 @@ function inspOpenRecordModal(itemId) {
   const defaultInspector = rec && rec.inspector ? rec.inspector : (typeof currentUserName !== 'undefined' ? (currentUserName || '') : '');
   openAppModal(`
     <h3>${T("تسجيل نتيجة فحص —")} ${escapeHtml(it.name)}</h3>
-    <p style="color:var(--muted);font-size:12.5px;margin:-10px 0 16px;">${T(ARABIC_MONTHS[inspState.month-1])} ${inspState.year}</p>
+    <p style="color:var(--text-muted);font-size:12.5px;margin:-10px 0 16px;">${T(ARABIC_MONTHS[inspState.month-1])} ${inspState.year}</p>
     <div class="app-modal-field">
       <label>${T("نتيجة الفحص *")}</label>
       <select id="inspRecStatus">

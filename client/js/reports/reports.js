@@ -355,7 +355,7 @@ async function reportsLoadPreview() {
     if (seq !== reportsState.loadSeq || !document.body.contains(box)) return null;
     if (!res.ok) {
       const msg = (new DOMParser().parseFromString(html, 'text/html').querySelector('p.text, .sheet, body') || {}).textContent;
-      box.innerHTML = `<div class="empty" style="color:var(--danger)"><div class="icon">⚠️</div>${escapeHtml((msg || '').trim().slice(0, 300) || T('تعذّر تجهيز التقرير'))}</div>`;
+      box.innerHTML = `<div class="empty" style="color:var(--danger-text)"><div class="icon">⚠️</div>${escapeHtml((msg || '').trim().slice(0, 300) || T('تعذّر تجهيز التقرير'))}</div>`;
       return null;
     }
     const frame = document.createElement('iframe');
@@ -385,7 +385,7 @@ async function reportsLoadPreview() {
     return frame;
   } catch (e) {
     if (seq === reportsState.loadSeq) {
-      box.innerHTML = `<div class="empty" style="color:var(--danger)"><div class="icon">⚠️</div>${T('تعذّر الاتصال بالسيرفر — حاول تاني')}</div>`;
+      box.innerHTML = `<div class="empty" style="color:var(--danger-text)"><div class="icon">⚠️</div>${T('تعذّر الاتصال بالسيرفر — حاول تاني')}</div>`;
     }
     return null;
   }

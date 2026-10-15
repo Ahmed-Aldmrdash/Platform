@@ -7,20 +7,20 @@
 .type-picker-label {
   font-size: 12.5px;
   font-weight: 700;
-  color: var(--muted);
+  color: var(--text-muted);
   margin-bottom: 8px;
 }
 
 .section-title {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: 12px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--steel);
+  color: var(--text-2);
   font-weight: 600;
   margin: 20px 0 10px;
   padding-bottom: 6px;
-  border-bottom: 1.5px dashed var(--paper-line);
+  border-bottom: 1.5px dashed var(--border);
 }
 
 .section-title:first-of-type {
@@ -35,7 +35,7 @@
 
 .check-row {
   padding: 10px 0;
-  border-bottom: 1px solid var(--paper-line);
+  border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -55,7 +55,7 @@
   display: flex;
   gap: 8px;
   font-size: clamp(12px, 3vw, 12.5px);
-  color: var(--muted);
+  color: var(--text-muted);
   flex-wrap: wrap;
 }
 
@@ -66,7 +66,7 @@
   cursor: pointer;
   min-height: 44px;
   padding: 4px 10px;
-  background: rgba(0, 0, 0, 0.025);
+  background: var(--surface-2);
   border-radius: 8px;
   border: 1px solid transparent;
   transition: border-color .12s, background .12s;
@@ -76,14 +76,14 @@
 }
 
 .check-opts label:hover {
-  border-color: var(--amber);
-  background: rgba(213, 30, 39, 0.04);
+  border-color: var(--brand-600);
+  background: var(--brand-50);
 }
 
 .check-opts input[type="radio"] {
   width: auto;
   margin: 0;
-  accent-color: var(--amber);
+  accent-color: var(--brand-700);
   cursor: pointer;
 }
 
@@ -99,8 +99,8 @@
 }
 
 .risk-row {
-  background: rgba(213, 30, 39, 0.05);
-  border: 1px solid rgba(213, 30, 39, 0.18);
+  background: var(--brand-50);
+  border: 1px solid var(--brand-line);
   border-radius: 9px;
   padding: 12px;
   margin-bottom: 10px;
@@ -109,63 +109,89 @@
 .add-risk-btn {
   width: 100%;
   padding: 9px;
-  border: 1.5px dashed var(--steel);
+  border: 1.5px dashed var(--text-2);
   background: none;
-  color: var(--steel);
+  color: var(--text-2);
   border-radius: 8px;
   font-weight: 700;
-  font-family: 'Cairo', sans-serif;
+  font-family: var(--font);
   cursor: pointer;
   font-size: 13.5px;
   margin-bottom: 6px;
 }
 
 .add-risk-btn:hover {
-  background: #e3e3e3;
+  background: var(--surface-3);
 }
 
+/* Risk reads as a tint with strong text and a dot (same look as the hazard badges). */
 .risk-badge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
   font-size: 13px;
-  font-weight: 700;
-  margin-right: 12px;
+  font-weight: 600;
+  margin-inline-end: 12px;
   margin-bottom: 4px;
   white-space: nowrap;
 }
 
+.risk-badge.risk-low,
+.risk-badge.risk-medium,
+.risk-badge.risk-high {
+  border: 1px solid transparent;
+}
+
+.risk-badge.risk-low::before,
+.risk-badge.risk-medium::before,
+.risk-badge.risk-high::before,
+.risk-pill::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
 .risk-badge.risk-low {
-  background: #28a745;
-  color: #fff;
+  background: var(--success-tint);
+  color: var(--success-text);
+  border-color: var(--success-line);
 }
 
 .risk-badge.risk-medium {
-  background: #ffc107;
-  color: #212529;
+  background: var(--warning-tint);
+  color: var(--warning-text);
+  border-color: var(--warning-line);
 }
 
 .risk-badge.risk-high {
-  background: #dc3545;
-  color: #fff;
+  background: var(--danger-tint);
+  color: var(--danger-text);
+  border-color: var(--danger-line);
 }
 
 /* Risk level next to the permit type on the review cards */
 .risk-pill {
-  display: inline-block;
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 11px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 20px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
   margin-inline-end: 6px;
 }
-.risk-pill.high { background: var(--danger); }
-.risk-pill.medium { background: var(--warning); }
-.risk-pill.low { background: var(--success); }
+.risk-pill.high { background: var(--danger-tint); color: var(--danger-text); border-color: var(--danger-line); }
+.risk-pill.medium { background: var(--warning-tint); color: var(--warning-text); border-color: var(--warning-line); }
+.risk-pill.low { background: var(--success-tint); color: var(--success-text); border-color: var(--success-line); }
 
 .es-hint {
-  color: var(--muted);
+  color: var(--text-muted);
   font-size: 12.5px;
   margin: 4px 0 8px;
 }

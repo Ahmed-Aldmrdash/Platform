@@ -69,7 +69,7 @@ async function renderModelEmployeeSection() {
     wrap.innerHTML = `
       <div class="emp-leaderboard-wrap">
         ${headerHtml}
-        <div style="padding:20px;text-align:center;color:var(--muted);">${T("لا توجد بيانات كافية لعرض القائمة")}${_modelEmpDeptFilter !== 'الكل' ? T(' لهذا القسم') : ''}</div>
+        <div style="padding:20px;text-align:center;color:var(--text-muted);">${T("لا توجد بيانات كافية لعرض القائمة")}${_modelEmpDeptFilter !== 'الكل' ? T(' لهذا القسم') : ''}</div>
       </div>`;
     return;
   }
@@ -138,7 +138,7 @@ function renderEmployeesTable(list) {
         </table>
       </div>
       <div id="empTableMore"></div>
-      <div id="empTableCount" style="font-size:12px;color:var(--muted);margin-top:8px;text-align:left;"></div>
+      <div id="empTableCount" style="font-size:12px;color:var(--text-muted);margin-top:8px;text-align:left;"></div>
     `;
   }
 
@@ -214,20 +214,20 @@ function renderEmployeesTableRows(list) {
 
     return `
     <tr>
-      <td style="color:var(--muted);font-size:12px;">${i + 1}</td>
-      <td style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;color:var(--amber);">
+      <td style="color:var(--text-muted);font-size:12px;">${i + 1}</td>
+      <td style="font-size:13px;font-weight:700;letter-spacing:1px;color:var(--brand-700);">
         ${escapeHtml(e.empCode || e.code)}
       </td>
       <td style="font-weight:700;">${escapeHtml(e.name || '—')}</td>
       <td>
         <div style="font-size:13px;">${escapeHtml(e.department || '—')}</div>
-        <div style="font-size:11px;color:var(--muted);">${escapeHtml(e.jobTitle || '—')}</div>
+        <div style="font-size:11px;color:var(--text-muted);">${escapeHtml(e.jobTitle || '—')}</div>
       </td>
       <td>
         <div style="font-size:12px; font-weight:bold; margin-bottom:4px;">${hCount} / ${hTarget} ${T("بلاغ")}</div>
         <div style="display:flex;align-items:center;gap:6px;">
-          <div style="flex:1;background:var(--paper-line);height:8px;border-radius:4px;overflow:hidden;min-width:40px;">
-            <div style="height:100%;width:${hPerc}%;background:var(--amber);"></div>
+          <div style="flex:1;background:var(--border);height:8px;border-radius:4px;overflow:hidden;min-width:40px;">
+            <div style="height:100%;width:${hPerc}%;background:var(--brand-600);"></div>
           </div>
           <span class="emp-role-badge ${hBadgeClass}" style="min-width:35px;text-align:center;font-size:10px;">${hPerc}%</span>
         </div>
@@ -235,15 +235,15 @@ function renderEmployeesTableRows(list) {
       <td>
         <div style="font-size:12px; font-weight:bold; margin-bottom:4px;">${tHours} / ${tTarget} ${T("ساعات")}</div>
         <div style="display:flex;align-items:center;gap:6px;">
-          <div style="flex:1;background:var(--paper-line);height:8px;border-radius:4px;overflow:hidden;min-width:40px;">
-            <div style="height:100%;width:${tPerc}%;background:var(--amber);"></div>
+          <div style="flex:1;background:var(--border);height:8px;border-radius:4px;overflow:hidden;min-width:40px;">
+            <div style="height:100%;width:${tPerc}%;background:var(--brand-600);"></div>
           </div>
           <span class="emp-role-badge ${tBadgeClass}" style="min-width:35px;text-align:center;font-size:10px;">${tPerc}%</span>
 
         </div>
       </td>
       <td>
-        <div style="font-size:12px; font-weight:bold; margin-bottom:4px; color:var(--danger);">${dCount} ${T("تجربة")}</div>
+        <div style="font-size:12px; font-weight:bold; margin-bottom:4px; color:var(--danger-text);">${dCount} ${T("تجربة")}</div>
       </td>
       <td>
         <div class="um-action-btns">

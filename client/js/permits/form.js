@@ -70,7 +70,7 @@ function renderForm(){
         <div class="row2">
           <div class="field">
             <label>${T("الإدارة الطالبة / القسم")} <span class="req-star">*</span></label>
-            <input id="f_dept" type="text" readonly style="background-color: #f5f5f5;" placeholder="${T("سيتم تعبئته تلقائياً")}">
+            <input id="f_dept" type="text" readonly style="background-color: var(--surface-3);" placeholder="${T("سيتم تعبئته تلقائياً")}">
           </div>
           <div class="field">
             <label>${T("الوردية")} <span class="req-star">*</span></label>
@@ -96,7 +96,7 @@ function renderForm(){
             <label>${T("إلى الساعة")} <span class="req-star">*</span></label>
             <input id="f_to" type="time" required>
             <label class="custom-pill-check" style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 6px; user-select: none;">
-              <span style="font-size: 0.85rem; color: #475569; font-weight: 500;">${T("نهاية مفتوحة / حتى انتهاء العمل")}</span>
+              <span style="font-size: 0.85rem; color: var(--text-2); font-weight: 500;">${T("نهاية مفتوحة / حتى انتهاء العمل")}</span>
               <input type="checkbox" id="f_open_end" class="pill-checkbox-input" onchange="window.toggleOpenEnd(this)">
               <span class="pill-checkbox-box"></span>
             </label>
@@ -105,10 +105,10 @@ function renderForm(){
 
         <div class="section-title">${T("بيانات مقدّم الطلب (مسئول التنفيذ)")}</div>
         <div class="field">
-          <label>${T("الكود الوظيفي")} <small style="font-weight:400;color:var(--muted);">${T("(اكتب كودك لتعبئة بياناتك تلقائياً)")}</small></label>
+          <label>${T("الكود الوظيفي")} <small style="font-weight:400;color:var(--text-muted);">${T("(اكتب كودك لتعبئة بياناتك تلقائياً)")}</small></label>
           <div style="display:flex;gap:8px;align-items:center;">
             <input id="f_emp" type="text" placeholder="${T("مثال: EMP001")}"
-                   style="font-family:'Oswald',sans-serif;letter-spacing:1.5px;"
+                   style="letter-spacing:1.5px;"
                    oninput="this.value=this.value.toUpperCase()" onblur="lookupPermitEmpCode()">
           </div>
           <div id="f_empMsg" style="font-size:12px;margin-top:3px;min-height:14px;"></div>
@@ -151,7 +151,7 @@ function renderForm(){
           <input id="f_equip" type="text" placeholder="${T("اختياري")}">
         </div>
         <div class="field">
-          <label>${T("الأدوات والعدد")} <small style="font-weight:400;color:var(--muted);">${T("(بعد فحصها وقبولها)")}</small></label>
+          <label>${T("الأدوات والعدد")} <small style="font-weight:400;color:var(--text-muted);">${T("(بعد فحصها وقبولها)")}</small></label>
           <div class="tools-checklist" id="toolsChecklist">
             ${TOOLS_LIST.map((tool, i) => `
             <label class="tool-check-label">
@@ -194,7 +194,7 @@ function renderForm(){
     if (el.checked) {
       toInput.value = '';
       toInput.disabled = true;
-      toInput.style.backgroundColor = '#f0f0f0';
+      toInput.style.backgroundColor = 'var(--surface-3)';
     } else {
       toInput.disabled = false;
       toInput.style.backgroundColor = '';
@@ -396,9 +396,9 @@ async function submitPermit(){
         <div class="tnum-big">${escapeHtml(permit.id)}</div>
         <span class="stamp pending big-stamp">${T("قيد الانتظار")}</span>
         <p>${T(type.fullLabel)} ${T("— هيوصل الطلب للمشرف على طول عشان يوافق عليه")}</p>
-        <p style="font-size:12.5px;color:var(--muted);margin-top:10px;">${T("احتفظ برقم الطلب ده — اضغط زر")} "${T("تتبع الطلب ده")}" ${T("أو افتح تاب")} "${T("📁 سجل طلباتي")}" ${T("عشان تعرف حالته أول ما المشرف يرد")}</p>
+        <p style="font-size:12.5px;color:var(--text-muted);margin-top:10px;">${T("احتفظ برقم الطلب ده — اضغط زر")} "${T("تتبع الطلب ده")}" ${T("أو افتح تاب")} "${T("📁 سجل طلباتي")}" ${T("عشان تعرف حالته أول ما المشرف يرد")}</p>
         <button class="again-btn" onclick="renderForm()">${T("+ طلب جديد")}</button>
-        <button class="again-btn" style="margin-inline-start:8px;border-color:var(--amber);color:var(--amber);" onclick="goTrackWithId(${jsArg(permit.id)})">${T("📁 سجل طلباتي")}</button>
+        <button class="again-btn" style="margin-inline-start:8px;border-color:var(--brand-600);color:var(--brand-700);" onclick="goTrackWithId(${jsArg(permit.id)})">${T("📁 سجل طلباتي")}</button>
       </div>
     </div>
   `;

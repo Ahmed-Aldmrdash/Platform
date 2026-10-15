@@ -149,12 +149,12 @@ function renderPersonalDashboard(container, data, role, isSingleEmployeeView, yt
   const penaltyLabel = isDept ? T('جزاءات القسم') : isAdminViewingOne ? T('الجزاءات على الموظف') : T('الجزاءات عليك');
 
   const employeeBanner = isAdminViewingOne ? `
-    <div class="dash-emp-banner" style="max-width:1200px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--paper,#fff);border:1px solid var(--paper-line,#e2e8f0);border-radius:12px;margin-top:16px;">
+    <div class="dash-emp-banner" style="max-width:1200px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-top:16px;">
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-        <span style="color:var(--amber);">${dicon('person', 26)}</span>
+        <span style="color:var(--brand-700);">${dicon('person', 26)}</span>
         <div>
           <div style="font-weight:800;font-size:15px;">${escapeHtml(viewingEmp && viewingEmp.name || T('موظف غير معروف'))}</div>
-          <div style="font-size:12.5px;color:var(--muted);margin-top:2px;">
+          <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">
             ${viewingEmp && viewingEmp.jobTitle ? `${escapeHtml(viewingEmp.jobTitle)} · ` : ''}${viewingEmp && viewingEmp.department ? `${escapeHtml(viewingEmp.department)} · ` : ''}${T("كود:")} ${escapeHtml(viewingEmp && viewingEmp.empCode || '')}
           </div>
         </div>
@@ -181,10 +181,10 @@ function renderPersonalDashboard(container, data, role, isSingleEmployeeView, yt
               <span>${trainHoursSoFar.toLocaleString(LOC())} ${T("من")} ${EMP_TARGET_TRAIN_HOURS} ${T("ساعة")}</span>
               <span style="font-weight:700;">${trainPct}%</span>
             </div>
-            <div style="background:var(--paper-line);height:10px;border-radius:5px;overflow:hidden;">
-              <div style="height:100%;width:${trainPct}%;background:${trainPct >= 100 ? '#16A34A' : 'var(--amber)'};"></div>
+            <div style="background:var(--border);height:10px;border-radius:5px;overflow:hidden;">
+              <div style="height:100%;width:${trainPct}%;background:${trainPct >= 100 ? 'var(--success-solid)' : 'var(--brand-600)'};"></div>
             </div>
-            <div style="margin-top:8px;font-size:12px;color:var(--muted);">
+            <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
               ${trainRemaining > 0 ? `${T("متبقّي")} <b>${trainRemaining}</b> ${T("ساعة تدريب علشان توصل للتارجت")}` : T('🎉 وصلت لتارجت التدريب!')}
             </div>
           </div>
@@ -196,10 +196,10 @@ function renderPersonalDashboard(container, data, role, isSingleEmployeeView, yt
               <span>${hazSoFar} ${T("من")} ${EMP_TARGET_HAZARDS} ${T("بلاغ")}</span>
               <span style="font-weight:700;">${hazPct}%</span>
             </div>
-            <div style="background:var(--paper-line);height:10px;border-radius:5px;overflow:hidden;">
-              <div style="height:100%;width:${hazPct}%;background:${hazPct >= 100 ? '#16A34A' : '#D97706'};"></div>
+            <div style="background:var(--border);height:10px;border-radius:5px;overflow:hidden;">
+              <div style="height:100%;width:${hazPct}%;background:${hazPct >= 100 ? 'var(--success-solid)' : 'var(--warning-solid)'};"></div>
             </div>
-            <div style="margin-top:8px;font-size:12px;color:var(--muted);">
+            <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
               ${hazRemaining > 0 ? `${T("متبقّي")} <b>${hazRemaining}</b> ${T("بلاغ خطورة علشان توصل للتارجت")}` : T('🎉 وصلت لتارجت البلاغات!')}
             </div>
           </div>
@@ -393,8 +393,11 @@ async function renderPersonalCharts(data) {
     console.error('Chart.js failed to load', e);
     return;
   }
-  Chart.defaults.font.family = 'Cairo, sans-serif';
+  Chart.defaults.font.family = 'Alexandria, Cairo, sans-serif';
   Chart.defaults.font.size   = 12;
+  Chart.defaults.color       = cssToken('--text-muted');
+  const SURFACE = cssToken('--surface');
+  const [OK, WAIT, BAD] = ['--success-solid', '--warning-solid', '--danger-solid'].map(cssToken);
 
   _destroyChart('chartPersonalHazard');
   const ctxH = document.getElementById('chartPersonalHazard');
@@ -404,7 +407,7 @@ async function renderPersonalCharts(data) {
       data: {
         labels: [T('مفتوح'), 'مغلق', 'مرفوض'],
         datasets: [{ data: [hazards.byStatus.open, hazards.byStatus.resolved, hazards.byStatus.rejected],
-          backgroundColor: ['#DC2626','#16A34A','#94a3b8'], borderWidth: 2, borderColor: '#fff' }]
+          backgroundColor: [BAD, OK, cssToken('--chart-3')], borderWidth: 2, borderColor: SURFACE }]
       },
       options: { responsive: true, maintainAspectRatio: false, cutout: '65%',
         plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } } } }
@@ -419,7 +422,7 @@ async function renderPersonalCharts(data) {
       data: {
         labels: [T('موافق'), T('انتظار'), 'مرفوض'],
         datasets: [{ data: [permits.byStatus.approved, permits.byStatus.pending, permits.byStatus.rejected],
-          backgroundColor: ['#16A34A','#D97706','#DC2626'], borderWidth: 2, borderColor: '#fff' }]
+          backgroundColor: [OK, WAIT, BAD], borderWidth: 2, borderColor: SURFACE }]
       },
       options: { responsive: true, maintainAspectRatio: false, cutout: '65%',
         plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } } } }
@@ -433,7 +436,7 @@ async function renderPersonalCharts(data) {
       type: 'pie',
       data: {
         labels: [T('نشط'), 'مغلق'],
-        datasets: [{ data: [drills.active, drills.closed], backgroundColor: ['#D97706','#16A34A'], borderWidth: 2, borderColor: '#fff' }]
+        datasets: [{ data: [drills.active, drills.closed], backgroundColor: [WAIT, OK], borderWidth: 2, borderColor: SURFACE }]
       },
       options: { responsive: true, maintainAspectRatio: false,
         plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } } } }

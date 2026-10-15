@@ -1,28 +1,30 @@
 /* Executive view. */
 
 .exec-hero {
-  background: linear-gradient(135deg, #0F172A 0%, #1A1A1A 60%, #7C1D1D 100%);
-  color: #fff;
-  border-radius: var(--radius);
-  padding: 28px 26px 24px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--brand-600);
+  border-radius: var(--r-lg);
+  padding: 24px 24px 22px;
   margin-bottom: 20px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-1);
 }
 .exec-hero-eyebrow {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: 11.5px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-muted);
   margin-bottom: 6px;
 }
 .exec-hero-name {
   font-size: clamp(19px, 4.5vw, 25px);
-  font-weight: 900;
+  font-weight: 700;
 }
 .exec-hero-role {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--text-2);
   margin-top: 3px;
 }
 .exec-hero-score {
@@ -32,14 +34,15 @@
   gap: 10px;
 }
 .exec-hero-score .num {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: clamp(38px, 9vw, 54px);
   font-weight: 700;
   line-height: 1;
+  color: var(--brand-700);
 }
 .exec-hero-score .label {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--text-2);
   max-width: 220px;
   line-height: 1.4;
 }
@@ -51,48 +54,48 @@
   margin-bottom: 22px;
 }
 .exec-kpi-card {
-  background: var(--paper);
-  border: 1px solid var(--paper-line);
-  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
   padding: 16px 18px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-1);
 }
 .exec-kpi-card .exec-kpi-value {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: 26px;
   font-weight: 700;
-  color: var(--brand-slate-900);
+  color: var(--text);
 }
 .exec-kpi-card .exec-kpi-label {
   font-size: 12px;
-  color: var(--muted);
+  color: var(--text-muted);
   font-weight: 700;
   margin-top: 4px;
 }
 .exec-kpi-card .exec-kpi-sub {
   font-size: 11px;
-  color: var(--muted);
+  color: var(--text-muted);
   margin-top: 2px;
 }
 
 .exec-section-title {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: 12.5px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--brand-slate-700);
+  color: var(--text-2);
   font-weight: 600;
   margin: 24px 0 12px;
   padding-bottom: 6px;
-  border-bottom: 1.5px dashed var(--paper-line);
+  border-bottom: 1.5px dashed var(--border);
 }
 
 .exec-leaderboard {
-  background: var(--paper);
-  border: 1px solid var(--paper-line);
-  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
   overflow: hidden;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-1);
 }
 .exec-leaderboard-row {
   display: grid;
@@ -100,52 +103,52 @@
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--paper-line);
+  border-bottom: 1px solid var(--border);
 }
 .exec-leaderboard-row:last-child { border-bottom: none; }
 .exec-leaderboard-rank {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-weight: 700;
-  color: var(--muted);
+  color: var(--text-muted);
   font-size: 13px;
 }
 .exec-leaderboard-name {
   font-weight: 700;
   font-size: 13.5px;
-  color: var(--brand-slate-900);
+  color: var(--text);
 }
 .exec-leaderboard-meta {
   margin-top: 3px;
   font-size: 11.5px;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 .exec-leaderboard-bar-bg {
   margin-top: 6px;
   height: 6px;
   border-radius: 4px;
-  background: var(--brand-slate-100);
+  background: var(--surface-3);
   overflow: hidden;
 }
 .exec-leaderboard-bar-fill {
   height: 100%;
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--success), #22c55e);
+  background: var(--success-solid);
 }
 .exec-leaderboard-score {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-weight: 700;
   font-size: 15px;
-  color: var(--brand-slate-900);
+  color: var(--text);
   white-space: nowrap;
 }
 
 .um-edit-info {
   font-size: 11.5px;
   line-height: 1.9;
-  color: var(--muted);
-  background: rgba(127, 127, 127, 0.06);
-  border: 1px solid var(--paper-line);
-  border-radius: 10px;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   padding: 8px 12px;
   margin-top: 6px;
 }

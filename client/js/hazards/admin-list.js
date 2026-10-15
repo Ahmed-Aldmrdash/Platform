@@ -28,26 +28,26 @@ function getHazardCardHtml(h) {
   let actionHtml = '';
   if (!h.deleted) {
     if (h.status === 'rejected_by_maintenance') {
-      actionHtml = `<div class="desc" style="margin-top:10px; background:rgba(220,38,38,0.08); padding:8px; border-radius:4px; border:1px solid rgba(220,38,38,0.25);">
+      actionHtml = `<div class="desc" style="margin-top:10px; background:var(--danger-tint); padding:8px; border-radius:4px; border:1px solid var(--danger-line);">
         <strong>${T("سبب رفض الصيانة (")}${escapeHtml(h.assignedToMaintenance || '')}):</strong><br>${escapeHtml(h.maintRejectReason || '')}
-        <br><span style="font-size:11px;color:var(--danger);">${T("بواسطة:")} ${escapeHtml(h.maintRejectedBy || '')}</span>
+        <br><span style="font-size:11px;color:var(--danger-text);">${T("بواسطة:")} ${escapeHtml(h.maintRejectedBy || '')}</span>
       </div>`;
       if (currentUserRole === 'hse_admin' || currentUserRole === 'super_admin') {
         actionHtml += `<div style="display:flex; gap:8px; margin-top:8px;">
           <button onclick="openHzAssignModal(${jsArg(h.id)})" class="btn-cyan" style="flex:1;">${T("📢 إعادة التوجيه لقسم آخر")}</button>
-          <button onclick="openHzRejectHseModal(${jsArg(h.id)})" class="act-btn approve" style="background:var(--danger); color:#fff;">${T("🚫 رفض البلاغ نهائياً")}</button>
+          <button onclick="openHzRejectHseModal(${jsArg(h.id)})" class="act-btn approve" style="background:var(--danger-solid); color:var(--on-solid);">${T("🚫 رفض البلاغ نهائياً")}</button>
         </div>`;
       }
     } else if (h.status === 'rejected_by_hse') {
-      actionHtml = `<div class="desc" style="margin-top:10px; background:rgba(220,38,38,0.08); padding:8px; border-radius:4px; border:1px solid rgba(220,38,38,0.25);">
+      actionHtml = `<div class="desc" style="margin-top:10px; background:var(--danger-tint); padding:8px; border-radius:4px; border:1px solid var(--danger-line);">
         <strong>${T("سبب رفض المشرف:")}</strong><br>${escapeHtml(h.hseRejectReason || '')}
-        <br><span style="font-size:11px;color:var(--danger);">${T("بواسطة:")} ${escapeHtml(h.hseRejectedBy || '')}</span>
+        <br><span style="font-size:11px;color:var(--danger-text);">${T("بواسطة:")} ${escapeHtml(h.hseRejectedBy || '')}</span>
       </div>`;
     } else if (h.status === 'resolved' || h.status === 'closed') {
       actionHtml = `<div class="desc" style="margin-top:10px;">
         <strong>${T("تفاصيل الإصلاح (الصيانة):")}</strong><br>${escapeHtml(h.maintenanceAction || T('لا يوجد'))}
         ${h.maintenanceTeamNames ? `<br><strong>${T("فريق الصيانة:")}</strong> ${escapeHtml(h.maintenanceTeamNames)}` : ''}
-        ${h.resolvedByMaintenanceName ? `<br><span style="font-size:11px;color:var(--muted);">${T("بواسطة:")} ${escapeHtml(h.resolvedByMaintenanceName)}</span>` : ''}
+        ${h.resolvedByMaintenanceName ? `<br><span style="font-size:11px;color:var(--text-muted);">${T("بواسطة:")} ${escapeHtml(h.resolvedByMaintenanceName)}</span>` : ''}
       </div>`;
     } else {
       const curRole = currentUserRole || (window.currentUser && window.currentUser.role) || '';
@@ -84,9 +84,9 @@ function getHazardCardHtml(h) {
     }
 
     if (h.assignedToMaintenance && h.status !== 'rejected_by_maintenance' && h.status !== 'rejected_by_hse') {
-      actionHtml += `<div class="desc" style="margin-top:10px; background:rgba(3,105,161,0.08); padding:8px; border-radius:4px; border:1px solid rgba(3,105,161,0.25);">
+      actionHtml += `<div class="desc" style="margin-top:10px; background:var(--info-tint); padding:8px; border-radius:4px; border:1px solid var(--info-line);">
         <strong>${T("جهة الصيانة:")}</strong> ${escapeHtml(h.assignedToMaintenance)}
-        ${h.forwardedByHseName ? `<br><span style="font-size:11px;color:var(--muted);">${T("توجيه بواسطة:")} ${escapeHtml(h.forwardedByHseName)}</span>` : ''}
+        ${h.forwardedByHseName ? `<br><span style="font-size:11px;color:var(--text-muted);">${T("توجيه بواسطة:")} ${escapeHtml(h.forwardedByHseName)}</span>` : ''}
       </div>`;
     }
   }
@@ -99,18 +99,18 @@ function getHazardCardHtml(h) {
 
   if (isTrashedForMe || maintDeletedForMe) {
     if (currentUserRole === 'super_admin' || currentUserRole === 'hse_admin' || currentUserRole === 'dept_admin' || (currentUserRole === 'maint_admin' && h.maintenanceDeletedDept === currentUserDept)) {
-      manageHtml = `<div style="display:flex; flex-direction:column; gap:8px; margin-top:12px; border-top:1px solid var(--paper-line); padding-top:12px;">
+      manageHtml = `<div style="display:flex; flex-direction:column; gap:8px; margin-top:12px; border-top:1px solid var(--border); padding-top:12px;">
         <div style="display:flex; gap:8px;">
-          <button onclick="restoreHazard(${jsArg(h.id)})" class="act-btn" style="flex:1; background:var(--success); color:#fff;">${T("🔄 استرجاع")}</button>
-          <button onclick="permanentDeleteHazard(${jsArg(h.id)})" class="act-btn" style="flex:1; background:var(--danger); color:#fff;">${T("❌ حذف نهائي")}</button>
+          <button onclick="restoreHazard(${jsArg(h.id)})" class="act-btn" style="flex:1; background:var(--success-solid); color:var(--on-solid);">${T("🔄 استرجاع")}</button>
+          <button onclick="permanentDeleteHazard(${jsArg(h.id)})" class="act-btn" style="flex:1; background:var(--danger-solid); color:var(--on-solid);">${T("❌ حذف نهائي")}</button>
         </div>
-        ${(h.lastDeletedByUsername || h.deletedByUsername) ? `<div style="font-size:12px; color:var(--danger); margin-top:4px; font-weight:bold;">${T("حُذف بواسطة:")} ${escapeHtml(h.lastDeletedByUsername || h.deletedByUsername || T('المشرف'))} ${h.deleteReason ? `${T("| السبب:")} ${escapeHtml(h.deleteReason)}` : ''}</div>` : ''}
+        ${(h.lastDeletedByUsername || h.deletedByUsername) ? `<div style="font-size:12px; color:var(--danger-text); margin-top:4px; font-weight:bold;">${T("حُذف بواسطة:")} ${escapeHtml(h.lastDeletedByUsername || h.deletedByUsername || T('المشرف'))} ${h.deleteReason ? `${T("| السبب:")} ${escapeHtml(h.deleteReason)}` : ''}</div>` : ''}
       </div>`;
     }
   } else {
     if (currentUserRole === 'super_admin' || currentUserRole === 'hse_admin' || currentUserRole === 'dept_admin' || (currentUserRole === 'maint_admin' && h.assignedToMaintenance === currentUserDept)) {
-      manageHtml = `<div style="display:flex; justify-content:flex-end; margin-top:12px; border-top:1px solid var(--paper-line); padding-top:12px;">
-        <button onclick="softDeleteHazard(${jsArg(h.id)})" class="act-btn" style="background:var(--danger); color:#fff; padding:4px 8px; font-size:12px;">${T("🗑️ حذف")}</button>
+      manageHtml = `<div style="display:flex; justify-content:flex-end; margin-top:12px; border-top:1px solid var(--border); padding-top:12px;">
+        <button onclick="softDeleteHazard(${jsArg(h.id)})" class="act-btn" style="background:var(--danger-solid); color:var(--on-solid); padding:4px 8px; font-size:12px;">${T("🗑️ حذف")}</button>
       </div>`;
     }
   }
@@ -180,8 +180,8 @@ function getHazardCardHtml(h) {
       <div class="desc"><strong>${T("وصف الخطورة:")}</strong><br>${escapeHtml(h.description)}</div>
       ${h.potentialInjury ? `<div class="desc"><strong>${T("الإصابة المحتملة:")}</strong><br>${escapeHtml(h.potentialInjury)}</div>` : ''}
       ${h.proposedSolution ? `<div class="desc"><strong>${T("الحل المقترح:")}</strong><br>${escapeHtml(h.proposedSolution)}</div>` : ''}
-      ${h.actionTaken ? `<div class="desc" style="background:#f8f9fa; border-right:4px solid var(--primary); padding:10px; margin-top:10px;"><strong>${T("الإجراء المتخذ:")}</strong><br>${escapeHtml(h.actionTaken)}</div>` : ''}
-      ${h.assignNotes ? `<div class="desc" style="background:#e0f7fa; padding:8px; border-radius:4px; border:1px solid #b2ebf2; margin-top:8px;"><strong>${T("ملاحظات التوجيه للصيانة:")}</strong><br>${escapeHtml(h.assignNotes)}</div>` : ''}
+      ${h.actionTaken ? `<div class="desc" style="background:var(--surface-2); border-right:4px solid var(--brand-600); padding:10px; margin-top:10px;"><strong>${T("الإجراء المتخذ:")}</strong><br>${escapeHtml(h.actionTaken)}</div>` : ''}
+      ${h.assignNotes ? `<div class="desc" style="background:var(--info-tint); padding:8px; border-radius:4px; border:1px solid var(--info-line); margin-top:8px;"><strong>${T("ملاحظات التوجيه للصيانة:")}</strong><br>${escapeHtml(h.assignNotes)}</div>` : ''}
       ${h.photoUrl ? `<div style="margin-top:8px;"><div class="hz-photo-badge" onclick="openLightbox(${jsArg(h.photoUrl)})">${T("🖼️ عرض الصورة")}</div></div>` : ''}
       ${_hzViewersHtml(h)}
       ${forwardsHtml(h.forwards)}
@@ -258,7 +258,7 @@ async function openHazardAlertSettings() {
     _renderHazardAlertBox(_hzAlertCache);
   } catch (e) {
     const box = document.getElementById('hzAlertBox');
-    if (box) box.innerHTML = `<div style="color:var(--danger);font-size:13px;">${T('فشل تحميل الإعدادات')}</div>`;
+    if (box) box.innerHTML = `<div style="color:var(--danger-text);font-size:13px;">${T('فشل تحميل الإعدادات')}</div>`;
   }
 }
 
@@ -282,11 +282,11 @@ function _renderHazardAlertBox(s) {
 
   box.innerHTML = `
     <div style="font-weight:800;font-size:16px;margin-bottom:6px;">${T('🔴 تنبيه بلاغات الخطورة العالية بالإيميل')}</div>
-    <div style="font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:10px;">
+    <div style="font-size:12px;color:var(--text-muted);line-height:1.8;margin-bottom:10px;">
       ${T('أول ما يتسجّل بلاغ خطورة عالية (High) بيتبعت إيميل فوري بتفاصيل البلاغ وصورته للأسماء اللي تحت دي بس.')}
     </div>
     ${s.smtpConfigured
-      ? `<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">${T('بيتبعت من:')} <b dir="ltr">${escapeHtml(s.from || '')}</b></div>`
+      ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">${T('بيتبعت من:')} <b dir="ltr">${escapeHtml(s.from || '')}</b></div>`
       : `<div class="bk-email-warn">${T('⚠️ إيميل الإرسال لسه مش متظبط — اظبطه من شاشة سجل التدقيق ← "بيانات إيميل الإرسال"، وبعدها التنبيه هيشتغل.')}</div>`}
 
     <label style="display:flex;align-items:center;gap:8px;font-weight:700;cursor:pointer;margin:0 0 10px;">
@@ -295,7 +295,7 @@ function _renderHazardAlertBox(s) {
     </label>
 
     <div style="font-weight:700;font-size:13px;margin-bottom:6px;">${T('المستلمين')}</div>
-    <div id="hzAlertRows">${recipients.map(_hzAlertRowHtml).join('') || `<div style="font-size:12px;color:var(--muted);padding:6px 0;">${T('مفيش مستلمين — ضيف واحد.')}</div>`}</div>
+    <div id="hzAlertRows">${recipients.map(_hzAlertRowHtml).join('') || `<div style="font-size:12px;color:var(--text-muted);padding:6px 0;">${T('مفيش مستلمين — ضيف واحد.')}</div>`}</div>
     <button type="button" class="btn btn-secondary" style="margin:8px 0 14px;" onclick="hzAlertAddRow()">${T('➕ إضافة مستلم')}</button>
 
     <label style="display:flex;align-items:center;gap:8px;font-weight:700;cursor:pointer;margin:0 0 8px;">
@@ -304,19 +304,19 @@ function _renderHazardAlertBox(s) {
       <input type="number" id="hzAlertHours" min="1" max="720" value="${Number(s.overdueHours) || 48}" style="width:80px;" />
       ${T('ساعة')}
     </label>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">${T('التذكير بيتبعت مرة واحدة بس لكل بلاغ.')}</div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">${T('التذكير بيتبعت مرة واحدة بس لكل بلاغ.')}</div>
 
     <label style="display:flex;align-items:center;gap:8px;font-weight:700;cursor:pointer;margin:0 0 4px;">
       <input type="checkbox" id="hzAlertAfterPhoto" ${s.requireAfterPhoto === false ? '' : 'checked'} />
       ${T('اطلب صورة "بعد الإصلاح" قبل إغلاق أي بلاغ')}
     </label>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:14px;">${T('الصورة بتتحفظ مع البلاغ وبتظهر في نسخة الطباعة.')}</div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">${T('الصورة بتتحفظ مع البلاغ وبتظهر في نسخة الطباعة.')}</div>
 
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <button class="btn btn-primary" type="button" onclick="saveHazardAlertSettings()">${T('💾 حفظ')}</button>
       <button class="btn btn-secondary" type="button" id="hzAlertTestBtn" onclick="testHazardAlertEmail()" ${s.smtpConfigured ? '' : 'disabled'}>${T('📤 ابعت تجربة')}</button>
     </div>
-    <div id="hzAlertStatus" style="font-size:12px;margin-top:10px;color:var(--muted);">${lastTxt}</div>
+    <div id="hzAlertStatus" style="font-size:12px;margin-top:10px;color:var(--text-muted);">${lastTxt}</div>
   `;
 }
 
@@ -339,7 +339,7 @@ function hzAlertRemoveRow(i) {
   const rows = hzAlertReadRows();
   rows.splice(i, 1);
   const el = document.getElementById('hzAlertRows');
-  el.innerHTML = rows.length ? rows.map(_hzAlertRowHtml).join('') : `<div style="font-size:12px;color:var(--muted);padding:6px 0;">${T('مفيش مستلمين — ضيف واحد.')}</div>`;
+  el.innerHTML = rows.length ? rows.map(_hzAlertRowHtml).join('') : `<div style="font-size:12px;color:var(--text-muted);padding:6px 0;">${T('مفيش مستلمين — ضيف واحد.')}</div>`;
 }
 
 async function saveHazardAlertSettings() {

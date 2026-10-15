@@ -53,7 +53,7 @@ async function loadBackupEmailSettings() {
     _smtpSettingsCache = smtpRes.ok ? await smtpRes.json() : null;
     _renderBackupEmailBox(await res.json());
   } catch (e) {
-    box.innerHTML = `<div style="color:var(--danger);font-size:13px;">${T('فشل تحميل إعدادات الإيميل')}</div>`;
+    box.innerHTML = `<div style="color:var(--danger-text);font-size:13px;">${T('فشل تحميل إعدادات الإيميل')}</div>`;
   }
 }
 
@@ -78,7 +78,7 @@ function _renderSmtpBox(s) {
           <input id="smtpPort" dir="ltr" type="number" placeholder="587" value="${escapeHtml(String(port))}" /></div>
         <div class="field"><label>${T('اسم المستخدم (الإيميل)')}</label>
           <input id="smtpUser" dir="ltr" placeholder="hse@company.com" value="${escapeHtml(user)}" /></div>
-        <div class="field"><label>${T('الباسورد')} ${cfg.hasPass ? `<span style="font-weight:400;color:var(--muted);font-size:11px;">(${T('محفوظ — سيبه فاضي لو مش هتغيره')})</span>` : ''}</label>
+        <div class="field"><label>${T('الباسورد')} ${cfg.hasPass ? `<span style="font-weight:400;color:var(--text-muted);font-size:11px;">(${T('محفوظ — سيبه فاضي لو مش هتغيره')})</span>` : ''}</label>
           <input id="smtpPass" dir="ltr" type="password" autocomplete="new-password" placeholder="${cfg.hasPass ? '••••••••' : T('App Password لو Gmail')}" /></div>
         <div class="field"><label>${T('الإيميل اللي هيظهر للمستلم')}</label>
           <input id="smtpFrom" dir="ltr" placeholder="hse@company.com" value="${escapeHtml(from)}" /></div>
@@ -168,7 +168,7 @@ function _backupEmailStatusText(r) {
   const to = escapeHtml((r.recipients || []).join(', '));
   return r.ok
     ? `${T('آخر إرسال:')} ✅ ${when} (${kind}) → <span dir="ltr">${to}</span>${r.sizeKB ? ` · ${r.sizeKB} KB` : ''}`
-    : `${T('آخر إرسال:')} <span style="color:var(--danger);">❌ ${when} (${kind}) — ${escapeHtml(r.error || '')}</span>`;
+    : `${T('آخر إرسال:')} <span style="color:var(--danger-text);">❌ ${when} (${kind}) — ${escapeHtml(r.error || '')}</span>`;
 }
 
 function _renderBackupEmailBox(s) {
@@ -177,7 +177,7 @@ function _renderBackupEmailBox(s) {
   box.innerHTML = `
     <div style="font-weight:800;margin-bottom:8px;">${T('📧 إرسال النسخة الاحتياطية بالإيميل')}</div>
     ${s.smtpConfigured
-      ? `<div style="font-size:12px;color:var(--muted);margin-bottom:8px;">${T('بيتبعت من:')} <b dir="ltr">${escapeHtml(s.from || '')}</b></div>`
+      ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">${T('بيتبعت من:')} <b dir="ltr">${escapeHtml(s.from || '')}</b></div>`
       : `<div class="bk-email-warn">${T('⚠️ إيميل الإرسال لسه مش متظبط — اظبطه من "بيانات إيميل الإرسال" تحت، وبعدها زرار "ابعت النسخة دلوقتي" هيشتغل.')}</div>`}
     ${_renderSmtpBox(_smtpSettingsCache)}
     <div class="field" style="margin-bottom:10px;">
@@ -195,7 +195,7 @@ function _renderBackupEmailBox(s) {
       <button class="btn btn-primary" type="button" onclick="saveBackupEmailSettings()">${T('💾 حفظ الإعدادات')}</button>
       <button class="btn btn-secondary" type="button" id="bkEmailSendBtn" onclick="sendBackupEmailNow()" ${s.smtpConfigured ? '' : 'disabled'}>${T('📤 ابعت النسخة دلوقتي')}</button>
     </div>
-    <div id="bkEmailStatus" style="font-size:12px;margin-top:10px;color:var(--muted);">${_backupEmailStatusText(s.lastResult)}</div>
+    <div id="bkEmailStatus" style="font-size:12px;margin-top:10px;color:var(--text-muted);">${_backupEmailStatusText(s.lastResult)}</div>
   `;
 }
 
@@ -249,7 +249,7 @@ async function loadBackupSnapshots() {
     if (!res.ok) throw new Error('fetch failed');
     _renderSnapshotBox(await res.json());
   } catch (e) {
-    box.innerHTML = `<div style="color:var(--danger);font-size:13px;">${T('فشل تحميل النسخ المحلية')}</div>`;
+    box.innerHTML = `<div style="color:var(--danger-text);font-size:13px;">${T('فشل تحميل النسخ المحلية')}</div>`;
   }
 }
 
@@ -274,15 +274,15 @@ function _renderSnapshotBox(s) {
   box.innerHTML = `
     <div style="font-weight:800;margin-bottom:8px;">${T('🗄️ نسخ محلية يومية على السيرفر')}</div>
     ${s.volumeWarning ? `<div class="bk-email-warn">⚠️ ${escapeHtml(s.volumeWarning)}</div>` : ''}
-    <div style="font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:10px;">
+    <div style="font-size:12px;color:var(--text-muted);line-height:1.8;margin-bottom:10px;">
       ${T('السيرفر بياخد نسخة كل يوم لوحده وبيحتفظ بآخر')} ${Number(s.keepDaily || 14)} ${T('يوم + نسخة أسبوعية لآخر')} ${Number(s.keepWeekly || 8)} ${T('أسابيع، والباقي بيتمسح لوحده.')}
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
       <button class="btn btn-primary" type="button" id="snapNowBtn" onclick="takeSnapshotNow()">${T('🗄️ خد نسخة دلوقتي')}</button>
       <button class="btn btn-secondary" type="button" id="snapVerifyBtn" onclick="verifySnapshotNow()">${T('🧪 اختبر استرجاع آخر نسخة')}</button>
     </div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">${lastTxt}</div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">${_snapshotDrillText(s.lastDrill, s.lastDrillAt)}</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">${lastTxt}</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">${_snapshotDrillText(s.lastDrill, s.lastDrillAt)}</div>
     ${snaps.length ? `
       <div style="font-weight:700;font-size:13px;margin-bottom:6px;">${T('النسخ المحفوظة')} (${snaps.length})</div>
       <div class="snap-list">
@@ -293,8 +293,8 @@ function _renderSnapshotBox(s) {
             <button type="button" class="snap-dl" onclick="downloadSnapshot(${jsArg(x.name)})" title="${T('تنزيل')}">⬇</button>
           </div>`).join('')}
       </div>
-      ${snaps.length > 10 ? `<div style="font-size:11px;color:var(--muted);margin-top:6px;">${T('+ ')}${snaps.length - 10} ${T('نسخة أقدم')}</div>` : ''}
-    ` : `<div style="font-size:12px;color:var(--muted);">${T('مفيش نسخ محلية لحد دلوقتي — أول نسخة بتتاخد بعد تشغيل السيرفر بشوية.')}</div>`}
+      ${snaps.length > 10 ? `<div style="font-size:11px;color:var(--text-muted);margin-top:6px;">${T('+ ')}${snaps.length - 10} ${T('نسخة أقدم')}</div>` : ''}
+    ` : `<div style="font-size:12px;color:var(--text-muted);">${T('مفيش نسخ محلية لحد دلوقتي — أول نسخة بتتاخد بعد تشغيل السيرفر بشوية.')}</div>`}
   `;
 }
 

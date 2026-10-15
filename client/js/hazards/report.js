@@ -73,8 +73,8 @@ async function renderMyHazards(isSilent = false) {
           </div>
           <div class="desc"><strong>${T("وصف الخطورة:")}</strong><br>${escapeHtml(h.description)}</div>
           ${h.photoUrl ? `<div style="margin-top:8px;"><div class="hz-photo-badge" onclick="openLightbox(${jsArg(h.photoUrl)})">${T("🖼️ عرض الصورة")}</div></div>` : ''}
-          <div class="phc-msg" style="margin-top:10px; font-size:12px; color:var(--muted);">${pendingDesc}</div>
-          ${h.actionTaken ? `<div class="note-box show" style="margin-top:10px; background-color: #f8f9fa; border-left: 4px solid var(--primary); padding: 10px; border-radius: 4px;">
+          <div class="phc-msg" style="margin-top:10px; font-size:12px; color:var(--text-muted);">${pendingDesc}</div>
+          ${h.actionTaken ? `<div class="note-box show" style="margin-top:10px; background-color: var(--surface-2); border-left: 4px solid var(--brand-600); padding: 10px; border-radius: 4px;">
             <strong>${T("🛠️ الإجراء المتخذ من المشرف (")}${escapeHtml(h.updatedBy || T('إدارة السلامة'))}):</strong><br>
             ${escapeHtml(h.actionTaken)}
           </div>` : ''}
@@ -108,12 +108,12 @@ async function renderMyHazards(isSilent = false) {
               </div>
             </div>
             ${h.status && h.status.startsWith('rejected') ? `
-            <div class="timeline-step done" style="border-left-color: var(--danger);">
-              <span class="step-icon" style="background: var(--danger); color: white;">❌</span>
+            <div class="timeline-step done" style="border-left-color: var(--danger-solid);">
+              <span class="step-icon" style="background: var(--danger-solid); color: white;">❌</span>
               <div class="step-info">
-                <strong style="color: var(--danger);">${T("تم رفض البلاغ:")}</strong>
+                <strong style="color: var(--danger-text);">${T("تم رفض البلاغ:")}</strong>
                 <span>${h.rejectedAt ? `${formatDateTime(h.rejectedAt)} ${T("(بواسطة:")} ${escapeHtml(h.rejectedBy || T('المشرف'))})` : '—'}</span>
-                <br><span style="color: var(--danger); font-size: 11px;">${T("سبب الرفض:")} ${escapeHtml(h.rejectionReason || h.reason || T('لم يتم تحديد سبب'))}</span>
+                <br><span style="color: var(--danger-text); font-size: 11px;">${T("سبب الرفض:")} ${escapeHtml(h.rejectionReason || h.reason || T('لم يتم تحديد سبب'))}</span>
               </div>
             </div>
             ` : ''}
@@ -165,14 +165,14 @@ async function lookupHazardEmpCode() {
       const deptEl = document.getElementById('hz_dept');
       if (nameEl) { nameEl.value = emp.name; nameEl.setAttribute('readonly','readonly'); }
       if (deptEl) deptEl.value = emp.department || '';
-      if (msgEl) { msgEl.textContent = `✅ ${emp.name} — ${emp.department || ''}`; msgEl.style.color = 'var(--success)'; }
+      if (msgEl) { msgEl.textContent = `✅ ${emp.name} — ${emp.department || ''}`; msgEl.style.color = 'var(--success-text)'; }
     } else {
-      if (msgEl) { msgEl.textContent = T('الكود غير مسجل، يرجى كتابة البيانات يدوياً'); msgEl.style.color = 'var(--muted)'; }
+      if (msgEl) { msgEl.textContent = T('الكود غير مسجل، يرجى كتابة البيانات يدوياً'); msgEl.style.color = 'var(--text-muted)'; }
       const nameEl = document.getElementById('hz_name');
       if (nameEl) nameEl.removeAttribute('readonly');
     }
   } catch(e) {
-    if (msgEl) { msgEl.textContent = T('خطأ في البحث'); msgEl.style.color = 'var(--danger)'; }
+    if (msgEl) { msgEl.textContent = T('خطأ في البحث'); msgEl.style.color = 'var(--danger-text)'; }
   }
 }
 

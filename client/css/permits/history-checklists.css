@@ -4,8 +4,8 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, rgba(213, 30, 39, 0.1), rgba(213, 30, 39, 0.04));
-  border: 1px solid rgba(213, 30, 39, 0.25);
+  background: var(--brand-50);
+  border: 1px solid var(--brand-line);
   border-radius: 20px;
   padding: 5px 6px 5px 12px;
   font-size: 12px;
@@ -31,7 +31,7 @@
 
 .emp-name {
   font-weight: 800;
-  color: var(--ink);
+  color: var(--text);
   max-width: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -39,23 +39,23 @@
 }
 
 .emp-code-label {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: 10px;
   letter-spacing: 1px;
-  color: var(--amber);
+  color: var(--brand-700);
   font-weight: 600;
 }
 
 .emp-logout-btn {
-  background: var(--danger);
-  color: #fff;
+  background: var(--danger-solid);
+  color: var(--on-solid);
   border: none;
   border-radius: 12px;
   padding: 3px 9px;
   font-size: 11px;
   font-weight: 800;
   cursor: pointer;
-  font-family: 'Cairo', sans-serif;
+  font-family: var(--font);
   margin-inline-start: 2px;
   transition: opacity .12s;
 }
@@ -65,37 +65,38 @@
 }
 
 .field input[readonly] {
-  background: rgba(213, 30, 39, 0.04);
-  border-color: rgba(213, 30, 39, 0.2);
-  color: var(--ink);
+  background: var(--brand-50);
+  border-color: var(--brand-line);
+  color: var(--text);
   cursor: default;
 }
 
 .field input[readonly]:focus {
-  border-color: rgba(213, 30, 39, 0.2);
+  border-color: var(--brand-line);
 }
 
 .my-history-header {
   margin-bottom: 16px;
   padding: 18px;
-  background: linear-gradient(135deg, var(--ink) 0%, #2d0406 100%);
-  border-radius: var(--radius);
-  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.6);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--brand-600);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
 }
 
 .my-history-title {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: 19px;
   font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.5px;
+  color: var(--text);
 }
 
 .my-history-sub {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-muted);
   margin-top: 4px;
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   letter-spacing: 1px;
 }
 
@@ -112,37 +113,37 @@
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: var(--charcoal-2);
-  color: var(--muted);
-  font-family: 'Cairo', sans-serif;
+  border: 1px solid var(--border);
+  background: var(--surface-3);
+  color: var(--text-muted);
+  font-family: var(--font);
   transition: all .12s;
   -webkit-user-select: none;
   user-select: none;
 }
 
 .mh-filter-btn.active {
-  background: var(--amber);
-  color: #fff;
-  border-color: var(--amber);
+  background: var(--brand-600);
+  color: var(--on-solid);
+  border-color: var(--brand-600);
 }
 
 .mh-filter-btn:hover:not(.active) {
-  background: #e9e9e9;
+  background: var(--surface-3);
 }
 
 .permit-history-card {
-  background: var(--paper);
-  border-radius: var(--radius);
+  background: var(--surface);
+  border-radius: var(--r-lg);
   padding: 16px 18px;
   margin-bottom: 12px;
-  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--paper-line);
+  box-shadow: var(--shadow-2);
+  border: 1px solid var(--border);
   transition: box-shadow .15s;
 }
 
 .permit-history-card:hover {
-  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-2);
 }
 
 .phc-top {
@@ -155,26 +156,26 @@
 
 .phc-type-pill {
   display: inline-block;
-  background: var(--steel);
-  color: #fff;
+  background: var(--neutral-tint);
+  color: var(--neutral-text);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   padding: 2px 9px;
-  border-radius: 20px;
+  border-radius: var(--r-pill);
   margin-bottom: 4px;
 }
 
 .phc-id {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: 15px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--text);
   letter-spacing: 0.5px;
 }
 
 .phc-date {
   font-size: 12px;
-  color: var(--muted);
+  color: var(--text-muted);
   margin-top: 2px;
 }
 
@@ -188,17 +189,17 @@
 
 .phc-meta div span {
   display: block;
-  color: var(--muted);
+  color: var(--text-muted);
   font-size: 11px;
   font-weight: 700;
 }
 
 .phc-desc {
   font-size: 13px;
-  color: var(--muted);
+  color: var(--text-muted);
   margin: 8px 0;
   padding: 8px 10px;
-  background: rgba(0, 0, 0, 0.03);
+  background: var(--surface-2);
   border-radius: 7px;
   line-height: 1.5;
   display: -webkit-box;
@@ -216,42 +217,42 @@
 }
 
 .phc-msg.pending {
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--muted);
+  background: var(--surface-2);
+  color: var(--text-muted);
 }
 
 .phc-msg.approved {
-  background: rgba(31, 122, 61, 0.08);
-  color: var(--success);
+  background: var(--success-tint);
+  color: var(--success-text);
 }
 
 .phc-msg.rejected {
-  background: rgba(200, 20, 33, 0.07);
-  color: var(--danger);
+  background: var(--danger-tint);
+  color: var(--danger-text);
 }
 
 .phc-msg.muted {
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--muted);
+  background: var(--surface-2);
+  color: var(--text-muted);
 }
 
 .phc-submitted {
   font-size: 11px;
-  color: var(--muted);
+  color: var(--text-muted);
   margin-top: 6px;
 }
 
 .chk-section-label {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: 11.5px;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: var(--steel);
+  color: var(--text-2);
   font-weight: 700;
   margin: 14px 0 6px;
   padding: 5px 10px;
-  background: rgba(213, 30, 39, 0.06);
-  border-right: 3px solid var(--steel);
+  background: var(--brand-50);
+  border-right: 3px solid var(--text-2);
   border-radius: 0 6px 6px 0;
 }
 
@@ -264,8 +265,8 @@
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 8px;
   padding: 10px 12px;
-  background: rgba(213, 30, 39, 0.03);
-  border: 1.5px solid var(--paper-line);
+  background: var(--brand-50);
+  border: 1.5px solid var(--border);
   border-radius: 8px;
 }
 
@@ -275,8 +276,8 @@
   gap: 6px;
   padding: 8px 12px;
   min-height: 44px;
-  background: #fff;
-  border: 1.5px solid var(--paper-line);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
   border-radius: 20px;
   font-size: clamp(12px, 3vw, 13px);
   font-weight: 700;
@@ -289,14 +290,14 @@
 }
 
 .tool-check-label:hover {
-  border-color: var(--amber);
-  background: rgba(213, 30, 39, 0.04);
+  border-color: var(--brand-600);
+  background: var(--brand-50);
 }
 
 .tool-check-label input[type="checkbox"] {
   -webkit-appearance: auto !important;
   appearance: auto !important;
-  accent-color: #a81c1c !important;
+  accent-color: var(--brand-600) !important;
   width: 18px !important;
   height: 18px !important;
   min-width: 18px;
@@ -307,9 +308,9 @@
 
 .tool-check-label:has(input:checked),
 .tool-check-label.active {
-  background-color: #fee2e2 !important;
-  border-color: #dc2626 !important;
-  color: #991b1b !important;
+  background-color: var(--brand-50) !important;
+  border-color: var(--brand-600) !important;
+  color: var(--brand-700) !important;
 }
 
 .tool-other-wrap {
@@ -320,18 +321,18 @@
 
 .tool-other-input {
   width: 100%;
-  border: 1.5px solid var(--paper-line);
-  background: #FBFAF5;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
   border-radius: 8px;
   padding: 8px 11px;
-  font-family: 'Cairo', sans-serif;
+  font-family: var(--font);
   font-size: 13.5px;
-  color: var(--ink);
+  color: var(--text);
 }
 
 .tool-other-input:focus {
   outline: none;
-  border-color: var(--amber-dark);
+  border-color: var(--brand-fill-hover);
 }
 
 .tools-display {
@@ -343,9 +344,9 @@
 
 .tool-tag {
   display: inline-block;
-  background: rgba(213, 30, 39, 0.08);
-  border: 1px solid rgba(213, 30, 39, 0.25);
-  color: var(--amber-dark);
+  background: var(--brand-50);
+  border: 1px solid var(--brand-line);
+  color: var(--brand-fill-hover);
   font-size: 12px;
   font-weight: 700;
   padding: 3px 10px;
@@ -355,14 +356,14 @@
 .doc-control-footer {
   margin-top: 14px;
   padding: 7px 12px;
-  background: var(--charcoal-2);
-  border: 1px solid var(--paper-line);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
   border-radius: 7px;
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 1.2px;
-  color: var(--muted);
+  color: var(--text-muted);
   text-align: center;
   text-transform: uppercase;
 }
@@ -398,8 +399,8 @@ body[data-session="supervisor"] #empBadgeArea {
 
 .badge-count {
   display: inline-block;
-  background-color: var(--danger);
-  color: white;
+  background-color: var(--danger-solid);
+  color: var(--on-solid);
   font-size: 11px;
   font-weight: bold;
   padding: 2px 6px;

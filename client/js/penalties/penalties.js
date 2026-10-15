@@ -25,7 +25,7 @@ async function renderMyPenalties() {
     }
 
     listEl.innerHTML = penalties.map(p => `
-      <div class="sup-card" style="margin-bottom:12px;border-right:4px solid var(--danger);">
+      <div class="sup-card" style="margin-bottom:12px;border-right:4px solid var(--danger-solid);">
         <div class="sup-top">
           <div><div class="hz-status-badge hz-high">${T("⚖️ جزاء")}</div></div>
           <div class="tnum">${escapeHtml(p.date || '')}</div>
@@ -70,7 +70,7 @@ async function renderPenaltiesAdmin() {
     }
 
     listEl.innerHTML = penaltiesAdminCache.map(p => `
-      <div class="sup-card penalty-card" style="margin-bottom:12px;border-right:4px solid var(--danger);">
+      <div class="sup-card penalty-card" style="margin-bottom:12px;border-right:4px solid var(--danger-solid);">
         <div class="sup-top">
           <div>
             <div class="hz-status-badge hz-high">⚖️ ${escapeHtml(p.empName || p.empCode || '')}</div>
@@ -86,7 +86,7 @@ async function renderPenaltiesAdmin() {
         <div style="margin:10px 0;font-size:14px;line-height:1.6;">${escapeHtml(p.reason || '')}</div>
         ${canManage ? `
         <div style="display:flex;gap:8px;">
-          <button class="logout-btn" style="flex:1;color:var(--danger);border-color:var(--danger);" onclick="openDeletePenaltyModal(${jsArg(p.id)})">${T("🗑️ حذف الجزاء")}</button>
+          <button class="logout-btn" style="flex:1;color:var(--danger-text);border-color:var(--danger-solid);" onclick="openDeletePenaltyModal(${jsArg(p.id)})">${T("🗑️ حذف الجزاء")}</button>
         </div>` : ''}
       </div>
     `).join('');
