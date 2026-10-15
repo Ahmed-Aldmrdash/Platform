@@ -1092,10 +1092,9 @@
             </div>
           </div>
           <button
-            class="submit-btn"
+            class="btn btn-primary btn-block form-submit"
             id="um_addBtn"
             onclick="addUser()"
-            style="margin-top: 4px"
           >
             ➕ إضافة المستخدم
           </button>
@@ -1225,13 +1224,12 @@
 
         <div id="empTableWrap">
           <div class="emp-dir-topbar">
-            <button id="empAddBtn" class="emp-dir-btn primary" onclick="openEmpModal()">
+            <button id="empAddBtn" class="btn btn-primary btn-sm" onclick="openEmpModal()">
               ➕ إضافة موظف
             </button>
             <label
               id="empImportBtn"
-              class="emp-dir-btn secondary"
-              style="cursor: pointer"
+              class="btn btn-export btn-sm"
               title="استيراد من Excel"
             >
               📥 استيراد Excel
@@ -1244,18 +1242,10 @@
               />
             </label>
             <button
-              class="emp-dir-btn secondary"
+              class="btn btn-export btn-sm"
               onclick="exportEmployeesExcel()"
             >
               📤 تصدير Excel
-            </button>
-            <button
-              id="clearEmployeesBtn"
-              class="export-btn admin-only"
-              onclick="clearModuleData('employees', renderEmployeesPanel)"
-              style="background: var(--danger-solid); color: var(--on-solid)"
-            >
-              🗑️ مسح كل الموظفين
             </button>
             <div
               class="emp-dir-search-wrap"
@@ -1301,6 +1291,18 @@
           <div id="empDirList">
             <div class="loading">جارِ التحميل…</div>
           </div>
+        </div>
+
+        <div class="danger-zone">
+          <h4 class="danger-zone-title">منطقة الخطر</h4>
+          <p class="danger-zone-note">المسح هنا نهائي لكل المستخدمين، وبيطلب تأكيدين.</p>
+          <button
+            id="clearEmployeesBtn"
+            class="btn btn-danger btn-sm admin-only"
+            onclick="clearModuleData('employees', renderEmployeesPanel)"
+          >
+            🗑️ مسح كل الموظفين
+          </button>
         </div>
 
         <div id="empModal" class="um-modal-overlay" style="display: none">
@@ -1372,17 +1374,15 @@
                 <input id="em_phone" type="tel" placeholder="01xxxxxxxxx" />
               </div>
             </div>
-            <div style="display: flex; gap: 8px; margin-top: 10px">
+            <div class="btn-row is-fill modal-actions">
               <button
-                class="submit-btn"
-                style="flex: 1"
+                class="btn btn-primary"
                 onclick="saveEmployee()"
               >
                 💾 حفظ
               </button>
               <button
-                class="logout-btn"
-                style="flex: 1"
+                class="btn btn-secondary"
                 onclick="closeEmpModal()"
               >
                 إلغاء
@@ -1394,8 +1394,8 @@
               </div>
               <div class="em-pw-row">
                 <input id="em_newWorkerPw" type="text" dir="ltr" autocomplete="off" placeholder="كلمة سر جديدة (6 حروف/أرقام على الأقل)" />
-                <button type="button" class="logout-btn" onclick="generateWorkerPassword()">🎲 توليد</button>
-                <button type="button" class="submit-btn" onclick="setEmployeePassword()">💾 حفظ كلمة السر</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="generateWorkerPassword()">🎲 توليد</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="setEmployeePassword()">💾 حفظ كلمة السر</button>
               </div>
               <div class="em-pw-hint">بعد الحفظ ادّي كلمة السر دي للعامل يدخل بيها بكوده. أي جلسة مفتوحة بكلمة السر القديمة هتتقفل.</div>
             </div>
@@ -1823,30 +1823,10 @@
 
       <div id="viewDrillAdmin" style="display: none; padding: 12px">
         <div class="ticket" id="createDrillCard" style="margin-bottom: 24px">
-          <div
-            class="ticket-head"
-            style="
-              background: var(--danger-solid);
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            "
-          >
+          <div class="ticket-head">
             <div>
               <div class="ttype">➕ إنشاء تجربة طوارئ جديدة</div>
             </div>
-            <button
-              class="submit-btn admin-only"
-              style="
-                background: var(--brand-600);
-                margin: 0;
-                padding: 8px 12px;
-                font-size: 0.9rem;
-              "
-              onclick="clearModuleData('drills', () => loadAdminDrill(false))"
-            >
-              🗑️ مسح كل تجارب الطوارئ
-            </button>
           </div>
           <div class="ticket-body">
             <div class="row2">
@@ -1946,7 +1926,7 @@
                 <input type="time" id="drl_endTime" />
               </div>
             </div>
-            <button class="submit-btn" onclick="createDrillSession()">
+            <button class="btn btn-primary btn-lg btn-block form-submit" onclick="createDrillSession()">
               إنشاء التجربة وبدء التسجيل
             </button>
             <div
@@ -1960,6 +1940,17 @@
         <div id="liveDrillsSection">
           <h3 class="section-title">📡 إدارة تجارب الطوارئ</h3>
           <div id="drlAdminLiveSessions"></div>
+        </div>
+
+        <div class="danger-zone">
+          <h4 class="danger-zone-title">منطقة الخطر</h4>
+          <p class="danger-zone-note">المسح هنا نهائي لكل المستخدمين، وبيطلب تأكيدين.</p>
+          <button
+            class="btn btn-danger btn-sm admin-only"
+            onclick="clearModuleData('drills', () => loadAdminDrill(false))"
+          >
+            🗑️ مسح كل تجارب الطوارئ
+          </button>
         </div>
       </div>
 
@@ -1983,31 +1974,20 @@
               style="display: flex; gap: 10px; flex-wrap: wrap"
             >
               <button
-                class="submit-btn"
-                style="width: auto"
+                class="btn btn-primary btn-sm"
                 onclick="openAddPenaltyModal()"
               >
                 ➕ إضافة جزاء
               </button>
               <button
                 id="uploadPenaltiesExcelBtn"
-                class="submit-btn"
-                style="
-                  width: auto;
-                  background: var(--neutral-solid);
-                  border-color: var(--neutral-solid);
-                "
+                class="btn btn-export btn-sm"
                 onclick="document.getElementById('penaltiesExcelUploadInput').click()"
               >
                 📥 استيراد الجزاءات القديمة
               </button>
               <button
-                class="submit-btn"
-                style="
-                  width: auto;
-                  background: var(--success-solid);
-                  border-color: var(--success-solid);
-                "
+                class="btn btn-export btn-sm"
                 onclick="exportPenaltiesExcel()"
               >
                 📤 تصدير الجزاءات
@@ -2019,17 +1999,6 @@
                 style="display: none"
                 onchange="uploadPenaltiesExcel(event)"
               />
-              <button
-                class="submit-btn admin-only"
-                style="
-                  width: auto;
-                  background: var(--danger-solid);
-                  border-color: var(--danger-solid);
-                "
-                onclick="clearModuleData('penalties', renderPenaltiesAdmin)"
-              >
-                🗑️ مسح كل الجزاءات
-              </button>
             </div>
             <div
               id="penaltiesReadOnlyNotice"
@@ -2045,6 +2014,17 @@
           </div>
         </div>
         <div id="penaltiesAdminList"></div>
+
+        <div class="danger-zone">
+          <h4 class="danger-zone-title">منطقة الخطر</h4>
+          <p class="danger-zone-note">المسح هنا نهائي لكل المستخدمين، وبيطلب تأكيدين.</p>
+          <button
+            class="btn btn-danger btn-sm admin-only"
+            onclick="clearModuleData('penalties', renderPenaltiesAdmin)"
+          >
+            🗑️ مسح كل الجزاءات
+          </button>
+        </div>
       </div>
     </div>
 

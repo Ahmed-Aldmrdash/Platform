@@ -85,8 +85,8 @@ async function renderPenaltiesAdmin() {
         </div>
         <div style="margin:10px 0;font-size:14px;line-height:1.6;">${escapeHtml(p.reason || '')}</div>
         ${canManage ? `
-        <div style="display:flex;gap:8px;">
-          <button class="logout-btn" style="flex:1;color:var(--danger-text);border-color:var(--danger-solid);" onclick="openDeletePenaltyModal(${jsArg(p.id)})">${T("🗑️ حذف الجزاء")}</button>
+        <div class="card-danger">
+          <button class="btn btn-danger btn-sm" onclick="openDeletePenaltyModal(${jsArg(p.id)})">${T("🗑️ حذف الجزاء")}</button>
         </div>` : ''}
       </div>
     `).join('');

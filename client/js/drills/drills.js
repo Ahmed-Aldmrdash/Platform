@@ -41,9 +41,9 @@ async function loadWorkerDrill(isSilent = false) {
             <div class="ticket-body">
               <h3 style="margin:0 0 4px 0; color:var(--danger-text);">${T("🚨 تجربة أداء جارية الآن")}</h3>
               <p style="margin:0 0 12px 0; font-size:14px; font-weight:700;">${escapeHtml(activeSession.title)} | ${escapeHtml(activeSession.location)}</p>
-              <div style="display:flex; gap:8px;">
-                <input type="text" id="drlWorkerPin" placeholder="${T("أدخل رمز الجلسة (PIN)")}" style="flex:1; text-align:center; font-family:monospace; font-size:18px; font-weight:bold; letter-spacing:4px;" maxlength="4">
-                <button class="submit-btn" style="flex:1;" onclick="submitDrillAttendance(${jsArg(activeSession.id)})">${T("✅ تسجيل حضوري")}</button>
+              <div class="pin-row">
+                <input type="text" id="drlWorkerPin" class="pin-input" placeholder="${T("أدخل رمز الجلسة (PIN)")}" maxlength="4">
+                <button class="btn btn-primary pin-row-btn" onclick="submitDrillAttendance(${jsArg(activeSession.id)})">${T("✅ تسجيل حضوري")}</button>
               </div>
               <div id="drlWorkerMsg" class="wl-msg" style="margin-top:8px;"></div>
             </div>
@@ -161,7 +161,7 @@ async function loadAdminDrill(isSilent = false) {
               const dates = pastAttendedList.map(d => new Date(d.createdAt).toISOString().split('T')[0]).join(' ، ');
               const countText = count === 1 ? T('مرة واحدة') : `${count} ${T("مرات")}`;
               const dateLabel = count === 1 ? T('بتاريخ:') : T('بتواريخ:');
-              dupWarningHtml = `<div style="margin-top:4px;font-size:11px;color:var(--on-solid);background:var(--warning-solid);padding:2px 6px;border-radius:4px;display:inline-block;">${T("⚠️ تنبيه: حضر الموظف هذه التجربة مسبقاً (")}${countText}) ${dateLabel} [${dates}]</div>`;
+              dupWarningHtml = `<div class="dup-warning">${T("⚠️ تنبيه: حضر الموظف هذه التجربة مسبقاً (")}${countText}) ${dateLabel} [${dates}]</div>`;
             }
           }
           return {
@@ -183,58 +183,58 @@ async function loadAdminDrill(isSilent = false) {
           attendees
         };
         html += `
-<div style="border: 2px solid var(--danger-solid); border-radius: 10px; overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow-2); background: var(--surface);">
-    <div style="display: flex; background: var(--surface); padding: 20px; align-items: center; border-bottom: 2px solid var(--border);">
-        <div style="background: var(--danger-solid); color: var(--on-solid); padding: 15px; border-radius: 10px; text-align: center; min-width: 120px;">
-            <div style="font-size: 0.9rem; margin-bottom: 5px;">${T("رمز الجلسة (PIN)")}</div>
-            <div style="font-size: 2rem; font-weight: bold; letter-spacing: 5px;">${escapeHtml(drill.pin)}</div>
+<div class="ticket drill-live">
+    <div class="drill-live-head">
+        <div class="drill-pin">
+            <div class="drill-pin-label">${T("رمز الجلسة (PIN)")}</div>
+            <div class="drill-pin-value">${escapeHtml(drill.pin)}</div>
         </div>
-        <div style="flex-grow: 1; text-align: left; padding-right: 20px;">
-            <h3 style="margin: 0 0 10px 0; color: var(--text); font-size: 1.5rem;">${escapeHtml(drill.title)}</h3>
-            <p style="margin: 0; color: var(--text-muted);">${T("المكان:")} ${escapeHtml(drill.location)} ${T("| المشرف:")} ${escapeHtml(drill.supervisorName)}</p>
+        <div class="drill-live-info">
+            <h3>${escapeHtml(drill.title)}</h3>
+            <p>${T("المكان:")} ${escapeHtml(drill.location)} ${T("| المشرف:")} ${escapeHtml(drill.supervisorName)}</p>
         </div>
     </div>
 
-    <div style="padding: 20px;">
-        <h4 style="margin-top: 0;">${T("📋 الحضور (")}${drill.attendees ? drill.attendees.length : 0})</h4>
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; text-align: right;">
+    <div class="ticket-body">
+        <h4 class="drill-att-title">${T("📋 الحضور (")}${drill.attendees ? drill.attendees.length : 0})</h4>
+        <div class="um-table-wrap">
+            <table class="um-table">
                 <thead>
-                    <tr style="background-color: var(--neutral-solid); color: var(--on-solid);">
-                        <th style="padding: 12px;">${T("الكود")}</th>
-                        <th style="padding: 12px;">${T("الاسم")}</th>
-                        <th style="padding: 12px;">${T("القسم")}</th>
-                        <th style="padding: 12px;">${T("الوقت")}</th>
-                        <th style="padding: 12px;">${T("التحقق")}</th>
+                    <tr>
+                        <th>${T("الكود")}</th>
+                        <th>${T("الاسم")}</th>
+                        <th>${T("القسم")}</th>
+                        <th>${T("الوقت")}</th>
+                        <th>${T("التحقق")}</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${drill.attendees && drill.attendees.length > 0 ? drill.attendees.map(att => `
-                        <tr style="border-bottom: 1px solid var(--border);">
-                            <td style="padding: 12px; font-weight: bold;">${escapeHtml(att.code)}</td>
-                            <td style="padding: 12px;">
+                        <tr>
+                            <td class="cell-strong">${escapeHtml(att.code)}</td>
+                            <td>
                                 ${escapeHtml(att.name)}
                                 ${att.dupWarningHtml}
                             </td>
-                            <td style="padding: 12px;">${escapeHtml(att.department)}</td>
-                            <td style="padding: 12px;">${att.time}</td>
-                            <td style="padding: 12px;">
-                                <button class="um-btn ${att.verified ? 'del' : 'pass'}" onclick="toggleDrlVerification(${jsArg(drill.id)}, ${jsArg(att.rawCode)}, ${!att.verified})" style="padding:5px 10px; font-size:0.85rem; border-radius:5px;">
+                            <td>${escapeHtml(att.department)}</td>
+                            <td>${att.time}</td>
+                            <td>
+                                <button class="btn btn-sm ${att.verified ? 'btn-secondary' : 'btn-success'}" onclick="toggleDrlVerification(${jsArg(drill.id)}, ${jsArg(att.rawCode)}, ${!att.verified})">
                                   ${att.verified ? T('❌ إلغاء') : T('✅ تأكيد')}
                                 </button>
                             </td>
                         </tr>
-                    `).join('') : `<tr><td colspan="5" style="text-align: center; padding: 20px;">${T("لا يوجد حضور حتى الآن.")}</td></tr>`}
+                    `).join('') : `<tr><td colspan="5" class="cell-empty">${T("لا يوجد حضور حتى الآن.")}</td></tr>`}
                 </tbody>
             </table>
         </div>
     </div>
 
-    <div style="padding: 20px; background: var(--surface-2); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
-        <button onclick="navigateWithAuth(${jsArg('/api/drills/export/' + drill.id)})" style="background: var(--success-solid); color: var(--on-solid); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("📊 تصدير Excel")}</button>
-        <button onclick="addManualDrlAttendee(${jsArg(drill.id)})" style="background: var(--neutral-solid); color: var(--on-solid); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("➕ إضافة حضور يدوي")}</button>
-        <button onclick="openDrillReportModal(${jsArg(drill.id)})" style="background: var(--brand-600); color: var(--on-solid); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("📝 إنشاء / تعديل الريبورت")}</button>
-        <button onclick="closeDrillSession(${jsArg(drill.id)})" style="background: var(--danger-solid); color: var(--on-solid); border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("🛑 إنهاء وإغلاق التجربة")}</button>
+    <div class="btn-row drill-live-actions">
+        <button class="btn btn-secondary" onclick="addManualDrlAttendee(${jsArg(drill.id)})">${T("➕ إضافة حضور يدوي")}</button>
+        <button class="btn btn-secondary" onclick="openDrillReportModal(${jsArg(drill.id)})">${T("📝 إنشاء / تعديل الريبورت")}</button>
+        <button class="btn btn-export" onclick="navigateWithAuth(${jsArg('/api/drills/export/' + drill.id)})">${T("📊 تصدير Excel")}</button>
+        <button class="btn btn-warning btn-push-end" onclick="closeDrillSession(${jsArg(drill.id)})">${T("🛑 إنهاء وإغلاق التجربة")}</button>
     </div>
 </div>
 `;
@@ -255,29 +255,29 @@ async function loadAdminDrill(isSilent = false) {
               <div style="font-weight:700;">${escapeHtml(drl.title)} ${isLegacy ? T('<span style="font-size:11px; background:var(--surface-3); color:var(--text-2); padding:2px 6px; border-radius:4px;">بيانات مستوردة</span>') : ''}</div>
               <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(drl.date || '')} | 📍 ${escapeHtml(drl.location || '')} ${T("| حضور مؤكد:")} ${attVerified} / ${attCount}</div>
             </div>
-            <div style="display:flex; gap:6px; flex-wrap:wrap;">
-              <button onclick="toggleDrlAttendeesView(${jsArg(drl.id)})" style="background:var(--neutral-solid); color:var(--on-solid); border:none; padding:5px 15px; border-radius:5px; cursor:pointer; font-size:0.9rem;">${T("👥 الحضور")}</button>
-              <button onclick="navigateWithAuth(${jsArg('/api/drills/export/' + drill.id)})" style="background: var(--success-solid); color: var(--on-solid); border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9rem;">${T("📊 تصدير Excel")}</button>
-              <button onclick="openDrillReportModal(${jsArg(drl.id)})" style="background:var(--brand-600); color:var(--on-solid); border:none; padding:5px 15px; border-radius:5px; cursor:pointer; font-size:0.9rem;">${T("📝 الريبورت")}</button>
-              <button class="um-btn del" onclick="deleteDrillSession(${jsArg(drl.id)})" style="padding:6px 12px; font-size:12px;">${T("🗑️ حذف")}</button>
+            <div class="btn-row">
+              <button class="btn btn-info btn-sm" onclick="toggleDrlAttendeesView(${jsArg(drl.id)})">${T("👥 الحضور")}</button>
+              <button class="btn btn-secondary btn-sm" onclick="openDrillReportModal(${jsArg(drl.id)})">${T("📝 الريبورت")}</button>
+              <button class="btn btn-export btn-sm" onclick="navigateWithAuth(${jsArg('/api/drills/export/' + drill.id)})">${T("📊 تصدير Excel")}</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteDrillSession(${jsArg(drl.id)})">${T("🗑️ حذف")}</button>
             </div>
           </div>
           <div id="drlAttWrap_${escapeHtml(drl.id)}" style="display:none; padding:0 16px 16px;">
             ${isLegacy ? `<div style="font-size:12px; color:var(--warning-text); background:var(--warning-tint); border:1px solid var(--warning-line); padding:8px; border-radius:6px; margin-bottom:8px;">${T("⚠️ هذه تجربة قديمة مستوردة من تقارير ورقية سابقة، ولا يوجد لها سجل حضور رقمي (بأكواد الموظفين) — الأسماء المذكورة أدناه (إن وجدت) مأخوذة من نص التقرير الأصلي فقط.")}</div>` : ''}
-            <div style="overflow-x:auto;">
-              <table style="width:100%; border-collapse:collapse; text-align:right; font-size:13px;">
-                <thead><tr style="background:var(--neutral-solid); color:var(--on-solid);">
-                  <th style="padding:8px;">${T("الكود")}</th><th style="padding:8px;">${T("الاسم")}</th><th style="padding:8px;">${T("القسم")}</th><th style="padding:8px;">${T("الوقت")}</th><th style="padding:8px;">${T("التحقق")}</th>
+            <div class="um-table-wrap">
+              <table class="um-table">
+                <thead><tr>
+                  <th>${T("الكود")}</th><th>${T("الاسم")}</th><th>${T("القسم")}</th><th>${T("الوقت")}</th><th>${T("التحقق")}</th>
                 </tr></thead>
                 <tbody>
                   ${attCount > 0 ? (drl.attendees || []).map(a => `
-                    <tr style="border-bottom:1px solid var(--border);">
-                      <td style="padding:8px;">${escapeHtml(a.empCode || '—')}</td>
-                      <td style="padding:8px;">${escapeHtml(a.name || '')}</td>
-                      <td style="padding:8px;">${escapeHtml(a.department || '')}</td>
-                      <td style="padding:8px;">${a.attendedAt ? new Date(a.attendedAt).toLocaleString(LOC()) : '—'}</td>
-                      <td style="padding:8px;">${a.verified ? '✅' : '—'}</td>
-                    </tr>`).join('') : `<tr><td colspan="5" style="text-align:center; padding:14px;">${T("لا يوجد سجل حضور لهذه التجربة.")}</td></tr>`}
+                    <tr>
+                      <td>${escapeHtml(a.empCode || '—')}</td>
+                      <td>${escapeHtml(a.name || '')}</td>
+                      <td>${escapeHtml(a.department || '')}</td>
+                      <td>${a.attendedAt ? new Date(a.attendedAt).toLocaleString(LOC()) : '—'}</td>
+                      <td>${a.verified ? '✅' : '—'}</td>
+                    </tr>`).join('') : `<tr><td colspan="5" class="cell-empty">${T("لا يوجد سجل حضور لهذه التجربة.")}</td></tr>`}
                 </tbody>
               </table>
             </div>
@@ -428,10 +428,10 @@ async function openDrillReportModal(drillId) {
   overlay.id = 'drlReportModalOverlay';
   overlay.style.cssText = 'position:fixed; inset:0; background:var(--overlay); z-index:9999; display:flex; align-items:flex-start; justify-content:center; overflow:auto; padding:20px 10px;';
   overlay.innerHTML = `
-    <div style="background:var(--surface); color:var(--text); width:100%; max-width:720px; border-radius:12px; overflow:hidden; box-shadow:var(--shadow-3);">
-      <div style="background:var(--brand-600); color:var(--on-solid); padding:16px 20px; display:flex; justify-content:space-between; align-items:center;">
-        <div style="font-weight:700; font-size:1.1rem;">${T("📝 ريبورت التجربة:")} ${escapeHtml(drl.title || '')}</div>
-        <button onclick="document.getElementById('drlReportModalOverlay').remove()" style="background:transparent; border:none; color:var(--on-solid); font-size:1.4rem; cursor:pointer;">×</button>
+    <div class="drill-report">
+      <div class="drill-report-head">
+        <div class="drill-report-title">${T("📝 ريبورت التجربة:")} ${escapeHtml(drl.title || '')}</div>
+        <button class="btn btn-ghost btn-icon btn-sm" title="${T('إغلاق')}" aria-label="${T('إغلاق')}" onclick="document.getElementById('drlReportModalOverlay').remove()">×</button>
       </div>
       <div style="padding:20px; max-height:75vh; overflow:auto;">
         <div class="field" style="margin-bottom:12px;">
@@ -486,11 +486,11 @@ async function openDrillReportModal(drillId) {
         </div>
         <div id="drf_msg" style="margin-top:10px; font-size:13px;"></div>
       </div>
-      <div style="padding:14px 20px; background:var(--bg); border-top:1px solid var(--border); display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
-        <button onclick="document.getElementById('drlReportModalOverlay').remove()" style="background:var(--surface-3); color:var(--text); border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700;">${T("إغلاق")}</button>
-        <button onclick="saveDrillReport(${jsArg(drillId)})" style="background:var(--neutral-solid); color:var(--on-solid); border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700;">${T("💾 حفظ الريبورت")}</button>
-        <button onclick="printDrillReport(${jsArg(drillId)})" style="background:var(--brand-600); color:var(--on-solid); border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700;">${T("🖨️ طباعة")}</button>
-        <button onclick="downloadDrillReport(${jsArg(drillId)})" style="background:var(--success-solid); color:var(--on-solid); border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700;">${T("⬇️ تحميل Word (بنفس التصميم)")}</button>
+      <div class="btn-row drill-report-actions">
+        <button class="btn btn-primary" onclick="saveDrillReport(${jsArg(drillId)})">${T("💾 حفظ الريبورت")}</button>
+        <button class="btn btn-info" onclick="printDrillReport(${jsArg(drillId)})">${T("🖨️ طباعة")}</button>
+        <button class="btn btn-export" onclick="downloadDrillReport(${jsArg(drillId)})">${T("⬇️ تحميل Word (بنفس التصميم)")}</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('drlReportModalOverlay').remove()">${T("إغلاق")}</button>
       </div>
     </div>
   `;

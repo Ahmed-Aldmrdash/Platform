@@ -29,7 +29,7 @@ async function renderUsersPanel(){
     }
     listEl.innerHTML = `
       <div class="um-bulk-bar">
-        <button class="um-btn pass" onclick="generateDefaultPasswords()">🔐 ${T("توليد كلمات سر لحسابات الأقسام اللي على كلمة السر الافتراضية")}</button>
+        <button class="btn btn-warning btn-sm" onclick="generateDefaultPasswords()">🔐 ${T("توليد كلمات سر لحسابات الأقسام اللي على كلمة السر الافتراضية")}</button>
         <span class="um-bulk-hint">${T("حسابات الأقسام اللي لسه على 123456 بتدخل عادي وأول شاشة بتقابلها هي تغيير كلمة السر. تقدر كمان تولّد لها كلمات سر جاهزة وتوزّعها على رؤساء الأقسام.")}</span>
       </div>
       <div id="umGeneratedBox"></div>
@@ -60,9 +60,9 @@ async function renderUsersPanel(){
                 <td style="color:var(--text-muted);font-size:12px;">${u.createdAt ? new Date(u.createdAt).toLocaleDateString(LOC()) : '—'}</td>
                 <td>
                   <div class="um-action-btns">
-                    <button class="um-btn pass" onclick="openEditUserModal(${jsArg(u.id)})">${T("✏️ تعديل")}</button>
-                    <button class="um-btn" onclick="openUserMembersModal(${jsArg(u.id)})">👥 ${T("الأعضاء")}</button>
-                    <button class="um-btn del" onclick="deleteUser(${jsArg(u.id)},${jsArg(u.name)})"
+                    <button class="btn btn-secondary btn-sm" onclick="openEditUserModal(${jsArg(u.id)})">${T("✏️ تعديل")}</button>
+                    <button class="btn btn-secondary btn-sm" onclick="openUserMembersModal(${jsArg(u.id)})">👥 ${T("الأعضاء")}</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteUser(${jsArg(u.id)},${jsArg(u.name)})"
                       ${u.role==='super_admin' ? T('disabled title="لا يمكن حذف Super Admin"') : ''}>${T("🗑 حذف")}</button>
                   </div>
                 </td>
@@ -94,7 +94,7 @@ function openUserMembersModal(userId) {
                 <td style="font-weight:700;">${escapeHtml(m.name || '—')}</td>
                 <td dir="ltr">${escapeHtml(m.empCode)}</td>
                 <td style="color:var(--text-muted); font-size:12px;">${m.createdAt ? new Date(m.createdAt).toLocaleDateString(LOC()) : '—'}</td>
-                <td><button class="um-btn del" style="padding:4px 10px; font-size:11px;" onclick="resetMemberPassword(${jsArg(userId)}, ${jsArg(m.empCode)}, ${jsArg(m.name || m.empCode)})">${T("🔄 إعادة تعيين")}</button></td>
+                <td><button class="btn btn-warning btn-sm" onclick="resetMemberPassword(${jsArg(userId)}, ${jsArg(m.empCode)}, ${jsArg(m.name || m.empCode)})">${T("🔄 إعادة تعيين")}</button></td>
               </tr>
             `).join('')}
           </tbody>
@@ -143,7 +143,7 @@ async function generateDefaultPasswords() {
           <thead><tr><th>${T('القسم')}</th><th>${T('اسم المستخدم')}</th><th>${T('كلمة السر')}</th></tr></thead>
           <tbody>${data.accounts.map(a => `<tr><td>${escapeHtml(a.department || a.name)}</td><td dir="ltr">${escapeHtml(a.username)}</td><td dir="ltr" class="um-gen-pw">${escapeHtml(a.password)}</td></tr>`).join('')}</tbody>
         </table></div>
-        <button class="um-btn pass" onclick="downloadGeneratedAccounts()">⬇ ${T('تنزيل القائمة (CSV)')}</button>
+        <button class="btn btn-export btn-sm" onclick="downloadGeneratedAccounts()">⬇ ${T('تنزيل القائمة (CSV)')}</button>
       </div>`;
   } catch (e) {
     if (box) box.innerHTML = '';

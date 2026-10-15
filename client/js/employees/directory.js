@@ -247,8 +247,8 @@ function renderEmployeesTableRows(list) {
       </td>
       <td>
         <div class="um-action-btns">
-          <button class="um-btn pass" onclick="openEmpModal(${jsArg(e.empCode || e.code)})">${T("✏️ تعديل")}</button>
-          <button class="um-btn del"  onclick="deleteEmployee(${jsArg(e.empCode || e.code)},${jsArg(e.name || '')})">${T("🗑 حذف")}</button>
+          <button class="btn btn-secondary btn-sm" onclick="openEmpModal(${jsArg(e.empCode || e.code)})">${T("✏️ تعديل")}</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${jsArg(e.empCode || e.code)},${jsArg(e.name || '')})">${T("🗑 حذف")}</button>
         </div>
       </td>
     </tr>

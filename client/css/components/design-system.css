@@ -179,6 +179,9 @@
 }
 /* Hidden when the role (or read-only mode) hides every button inside it. */
 .danger-zone:not(:has(.btn:not([style*="none"]))) { display: none; }
+/* Pages whose management block is hidden for the current role hide their danger zone too. */
+#viewPenaltiesAdmin:has(#penaltiesAdminButtons[style*="none"]) .danger-zone,
+#viewTrainingAdmin:has(#createLectureCard[style*="none"]) .danger-zone { display: none; }
 .danger-zone-title {
   margin: 0 0 4px;
   font-size: var(--fs-md);
