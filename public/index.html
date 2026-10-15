@@ -226,34 +226,6 @@
       </div>
     </div>
 
-    <div id="welcomeAnimOverlay" class="welcome-anim-overlay" style="display: none">
-      <div class="welcome-anim-orb orb-1"></div>
-      <div class="welcome-anim-orb orb-2"></div>
-      <div class="welcome-anim-orb orb-3"></div>
-      <div class="welcome-tape top" aria-hidden="true"></div>
-      <div class="welcome-tape bottom" aria-hidden="true"></div>
-      <div class="welcome-ppe start" aria-hidden="true">
-        <span class="ppe-item" style="--d: 0.05s">⛑️</span>
-        <span class="ppe-item" style="--d: 0.55s">🥽</span>
-        <span class="ppe-item" style="--d: 1.05s">🧤</span>
-        <span class="ppe-item" style="--d: 1.55s">🥾</span>
-        <span class="ppe-item" style="--d: 2.05s">🦺</span>
-      </div>
-      <div class="welcome-ppe end" aria-hidden="true">
-        <span class="ppe-item" style="--d: 0.3s">🧯</span>
-        <span class="ppe-item" style="--d: 0.8s">😷</span>
-        <span class="ppe-item" style="--d: 1.3s">🚧</span>
-        <span class="ppe-item" style="--d: 1.8s">⚠️</span>
-        <span class="ppe-item" style="--d: 2.3s">🚨</span>
-      </div>
-      <div class="welcome-anim-card">
-        <div class="welcome-anim-icon" id="welcomeAnimIcon">🦺</div>
-        <div class="welcome-anim-text" id="welcomeAnimText"><span id="welcomeAnimCursor" class="welcome-anim-cursor">|</span></div>
-        <div class="welcome-anim-sub" id="welcomeAnimSub"></div>
-        <div class="welcome-anim-slogan">السلامة أولاً · Safety First</div>
-      </div>
-    </div>
-
     <div class="wrap" id="mainApp" style="display: none">
       <div class="app-header">
         <div class="app-header-row1">
@@ -803,6 +775,14 @@
             <button class="export-btn" onclick="exportExcel()">
               ⬇ تصدير Excel
             </button>
+            <button
+              id="emailPermitsBtn"
+              class="export-btn"
+              onclick="openEmailSendModal('permits')"
+              style="background: var(--info)"
+            >
+              📧 إرسال الشيت بالإيميل
+            </button>
             <input
               type="file"
               id="permitsExcelUploadInput"
@@ -947,6 +927,14 @@
             style="margin-inline-start: auto"
           >
             📊 تصدير سجل البلاغات Excel
+          </button>
+          <button
+            id="emailHazardsBtn"
+            class="export-btn"
+            onclick="openEmailSendModal('hazards')"
+            style="background: var(--info); margin-inline-start: 10px"
+          >
+            📧 إرسال الشيت بالإيميل
           </button>
           <input
             type="file"
@@ -2109,6 +2097,42 @@
           </div>
         </div>
         <div id="penaltiesAdminList"></div>
+      </div>
+    </div>
+
+    <div
+      id="emailSendModal"
+      class="um-modal-overlay"
+      style="display: none; z-index: 9999"
+    >
+      <div class="um-modal-card" style="max-width: 460px">
+        <div class="section-title" style="margin-top: 0" id="es_title">📧 إرسال بالإيميل</div>
+        <p class="es-hint" id="es_hint"></p>
+        <div class="field">
+          <label>الإيميل <span class="req-star">*</span></label>
+          <input
+            id="es_to"
+            type="text"
+            dir="ltr"
+            autocomplete="email"
+            placeholder="name@company.com"
+            onkeydown="if (event.key === 'Enter') submitEmailSend()"
+          />
+          <small class="es-hint">ممكن لحد 5 إيميلات، افصل بينهم بفاصلة</small>
+        </div>
+        <div class="field" id="es_noteField">
+          <label>ملاحظة (اختياري)</label>
+          <textarea id="es_note" rows="2" maxlength="500" placeholder="مثلاً: محتاجين إجراء النهارده"></textarea>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 12px">
+          <button id="es_send" class="submit-btn" style="flex: 1" onclick="submitEmailSend()">
+            إرسال
+          </button>
+          <button class="logout-btn" style="flex: 1" onclick="closeEmailSendModal()">
+            إلغاء
+          </button>
+        </div>
+        <div id="es_msg" class="um-msg"></div>
       </div>
     </div>
 

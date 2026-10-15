@@ -1,74 +1,4 @@
-// Post-login welcome animation, the read-only executive view, and the hand-off from login into the main UI.
-
-let _welcomeAudioCtx = null;
-function _playKeyClick(){
-  try{
-    if (!_welcomeAudioCtx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return;
-      _welcomeAudioCtx = new AC();
-    }
-    const ctx = _welcomeAudioCtx;
-    if (ctx.state === 'suspended') ctx.resume();
-    const now = ctx.currentTime;
-    const osc  = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(950 + Math.random() * 350, now);
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.06, now + 0.008);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.065);
-    osc.connect(gain).connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.075);
-  } catch(e) { }
-}
-
-let _welcomeAnimRun = 0;
-function showAnimatedWelcome({ name, greeting, subtitle, onDone }){
-  const overlay = document.getElementById('welcomeAnimOverlay');
-  const textEl  = document.getElementById('welcomeAnimText');
-  const subEl   = document.getElementById('welcomeAnimSub');
-  if (!overlay || !textEl) { if (typeof onDone === 'function') onDone(); return; }
-
-  const myRun = ++_welcomeAnimRun;
-  const isCurrent = () => myRun === _welcomeAnimRun;
-
-  const fullText = `${greeting || T('أهلاً بك')}${T("،")} ${name || ''}`;
-  textEl.innerHTML = '<span id="welcomeAnimCursor" class="welcome-anim-cursor">|</span>';
-  if (subEl) { subEl.textContent = subtitle || ''; subEl.classList.remove('show'); }
-  overlay.style.display = 'flex';
-  overlay.querySelectorAll('.ppe-item, .welcome-anim-slogan').forEach(el => {
-    el.style.animation = 'none';
-    void el.offsetWidth;
-    el.style.animation = '';
-  });
-
-  const chars = Array.from(fullText);
-  let i = 0;
-  function typeNext(){
-    if (!isCurrent()) return;
-    if (i >= chars.length) {
-      if (subEl && subtitle) setTimeout(() => { if (isCurrent()) subEl.classList.add('show'); }, 150);
-      setTimeout(() => {
-        if (!isCurrent()) return;
-        overlay.style.display = 'none';
-        if (typeof onDone === 'function') onDone();
-      }, 1700);
-      return;
-    }
-    const ch = chars[i];
-    const cursor = document.getElementById('welcomeAnimCursor');
-    const node = document.createTextNode(ch);
-    if (cursor) textEl.insertBefore(node, cursor); else textEl.appendChild(node);
-    if (ch.trim()) _playKeyClick();
-    i++;
-    setTimeout(typeNext, (ch === ' ' || ch === '،') ? 130 : (60 + Math.random() * 40));
-  }
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    if (isCurrent()) setTimeout(typeNext, 200);
-  }));
-}
+// The read-only executive view and the hand-off from login into the main UI.
 
 async function renderExecutiveView(){
   const view = document.getElementById('viewExecutive');
@@ -173,22 +103,16 @@ function finishEmployeeLogin(emp){
     }
   } catch(e){ }
 
-  showAnimatedWelcome({
-    name: emp.name,
-    subtitle: [emp.jobTitle, emp.department].filter(Boolean).join(' · '),
-    onDone: () => {
-      sessionRole = 'worker';
-      applyRbacUI();
-      hideWorkerLoginOverlay();
-      showEmpBadge();
-      autoFillForm();
-      startNotificationPolling();
-      subscribeUserToPush();
-      switchTab('dashboard');
-      applyPendingNotificationNavFromUrl();
-      if (typeof window.populateTrainerInfo === 'function') window.populateTrainerInfo();
-    }
-  });
+  sessionRole = 'worker';
+  applyRbacUI();
+  hideWorkerLoginOverlay();
+  showEmpBadge();
+  autoFillForm();
+  startNotificationPolling();
+  subscribeUserToPush();
+  switchTab('dashboard');
+  applyPendingNotificationNavFromUrl();
+  if (typeof window.populateTrainerInfo === 'function') window.populateTrainerInfo();
 }
 
 function autoFillForm(){

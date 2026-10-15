@@ -64,6 +64,12 @@ module.exports = {
     keyGenerator: perUserKey,
     message: 'تجاوزت عدد طلبات المحاضرات المسموح بها. حاول مجدداً بعد شوية.',
   }),
+  // Excel registers and forwarded reports sent by hand from the admin screens.
+  emailSendLimiter: limiter({
+    max: 20,
+    keyGenerator: perUserKey,
+    message: 'بعت إيميلات كتير في وقت قصير — استنى ربع ساعة وجرب تاني.',
+  }),
   chatbotLimiter: limiter({
     max: 120,
     keyGenerator: tokenOrIpKey,

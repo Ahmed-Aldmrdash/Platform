@@ -12,6 +12,7 @@ function formatDateTime(isoStr) {
 }
 
 function getHazardCardHtml(h) {
+  const waitingHours = (!h.status || h.status === 'open') ? hoursSince(h.submittedAt || h.date) : 0;
   let riskStr = h.riskLevel === 'H' ? 'High 🔴' : h.riskLevel === 'M' ? 'Medium 🟡' : 'Low 🟢';
   let riskClass = h.riskLevel === 'H' ? 'hz-high' : h.riskLevel === 'M' ? 'hz-medium' : 'hz-low';
 
@@ -162,6 +163,7 @@ function getHazardCardHtml(h) {
         <div>
           <div class="hz-status-badge ${statusClass}">${T(statusStr)}</div>
           <div class="worker">${escapeHtml(h.reporterName)}</div>
+          ${waitingHours >= 24 ? `<div class="overdue-age">⏰ ${T('مفتوح من')} ${ageText(waitingHours)} ${T('من غير إجراء')}</div>` : ''}
         </div>
         <div class="tnum">${escapeHtml(h.id)}</div>
       </div>
@@ -181,7 +183,10 @@ function getHazardCardHtml(h) {
       ${h.actionTaken ? `<div class="desc" style="background:#f8f9fa; border-right:4px solid var(--primary); padding:10px; margin-top:10px;"><strong>${T("الإجراء المتخذ:")}</strong><br>${escapeHtml(h.actionTaken)}</div>` : ''}
       ${h.assignNotes ? `<div class="desc" style="background:#e0f7fa; padding:8px; border-radius:4px; border:1px solid #b2ebf2; margin-top:8px;"><strong>${T("ملاحظات التوجيه للصيانة:")}</strong><br>${escapeHtml(h.assignNotes)}</div>` : ''}
       ${h.photoUrl ? `<div style="margin-top:8px;"><div class="hz-photo-badge" onclick="openLightbox(${jsArg(h.photoUrl)})">${T("🖼️ عرض الصورة")}</div></div>` : ''}
+      ${_hzViewersHtml(h)}
+      ${forwardsHtml(h.forwards)}
       <button class="btn btn-secondary btn-sm" type="button" style="margin-top:10px;" onclick="openPrintWithAuth(${jsArg('/print/hazard/' + encodeURIComponent(h.id))})">${T("🖨️ طباعة")}</button>
+      ${canForwardByEmail() && currentHzStatusFilter !== '🗑️ المحذوفات' ? `<button class="btn btn-secondary btn-sm btn-forward" type="button" style="margin-top:10px;" onclick="openEmailSendModal('forward', ${jsArg(h.id)})">${T('📧 توجيه بالإيميل')}</button>` : ''}
       ${actionHtml}
       ${timelineHtml}
       ${manageHtml}
@@ -191,7 +196,7 @@ function getHazardCardHtml(h) {
 
 window._hazardsRawCache = null;
 
-// List order: open first, then higher risk, then newest. Keep in sync with lib/hazard-alerts.js.
+// List order: open first, then higher risk, then newest. Keep in sync with src/services/hazard-alerts.js.
 const HZ_CLOSED_STATUSES = ['resolved', 'closed', 'rejected', 'rejected_by_hse', 'rejected_by_maintenance'];
 const HZ_RISK_ORDER = { H: 0, M: 1, L: 2 };
 function isHazardClosed(h) {
@@ -199,6 +204,38 @@ function isHazardClosed(h) {
   if (HZ_CLOSED_STATUSES.includes(s)) return true;
   return /مغلق|closed|resolved|rejected|مرفوض|تمت المعالجة/.test(s);
 }
+// Overdue: still waiting for a first decision (open) past the chosen number of days.
+function isHazardOverdue(h) {
+  return (!h.status || h.status === 'open') && hoursSince(h.submittedAt || h.date) >= overdueDays * 24;
+}
+function _hzDeletedForMe(h) {
+  const roleKey = getRoleKey(currentUserRole);
+  if (h.permanentlyDeletedBy && h.permanentlyDeletedBy[roleKey] === true) return true;
+  if (currentUserRole === 'maint_admin') return Boolean(h.deletedByMaintenance || h.deleted);
+  const deletedBy = (typeof h.deletedBy === 'object' && h.deletedBy !== null) ? h.deletedBy : {};
+  return deletedBy[roleKey] === true || h.deleted === true;
+}
+function hzOverdueCount() {
+  return (window._hazardsRawCache || []).filter(h => !_hzDeletedForMe(h) && isHazardOverdue(h)).length;
+}
+// Overdue list order: higher risk first, then the longest waiting.
+function compareOverdueHazards(a, b) {
+  const ra = HZ_RISK_ORDER[String((a && a.riskLevel) || '').toUpperCase()] ?? 3;
+  const rb = HZ_RISK_ORDER[String((b && b.riskLevel) || '').toUpperCase()] ?? 3;
+  if (ra !== rb) return ra - rb;
+  return new Date(a.submittedAt || a.date || 0) - new Date(b.submittedAt || b.date || 0);
+}
+
+const HZ_VIEWER_ROLE = { super_admin: 'مدير النظام', hse_admin: 'مشرف السلامة', dept_admin: 'أدمن قسم', maint_admin: 'أدمن صيانة' };
+function _hzViewersHtml(h) {
+  const viewers = Array.isArray(h.viewers) ? h.viewers : [];
+  if (!viewers.length) return '';
+  return `<div class="card-note">👁️ ${T('فتحه:')} ${viewers.map(v => {
+    const role = HZ_VIEWER_ROLE[v.role] ? ` (${T(HZ_VIEWER_ROLE[v.role])})` : '';
+    return `${escapeHtml(v.name)}${escapeHtml(role)} · ${escapeHtml(formatDateTime(v.at))}`;
+  }).join('، ')}</div>`;
+}
+
 function compareHazardsForList(a, b) {
   const ca = isHazardClosed(a) ? 1 : 0, cb = isHazardClosed(b) ? 1 : 0;
   if (ca !== cb) return ca - cb;
@@ -350,11 +387,14 @@ function hzShowMore() {
   renderSupHazard(true, false, true);
 }
 
-// Reviewers mark what they actually saw; each id is sent once per page load.
+// Reviewers report what they actually opened: a report's first sighting, and who looked at reports
+// still waiting for action (shown on the card). Each id is sent once per page load.
 const _hzSeenSent = new Set();
 function _markHazardsSeen(list) {
-  if (!['super_admin', 'hse_admin', 'dept_admin'].includes(currentUserRole)) return;
-  const ids = list.filter(h => h && h.id && !h.seenAt && !_hzSeenSent.has(String(h.id))).map(h => String(h.id));
+  if (!['super_admin', 'hse_admin', 'dept_admin', 'maint_admin'].includes(currentUserRole)) return;
+  const ids = list
+    .filter(h => h && h.id && (!h.seenAt || !h.status || h.status === 'open') && !_hzSeenSent.has(String(h.id)))
+    .map(h => String(h.id));
   if (!ids.length) return;
   ids.forEach(id => _hzSeenSent.add(id));
   authFetch('/api/hazards/seen', {
@@ -385,6 +425,8 @@ async function renderSupHazard(isSilent = false, forceRefetch = true, skipFilter
     } else {
       hazards = window._hazardsRawCache;
     }
+    const overdueCountEl = document.getElementById('hzOverdueCount');
+    if (overdueCountEl) overdueCountEl.textContent = hzOverdueCount();
     const rawList = hazards;
 
     const openCount = hazards.filter(h => h.status === 'open').length;
@@ -422,6 +464,7 @@ async function renderSupHazard(isSilent = false, forceRefetch = true, skipFilter
          return true;
        });
        if (currentHzStatusFilter !== 'الكل') {
+         if (currentHzStatusFilter === OVERDUE_FILTER) hazards = hazards.filter(isHazardOverdue);
          if (currentHzStatusFilter === 'مفتوح 🔴') hazards = hazards.filter(h => h.status === 'open');
          else if (currentHzStatusFilter === 'موجه للصيانة 📢') hazards = hazards.filter(h => h.status === 'assigned_to_maintenance');
          else if (currentHzStatusFilter === 'قيد الإصلاح 🟡') hazards = hazards.filter(h => h.status === 'in_progress');
@@ -476,14 +519,14 @@ async function renderSupHazard(isSilent = false, forceRefetch = true, skipFilter
       return match;
     });
 
-    hazards.sort(compareHazardsForList);
+    hazards.sort(currentHzStatusFilter === OVERDUE_FILTER ? compareOverdueHazards : compareHazardsForList);
     window._currentFilteredHazards = hazards;
 
     const hzCountEl = document.getElementById('hzFilterCount');
     if (hzCountEl) hzCountEl.textContent = `${T("عدد النتائج:")} ${hazards.length}`;
 
     const listEl = document.getElementById('hzList');
-    const hzSig = [currentHzStatusFilter, currentHzSeverityFilter, currentHzDeptFilter, currentHzYearFilter,
+    const hzSig = [currentHzStatusFilter, overdueDays, currentHzSeverityFilter, currentHzDeptFilter, currentHzYearFilter,
       fTime, fReporter || '', fHse || '', fFrom || '', fTo || ''].join('|');
     if (hzSig !== window._hzListSig) { window._hzListSig = hzSig; window._hzShowCount = HZ_PAGE_SIZE; }
     const hzShow = window._hzShowCount || HZ_PAGE_SIZE;
@@ -541,10 +584,11 @@ async function renderHzFilters() {
   const dArea = document.getElementById('hzDeptFilters');
   const dToolbar = document.getElementById('hzDeptToolbar');
 
-  const statuses = ['الكل', 'مفتوح 🔴', 'موجه للصيانة 📢', 'قيد الإصلاح 🟡', 'مرفوض ❌', 'تم الحل والإغلاق 🟢', '🗑️ المحذوفات'];
-  fArea.innerHTML = statuses.map(s =>
-    `<div class="chip ${currentHzStatusFilter===s?'active':''}" onclick="setHzFilter(${jsArg(s)})">${T(s)}</div>`
-  ).join('');
+  const statuses = ['الكل', OVERDUE_FILTER, 'مفتوح 🔴', 'موجه للصيانة 📢', 'قيد الإصلاح 🟡', 'مرفوض ❌', 'تم الحل والإغلاق 🟢', '🗑️ المحذوفات'];
+  fArea.innerHTML = statuses.map(s => {
+    const label = s === OVERDUE_FILTER ? `${T(s)} <span class="chip-count" id="hzOverdueCount">${hzOverdueCount()}</span>` : T(s);
+    return `<div class="chip${s === OVERDUE_FILTER ? ' chip-overdue' : ''} ${currentHzStatusFilter===s?'active':''}" onclick="setHzFilter(${jsArg(s)})">${label}</div>`;
+  }).join('') + (currentHzStatusFilter === OVERDUE_FILTER ? overdueDaysSelectHtml('hazards') : '');
 
   if (currentUserRole !== 'dept_admin' && currentUserRole !== 'maint_admin') {
     dToolbar.style.display = 'flex';

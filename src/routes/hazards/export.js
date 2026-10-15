@@ -1,77 +1,60 @@
 'use strict';
 
-// Excel export of the hazard register.
+// Excel register of hazard reports: download, or send it straight to an e-mail address.
 
 const express = require('express');
-const ExcelJS = require('exceljs');
 const { authenticateToken, requireRole } = require('../../middleware/auth');
+const { emailSendLimiter } = require('../../middleware/rate-limits');
 const { readHazards } = require('../../data/stores');
-const { finalizeExcel } = require('../../services/excel');
-const { backfillHazardTimestamps } = require('../../services/bootstrap');
+const mailer = require('../../services/mailer');
+const { logAuditEvent } = require('../../services/audit-log');
+const { parseEmailRecipients, senderName, emailWorkbook, SMTP_MISSING } = require('../../services/excel-mail');
+const { buildHazardsWorkbook, XLSX_TYPE } = require('../../documents/excel-exports');
 const { setDownloadFilename } = require('../../utils/http');
 const { ADMIN_ROLES, visibleTo } = require('./shared');
 
 const router = express.Router();
 
-const EXPORT_COLUMNS = [
-  { header: 'كود البلاغ', key: 'id', width: 18 },
-  { header: 'تاريخ البلاغ', key: 'date', width: 15 },
-  { header: 'وقت الإرسال الدقيق', key: 'submittedAt', width: 20 },
-  { header: 'مقدم البلاغ', key: 'reporterName', width: 20 },
-  { header: 'القسم', key: 'department', width: 15 },
-  { header: 'المنطقة', key: 'area', width: 20 },
-  { header: 'وصف الخطورة', key: 'description', width: 40 },
-  { header: 'الإصابة المحتملة', key: 'potentialInjury', width: 30 },
-  { header: 'الحل المقترح', key: 'proposedSolution', width: 30 },
-  { header: 'مستوى الخطورة', key: 'riskLevel', width: 15 },
-  { header: 'الحالة الحالية', key: 'status', width: 20 },
-  { header: 'وقت مشاهدة المشرف للبلاغ', key: 'seenAt', width: 30 },
-  { header: 'وقت بدء الإصلاح والمعالجة', key: 'inProgressAt', width: 30 },
-  { header: 'وقت الإغلاق والانتهاء', key: 'resolvedAt', width: 30 },
-  { header: 'الإجراء المتخذ وملاحظات المشرف', key: 'actionTaken', width: 40 },
-];
-
-const RISK_LABELS = { H: 'High 🔴', M: 'Medium 🟡', L: 'Low 🟢' };
-const STATUS_LABELS = { notified: 'تم الإبلاغ 📢', in_progress: 'قيد الإصلاح 🟡', resolved: 'تم الحل والإغلاق 🟢', closed: 'تم الحل والإغلاق 🟢' };
+function hazardsForExport(user) {
+  return readHazards().filter((h) => visibleTo(user, h));
+}
 
 router.get('/api/export-hazards', authenticateToken, requireRole(...ADMIN_ROLES), async (req, res) => {
   try {
-    const hazards = readHazards()
-      .filter((h) => (req.user.role === 'dept_admin' || req.user.role === 'maint_admin' ? visibleTo(req.user, h) : true))
-      .map(backfillHazardTimestamps);
+    const hazards = hazardsForExport(req.user);
     if (!hazards.length) return res.status(404).json({ error: 'لا توجد بيانات بلاغات حالياً للتصدير' });
-
-    const fmt = (iso) => (iso ? new Date(iso).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' }) : '');
-    const workbook = new ExcelJS.Workbook();
-    const sheet = workbook.addWorksheet('بلاغات الخطورة');
-    sheet.columns = EXPORT_COLUMNS;
-    for (const h of hazards) {
-      sheet.addRow({
-        id: h.id || '',
-        date: h.date || '',
-        submittedAt: fmt(h.submittedAt || h.createdAt),
-        reporterName: h.reporterName || '',
-        department: h.department || '',
-        area: h.area || '',
-        description: h.description || '',
-        potentialInjury: h.potentialInjury || '',
-        proposedSolution: h.proposedSolution || '',
-        riskLevel: RISK_LABELS[h.riskLevel] || RISK_LABELS.L,
-        status: STATUS_LABELS[h.status] || 'مفتوح 🔴',
-        seenAt: h.seenAt ? `${fmt(h.seenAt)} (${h.seenBy || 'المشرف'})` : 'لم يُشاهد بعد',
-        inProgressAt: h.inProgressAt ? `${fmt(h.inProgressAt)} (${h.inProgressBy || 'الصيانة'})` : 'لم يبدأ بعد',
-        resolvedAt: h.resolvedAt ? `${fmt(h.resolvedAt)} (${h.resolvedBy || 'المشرف'})` : 'لم ينتهِ بعد',
-        actionTaken: h.actionTaken ? `${h.actionTaken} (${h.updatedBy || 'المشرف'})` : 'لا يوجد',
-      });
-    }
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    finalizeExcel(workbook, 'سجل بلاغات الخطورة');
+    const workbook = buildHazardsWorkbook(hazards);
+    res.setHeader('Content-Type', XLSX_TYPE);
     setDownloadFilename(res, `سجل بلاغات الخطورة - ${new Date().toISOString().slice(0, 10)}`, 'xlsx');
     await workbook.xlsx.write(res);
     res.end();
   } catch (err) {
     console.error('[hazards] export failed:', err);
     if (!res.headersSent) res.status(500).json({ error: 'فشل تصدير البيانات' });
+  }
+});
+
+router.post('/api/hazards/email-excel', authenticateToken, requireRole(...ADMIN_ROLES), emailSendLimiter, async (req, res) => {
+  const { list, error } = parseEmailRecipients(req.body && req.body.to);
+  if (error) return res.status(400).json({ error });
+  if (!mailer.isConfigured()) return res.status(503).json(SMTP_MISSING);
+  try {
+    const hazards = hazardsForExport(req.user);
+    if (!hazards.length) return res.status(404).json({ error: 'لا توجد بيانات بلاغات حالياً للإرسال' });
+    const result = await emailWorkbook({
+      workbook: buildHazardsWorkbook(hazards),
+      to: list,
+      title: 'سجل بلاغات الخطورة',
+      filename: `سجل_بلاغات_الخطورة_${new Date().toISOString().slice(0, 10)}`,
+      count: hazards.length,
+      sender: senderName(req.user),
+    });
+    if (!result.sent) return res.status(502).json({ error: `فشل الإرسال: ${result.error || result.reason}` });
+    logAuditEvent({ entityType: 'hazard', entityId: 'register', action: 'email', actor: req.user, note: `إرسال شيت بلاغات الخطورة (${hazards.length}) إلى: ${list.join(', ')}` });
+    res.json({ success: true, sentTo: list, count: hazards.length });
+  } catch (err) {
+    console.error('[hazards] e-mail export failed:', err);
+    res.status(500).json({ error: 'حصل خطأ أثناء تجهيز الشيت' });
   }
 });
 

@@ -18,7 +18,7 @@ const { readHazardAlertSettings, queueHazardAlertEmail } = require('../../servic
 const { parseHazardsWorkbook } = require('../../importers/hazards-excel');
 const { emptyDeleteFlags } = require('../../constants');
 const { normalizeEmpCode, sanitizeStr, clampInt, deptMatches } = require('../../utils/validation');
-const { ADMIN_ROLES, HSE_ROLES, visibleTo } = require('./shared');
+const { ADMIN_ROLES, HSE_ROLES, awaitingAction, visibleTo } = require('./shared');
 
 const router = express.Router();
 
@@ -139,8 +139,13 @@ router.get('/api/hazards/summary', authenticateToken, requireRole(...ADMIN_ROLES
   res.json({ open });
 });
 
-/** Marks the reports a reviewer actually opened as seen (shown to the reporter). */
-router.post('/api/hazards/seen', authenticateToken, requireRole('super_admin', 'hse_admin', 'dept_admin'), async (req, res) => {
+const MAX_VIEWERS = 20;
+
+/**
+ * Marks the reports a reviewer actually opened as seen (shown to the reporter), and records each
+ * reviewer once on reports still waiting for action (shown on the report card).
+ */
+router.post('/api/hazards/seen', authenticateToken, requireRole('super_admin', 'hse_admin', 'dept_admin', 'maint_admin'), async (req, res) => {
   const ids = new Set((Array.isArray(req.body && req.body.ids) ? req.body.ids : []).slice(0, 500).map(String));
   if (!ids.size) return res.json({ success: true, updated: 0 });
   let updated = 0;
@@ -148,11 +153,21 @@ router.post('/api/hazards/seen', authenticateToken, requireRole('super_admin', '
     const hazards = readHazards();
     const now = new Date().toISOString();
     const reader = sanitizeStr(req.user.name || req.user.username || 'المشرف', 100);
+    const who = `${req.user.id || req.user.username}:${normalizeEmpCode(req.user.empCode || '')}`;
     for (const h of hazards) {
-      if (!ids.has(h.id) || h.seenAt || !visibleTo(req.user, h)) continue;
-      h.seenAt = now;
-      h.seenBy = reader;
-      updated += 1;
+      if (!ids.has(h.id) || !visibleTo(req.user, h)) continue;
+      let changed = false;
+      if (!h.seenAt) {
+        h.seenAt = now;
+        h.seenBy = reader;
+        changed = true;
+      }
+      const viewers = Array.isArray(h.viewers) ? h.viewers : [];
+      if (awaitingAction(h) && viewers.length < MAX_VIEWERS && !viewers.some((v) => v.key === who)) {
+        h.viewers = [...viewers, { key: who, name: reader, role: req.user.role, at: now }];
+        changed = true;
+      }
+      if (changed) updated += 1;
     }
     if (updated) writeHazards(hazards);
   });

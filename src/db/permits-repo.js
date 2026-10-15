@@ -1,6 +1,7 @@
 'use strict';
 
 const { BOOT_ID, stringifyItem } = require('./collections');
+const { approvalRank, permitRiskLevel, RISK_RANK } = require('../utils/permit-order');
 
 // Work permits are the largest dataset (thousands of rows), so they get a
 // repository with row-level operations and an in-memory index for the list
@@ -9,15 +10,6 @@ const { BOOT_ID, stringifyItem } = require('./collections');
 const TABLE = 'permits';
 const KEY_COLUMN = 'id';
 const ROLE_BITS = { areaAdmin: 1, safetyAdmin: 2, superAdmin: 4, worker: 8 };
-
-// Pending approvals first, then approved, then finished (closed / rejected).
-function approvalRank(status) {
-  const s = String(status || 'pending').toLowerCase().trim();
-  if (s.startsWith('rejected')) return 3;
-  if (s.startsWith('closed') || s === 'completed') return 2;
-  if (s === 'approved') return 1;
-  return 0;
-}
 
 function maskOf(obj) {
   let m = 0;
@@ -53,7 +45,9 @@ function indexEntry(permit, json, seq) {
     seq,
     idNum: idNumberOf(permit.id),
     rank: approvalRank(permit.status),
+    risk: RISK_RANK[permitRiskLevel(permit)],
     date,
+    submitted: String(permit.submittedAt || permit.date || ''),
     year: date.slice(0, 4),
     department: String(permit.department || ''),
     status: String(permit.status || 'pending'),
@@ -150,7 +144,8 @@ function createPermitsRepo(persistence) {
     /**
      * Filtered, paginated list.
      * opts: { q, worker, supervisor, department, status, typeKey, year, from, to,
-     *         employeeId, roleKey, trash, visibility, limit, offset, order }
+     *         employeeId, roleKey, trash, visibility, pendingBefore, limit, offset, order }
+     * pendingBefore (ISO time): only permits still awaiting approval that were submitted before it.
      */
     list(opts = {}) {
       const bit = ROLE_BITS[opts.roleKey] || 0;
@@ -178,6 +173,7 @@ function createPermitsRepo(persistence) {
           if (opts.from && e.date < String(opts.from)) continue;
           if (opts.to && e.date > String(opts.to)) continue;
         }
+        if (opts.pendingBefore && (e.rank !== 0 || !e.submitted || e.submitted >= opts.pendingBefore)) continue;
         if (employeeId && e.employeeId !== employeeId) continue;
         if (q && !e.search.includes(q)) continue;
         if (worker && !e.workerName.includes(worker)) continue;
@@ -186,7 +182,8 @@ function createPermitsRepo(persistence) {
       }
 
       if (opts.order === 'seq') matches.sort((a, b) => b.seq - a.seq);
-      else matches.sort((a, b) => a.rank - b.rank || b.seq - a.seq);
+      else if (opts.order === 'overdue') matches.sort((a, b) => a.risk - b.risk || (a.submitted < b.submitted ? -1 : a.submitted > b.submitted ? 1 : 0));
+      else matches.sort((a, b) => a.rank - b.rank || a.risk - b.risk || b.seq - a.seq);
 
       const limit = Math.max(1, Math.min(500, Number(opts.limit) || 50));
       const offset = Math.max(0, Number(opts.offset) || 0);

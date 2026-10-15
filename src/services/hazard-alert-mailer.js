@@ -47,8 +47,8 @@ function hazardLink() {
   return /^https?:\/\/\S+$/i.test(config.publicBaseUrl) ? `${config.publicBaseUrl}/#tabSupHazard` : '';
 }
 
-/** kind: 'new' (high-risk report), 'overdue' (escalation) or 'test'. */
-async function sendHazardAlertEmail(hazard, { kind = 'new', hours = 0, to = null } = {}) {
+/** kind: 'new' (high-risk report), 'overdue' (escalation), 'forward' (sent by hand to `to`) or 'test'. */
+async function sendHazardAlertEmail(hazard, { kind = 'new', hours = 0, to = null, by = '', note = '' } = {}) {
   if (!mailer.isConfigured()) return { sent: false, reason: 'smtp_not_configured' };
   const settings = readHazardAlertSettings();
   const recipients = to && to.length ? to : hazardAlerts.activeEmails(settings);
@@ -64,7 +64,7 @@ async function sendHazardAlertEmail(hazard, { kind = 'new', hours = 0, to = null
     photoSrc = 'cid:hazard-photo';
   }
 
-  const opts = { kind, hours, logoSrc: 'cid:elsewedy-logo', photoSrc, link: hazardLink() };
+  const opts = { kind, hours, by, note, logoSrc: 'cid:elsewedy-logo', photoSrc, link: hazardLink() };
   const result = await mailer.sendMail({
     to: recipients.join(', '),
     subject: (kind === 'test' ? '[تجربة] ' : '') + hazardAlerts.alertSubject(hazard, kind),
@@ -73,6 +73,8 @@ async function sendHazardAlertEmail(hazard, { kind = 'new', hours = 0, to = null
     attachments,
   });
 
+  // The alert settings screen shows the last automatic alert; hand-forwarded reports aren't part of it.
+  if (kind === 'forward') return { ...result, recipients };
   const raw = hazardAlertStore.read() || {};
   raw.lastResult = { ok: result.sent === true, at: new Date().toISOString(), kind, hazardId: hazard.id, recipients };
   if (!result.sent) raw.lastResult.error = result.error || result.reason;

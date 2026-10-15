@@ -1,6 +1,7 @@
 'use strict';
 
 const { LEGACY_DEPARTMENT_ALIASES } = require('../../constants');
+const { getRoleKey } = require('../../utils/roles');
 
 const ADMIN_ROLES = ['super_admin', 'hse_admin', 'dept_admin', 'maint_admin'];
 const ALERT_ROLES = ['super_admin', 'hse_admin'];
@@ -20,9 +21,22 @@ function visibleTo(user, hazard) {
 
 const reporterCode = (h) => h.empCode || h.reporterId || '';
 
+/** Reports this user moved to their trash (or deleted for good) stay out of their lists. */
+function hiddenFor(user, h) {
+  const roleKey = getRoleKey(user.role);
+  if (h.permanentlyDeletedBy && h.permanentlyDeletedBy[roleKey] === true) return true;
+  if (user.role === 'maint_admin') return Boolean(h.deletedByMaintenance || h.deleted);
+  return Boolean((h.deletedBy && h.deletedBy[roleKey] === true) || h.deleted === true);
+}
+
+// Still where the reporter left it: nobody routed it to maintenance, started a repair or closed it.
+const awaitingAction = (h) => !h.status || h.status === 'open';
+
 module.exports = {
   ADMIN_ROLES,
   ALERT_ROLES,
+  awaitingAction,
+  hiddenFor,
   HSE_ROLES,
   MANUAL_STATUSES,
   reporterCode,

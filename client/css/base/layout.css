@@ -542,3 +542,56 @@
 .btn-emerald { background: var(--success); }
 .btn-red     { background: var(--danger); }
 .btn-cyan    { background: var(--info); }
+
+/* Overdue filter (permits and hazards): chip with a count and the days selector */
+.chip-overdue {
+  border-color: var(--danger);
+  color: var(--danger);
+  font-weight: 700;
+}
+.chip-overdue.active {
+  background: var(--danger);
+  color: #fff;
+}
+.chip-count {
+  display: inline-block;
+  min-width: 20px;
+  margin-inline-start: 4px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 11px;
+  text-align: center;
+}
+.chip-overdue.active .chip-count {
+  background: #fff;
+  color: var(--danger);
+}
+.overdue-days {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.overdue-days select {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--paper-line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* Card extras: waiting time, who opened it, e-mail forwards */
+.overdue-age {
+  margin-top: 4px;
+  color: var(--danger);
+  font-weight: 700;
+  font-size: 12.5px;
+}
+.card-note {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}

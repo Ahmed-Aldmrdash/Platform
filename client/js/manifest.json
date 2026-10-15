@@ -2,6 +2,8 @@
   "core/theme-i18n.js",
   "core/api.js",
   "core/constants-state.js",
+  "core/email-send.js",
+  "core/overdue.js",
   "core/rbac-navigation.js",
   "auth/admin-login.js",
   "auth/worker-login.js",

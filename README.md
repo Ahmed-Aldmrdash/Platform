@@ -8,8 +8,8 @@ department heads, HSE staff and management on desktop.
 
 | Module | What it does |
 | --- | --- |
-| Work permits | Workers request permits (hot work, height, confined space, lifting, LOTO…); department head → HSE approval workflow; closure; printable permit with a QR verification code. |
-| Hazard reports | Anyone reports a hazard with a photo; HSE routes it to maintenance; repair with an "after" photo; e-mail alert for high-risk reports and escalation when they stay open. |
+| Work permits | Workers request permits (hot work, height, confined space, lifting, LOTO…); department head → HSE approval workflow; closure; printable permit with a QR verification code. The list shows open permits first, riskiest first; an overdue filter shows requests still awaiting approval after N days; any permit can be forwarded by e-mail and the register downloaded or e-mailed as Excel. |
+| Hazard reports | Anyone reports a hazard with a photo; HSE routes it to maintenance; repair with an "after" photo; e-mail alert for high-risk reports and escalation when they stay open. An overdue filter shows open reports nobody has acted on after N days and who already opened them; any report can be forwarded by e-mail. |
 | Training | Lecture sessions with PIN-based attendance, quizzes, recordings, worker requests and hour targets. |
 | Emergency drills | Drill sessions, attendance and the official drill report (print / Word). |
 | Monthly inspections | Inspection programmes, items and monthly records with Excel import/export. |

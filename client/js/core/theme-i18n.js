@@ -347,6 +347,47 @@ const I18N_DICT = {
 };
 
 const ARABIC_TEXT_RE = /[؀-ۿݐ-ݿ]/;
+// E-mail sending, the overdue filter and permit risk badges.
+Object.assign(I18N_STRINGS, {
+  '📧 إرسال الشيت بالإيميل': '📧 Email the sheet',
+  '📧 إرسال سجل تصاريح العمل بالإيميل': '📧 Email the work permits register',
+  '📧 إرسال سجل بلاغات الخطورة بالإيميل': '📧 Email the hazard reports register',
+  '📌 توجيه البلاغ بالإيميل': '📌 Forward the report by email',
+  '📌 توجيه التصريح بالإيميل': '📌 Forward the permit by email',
+  'هيوصل شيت Excel فيه كل التصاريح اللي تقدر تشوفها، بنفس ترتيب الصفحة.': 'An Excel sheet with every permit you can see, in the same order as this page.',
+  'هيوصل شيت Excel فيه كل البلاغات اللي تقدر تشوفها، بنفس ترتيب الصفحة.': 'An Excel sheet with every report you can see, in the same order as this page.',
+  'هيوصل إيميل فيه تفاصيل البلاغ وصورته ومن إمتى مفتوح، باسمك.': 'An email with the report details, its photo and how long it has been open, sent in your name.',
+  'هيوصل إيميل فيه مستند التصريح وحالته، باسمك.': 'An email with the permit document and its status, sent in your name.',
+  '📧 إرسال بالإيميل': '📧 Send by email',
+  '📧 توجيه بالإيميل': '📧 Forward by email',
+  'الإيميل': 'Email',
+  'ممكن لحد 5 إيميلات، افصل بينهم بفاصلة': 'Up to 5 addresses, separated by commas',
+  'ملاحظة (اختياري)': 'Note (optional)',
+  'مثلاً: محتاجين إجراء النهارده': 'e.g. needs action today',
+  'إرسال': 'Send',
+  'اكتب الإيميل الأول': 'Enter an email address first',
+  'جارِ الإرسال…': 'Sending…',
+  'جارِ تجهيز الشيت وإرساله…': 'Preparing and sending the sheet…',
+  'فشل الإرسال': 'Sending failed',
+  'اتبعت إلى': 'Sent to',
+  '⏰ المتأخرة': '⏰ Overdue',
+  'أكتر من': 'More than',
+  'يومين': '2 days',
+  '3 أيام': '3 days',
+  'أسبوع': '1 week',
+  'أسبوعين': '2 weeks',
+  'خطورة عالية': 'High risk',
+  'خطورة متوسطة': 'Medium risk',
+  'خطورة منخفضة': 'Low risk',
+  'مفتوح من': 'Open for',
+  'من غير إجراء': 'with no action',
+  'مستني موافقة من': 'Awaiting approval for',
+  '§ يوم': '§ days',
+  '§ ساعة': '§ hours',
+  'فتحه:': 'Opened by:',
+  'اتوجّه لـ': 'Forwarded to',
+});
+
 const I18N_STATIC = { nodes: [], attrs: [], title: '', captured: false };
 const I18N_ATTRS = ['placeholder', 'title', 'aria-label', 'alt'];
 

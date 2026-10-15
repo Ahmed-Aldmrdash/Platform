@@ -1,21 +1,23 @@
 'use strict';
 
 const express = require('express');
-const ExcelJS = require('exceljs');
 const { authenticateToken, authenticateSession, requireRole } = require('../middleware/auth');
-const { submitLimiter } = require('../middleware/rate-limits');
+const { submitLimiter, emailSendLimiter } = require('../middleware/rate-limits');
 const { replyNotModified, viewerKey } = require('../middleware/http-cache');
 const { enqueueWrite } = require('../data/write-queue');
 const { permitsRepo, readEmployees } = require('../data/stores');
 const { createNotification } = require('../services/notifications');
 const { notifyWorkerWhatsAppPermitStatus } = require('../services/whatsapp-alerts');
 const { logAuditEvent } = require('../services/audit-log');
-const { finalizeExcel } = require('../services/excel');
+const mailer = require('../services/mailer');
+const { parseEmailRecipients, senderName, emailWorkbook, SMTP_MISSING } = require('../services/excel-mail');
+const { buildPermitsWorkbook, XLSX_TYPE } = require('../documents/excel-exports');
+const { sendPermitForwardEmail } = require('../services/permit-mailer');
 const { parsePermitsWorkbook } = require('../importers/permits-excel');
 const { emptyDeleteFlags } = require('../constants');
 const { getRoleKey } = require('../utils/roles');
 const { setDownloadFilename } = require('../utils/http');
-const { normalizeEmpCode, deptMatches, sanitizeStr } = require('../utils/validation');
+const { normalizeEmpCode, deptMatches, sanitizeStr, clampInt } = require('../utils/validation');
 
 const router = express.Router();
 
@@ -45,6 +47,13 @@ router.get('/api/permits', authenticateToken, requireRole(...ADMIN_ROLES), (req,
     limit: Number(q.limit) || 50,
     offset: Number(q.offset) || 0,
   };
+  // ?overdue=<days>: still awaiting approval after that many days, riskiest then oldest first.
+  if (q.overdue !== undefined && q.overdue !== '') {
+    const hour = 3.6e6;
+    const cutoff = Math.floor((Date.now() - clampInt(q.overdue, 0, 60, 2) * 24 * hour) / hour) * hour;
+    opts.pendingBefore = new Date(cutoff).toISOString();
+    opts.order = 'overdue';
+  }
   if (isDepartmentScoped(req.user)) {
     opts.department = req.user.department;
   } else {
@@ -155,49 +164,15 @@ router.post('/api/permits', authenticateSession, submitLimiter, async (req, res)
   res.status(201).json({ success: true, permit: saved });
 });
 
-const EXPORT_COLUMNS = [
-  { header: 'رقم الطلب', key: 'id', width: 18 },
-  { header: 'نوع الطلب', key: 'typeLabel', width: 20 },
-  { header: 'القسم', key: 'department', width: 15 },
-  { header: 'الوردية', key: 'shift', width: 12 },
-  { header: 'تاريخ التنفيذ', key: 'date', width: 15 },
-  { header: 'اسم العامل', key: 'workerName', width: 22 },
-  { header: 'رقم التليفون', key: 'requesterPhone', width: 16 },
-  { header: 'مكان العمل', key: 'location', width: 20 },
-  { header: 'الحالة', key: 'status', width: 15 },
-  { header: 'مشرف السلامة', key: 'safetyOfficerName', width: 20 },
-  { header: 'مدير المنطقة', key: 'areaManagerName', width: 20 },
-  { header: 'ملاحظة الرفض', key: 'reviewNote', width: 25 },
-  { header: 'تاريخ الإرسال', key: 'submittedAt', width: 22 },
-];
+function permitsForExport(user) {
+  const permits = permitsRepo.all();
+  return isDepartmentScoped(user) ? permits.filter((p) => deptMatches(p.department, user.department)) : permits;
+}
 
 router.get('/api/export-excel', authenticateToken, requireRole(...ADMIN_ROLES), async (req, res) => {
   try {
-    let permits = permitsRepo.all();
-    if (isDepartmentScoped(req.user)) permits = permits.filter((p) => deptMatches(p.department, req.user.department));
-
-    const workbook = new ExcelJS.Workbook();
-    const sheet = workbook.addWorksheet('سجل الطلبات');
-    sheet.columns = EXPORT_COLUMNS;
-    for (const p of permits) {
-      sheet.addRow({
-        id: p.id || '',
-        typeLabel: p.typeLabel || '',
-        department: p.department || '',
-        shift: p.shift || '',
-        date: p.date || '',
-        workerName: p.workerName || '',
-        requesterPhone: p.requesterPhone || '',
-        location: p.location || '',
-        status: p.status || '',
-        safetyOfficerName: p.safetyOfficerName || '-',
-        areaManagerName: p.areaManagerName || '-',
-        reviewNote: p.reviewNote || '-',
-        submittedAt: p.submittedAt ? new Date(p.submittedAt).toLocaleString('ar-EG') : '',
-      });
-    }
-    finalizeExcel(workbook, 'سجل طلبات تصاريح العمل');
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    const workbook = buildPermitsWorkbook(permitsForExport(req.user));
+    res.setHeader('Content-Type', XLSX_TYPE);
     setDownloadFilename(res, 'سجل_طلبات_العمل', 'xlsx');
     await workbook.xlsx.write(res);
     res.end();
@@ -205,6 +180,62 @@ router.get('/api/export-excel', authenticateToken, requireRole(...ADMIN_ROLES), 
     console.error('[permits] export failed:', err);
     if (!res.headersSent) res.status(500).json({ error: 'فشل تصدير السجل' });
   }
+});
+
+/** The same register as the download, sent straight to the addresses typed on the permits screen. */
+router.post('/api/permits/email-excel', authenticateToken, requireRole(...ADMIN_ROLES), emailSendLimiter, async (req, res) => {
+  const { list, error } = parseEmailRecipients(req.body && req.body.to);
+  if (error) return res.status(400).json({ error });
+  if (!mailer.isConfigured()) return res.status(503).json(SMTP_MISSING);
+  try {
+    const permits = permitsForExport(req.user);
+    const result = await emailWorkbook({
+      workbook: buildPermitsWorkbook(permits),
+      to: list,
+      title: 'سجل تصاريح العمل',
+      filename: `سجل_تصاريح_العمل_${new Date().toISOString().slice(0, 10)}`,
+      count: permits.length,
+      sender: senderName(req.user),
+    });
+    if (!result.sent) return res.status(502).json({ error: `فشل الإرسال: ${result.error || result.reason}` });
+    logAuditEvent({ entityType: 'permit', entityId: 'register', action: 'email', actor: req.user, note: `إرسال شيت تصاريح العمل (${permits.length}) إلى: ${list.join(', ')}` });
+    res.json({ success: true, sentTo: list, count: permits.length });
+  } catch (err) {
+    console.error('[permits] e-mail export failed:', err);
+    res.status(500).json({ error: 'حصل خطأ أثناء تجهيز الشيت' });
+  }
+});
+
+const MAX_FORWARDS = 20;
+
+/** Sends one permit's document to whoever should follow it up, and keeps a record on the permit. */
+router.post('/api/permits/:id/forward', authenticateToken, requireRole(...ADMIN_ROLES), emailSendLimiter, async (req, res) => {
+  const { list, error } = parseEmailRecipients(req.body && req.body.to);
+  if (error) return res.status(400).json({ error });
+  const note = sanitizeStr(req.body && req.body.note, 500);
+  const permit = permitsRepo.get(req.params.id);
+  if (!permit || outsideUserDepartment(req.user, permit)) return res.status(404).json({ error: 'التصريح غير موجود' });
+  if (!mailer.isConfigured()) return res.status(503).json(SMTP_MISSING);
+
+  const by = senderName(req.user);
+  let result;
+  try {
+    result = await sendPermitForwardEmail(permit, { to: list, by, note });
+  } catch (err) {
+    console.error('[permits] forward failed:', err);
+    return res.status(500).json({ error: 'حصل خطأ أثناء الإرسال' });
+  }
+  if (!result.sent) return res.status(502).json({ error: `فشل الإرسال: ${result.error || result.reason}` });
+
+  const entry = { to: list, by, at: new Date().toISOString(), ...(note ? { note } : {}) };
+  await enqueueWrite(async () => {
+    const current = permitsRepo.get(permit.id);
+    if (!current) return;
+    current.forwards = [...(Array.isArray(current.forwards) ? current.forwards : []), entry].slice(-MAX_FORWARDS);
+    permitsRepo.put(current);
+  });
+  logAuditEvent({ entityType: 'permit', entityId: permit.id, action: 'email', actor: req.user, note: `توجيه التصريح بالإيميل إلى: ${list.join(', ')}${note ? ` — ${note}` : ''}` });
+  res.json({ success: true, sentTo: list, forward: entry });
 });
 
 function notifyStatusChange(permit, action, reviewNote) {

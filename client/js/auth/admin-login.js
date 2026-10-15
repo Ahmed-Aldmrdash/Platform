@@ -114,8 +114,7 @@ async function attemptLogin(){
   }
 }
 
-function startAdminSession(data, opts){
-  const animate = !opts || opts.animate !== false;
+function startAdminSession(data){
   const mustChangePassword = data.mustChangePassword === true;
   const needsPersonalPassword = data.needsPersonalPassword === true;
   isLoggedIn      = true;
@@ -127,17 +126,6 @@ function startAdminSession(data, opts){
     currentUserRole = 'hse_admin';
     currentUserDept = '';
   }
-
-  const ADMIN_ROLE_LABELS = {
-    super_admin:  T('مدير النظام'),
-    hse_admin:    T('مشرف السلامة'),
-    dept_admin:   T('أدمن قسم'),
-    maint_admin:  T('أدمن صيانة'),
-    hse_director: T('مدير السلامة والصحة المهنية — وضع المتابعة'),
-    ceo:          T('المدير التنفيذي — وضع المتابعة')
-  };
-  const roleLabel = ADMIN_ROLE_LABELS[currentUserRole] || T('مشرف');
-  const isViewer = VIEWER_ROLES_UI.includes(currentUserRole);
 
   const openApp = () => {
     window._passwordSetupPending = false;
@@ -152,27 +140,16 @@ function startAdminSession(data, opts){
     if (data.needsProfile) showAdminProfileModal(data.previousHolder || null);
   };
 
-  const enterApp = () => {
-    const gate = document.getElementById('loginGate');
-    if (gate) gate.innerHTML = '';
-    sessionRole = 'supervisor';
-    window._passwordSetupPending = needsPersonalPassword || mustChangePassword;
-    showUserBadge();
-    applyRbacUI();
-    // The server only accepts password setup until it's done, so the app opens afterwards.
-    if (needsPersonalPassword) showSetPersonalPasswordModal(openApp);
-    else if (mustChangePassword) showForcePasswordChangeModal(openApp);
-    else openApp();
-  };
-
-  if (!animate) { enterApp(); return; }
-  showAnimatedWelcome({
-    name: currentUserName,
-    subtitle: isViewer
-      ? [roleLabel, data.user.jobTitle, T('وضع المتابعة — عرض فقط')].filter(Boolean).join(' · ')
-      : [roleLabel, data.user.jobTitle, currentUserDept].filter(Boolean).join(' · '),
-    onDone: enterApp
-  });
+  const gate = document.getElementById('loginGate');
+  if (gate) gate.innerHTML = '';
+  sessionRole = 'supervisor';
+  window._passwordSetupPending = needsPersonalPassword || mustChangePassword;
+  showUserBadge();
+  applyRbacUI();
+  // The server only accepts password setup until it's done, so the app opens afterwards.
+  if (needsPersonalPassword) showSetPersonalPasswordModal(openApp);
+  else if (mustChangePassword) showForcePasswordChangeModal(openApp);
+  else openApp();
 }
 
 async function restoreAdminSession(){
@@ -184,7 +161,7 @@ async function restoreAdminSession(){
     const data = await res.json();
     if (!data || !data.user) { clearToken(); return false; }
     if (data.token) saveToken(data.token);
-    startAdminSession(data, { animate: false });
+    startAdminSession(data);
     return true;
   } catch (e) {
     return false;

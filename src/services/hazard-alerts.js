@@ -3,7 +3,7 @@
 // High-risk hazard alert rules: recipients, list ordering, overdue detection and the alert e-mail.
 
 const { renderPrintDocument, esc, localDateTime } = require('../documents/print-template');
-const { buildHazardPrint } = require('../documents/print-docs');
+const { buildHazardPrint, hazardStatus } = require('../documents/print-docs');
 
 const EMAIL_RE = /^[^\s@<>"',;]+@[^\s@<>"',;]+\.[^\s@<>"',;]{2,}$/;
 
@@ -126,17 +126,33 @@ function overdueHazards(hazards, { hours = DEFAULT_OVERDUE_HOURS, now = new Date
 
 const RISK_LABEL = { H: 'عالية 🔴', M: 'متوسطة 🟡', L: 'منخفضة 🟢' };
 
+function ageText(hours) {
+  const h = Math.round(hours || 0);
+  return h >= 48 ? `${Math.floor(h / 24)} يوم` : `${h} ساعة`;
+}
+
+// Forwarded by hand: an open report needs follow-up, a closed one is sent for information.
+function forwardIntro(hazard, by, hours) {
+  const who = by || 'إدارة السلامة';
+  return isClosedHazard(hazard)
+    ? `${who} وجّهلك البلاغ ده للاطلاع — حالته: ${hazardStatus(hazard.status).label}.`
+    : `${who} وجّهلك البلاغ ده للمتابعة — مفتوح من ${ageText(hours)} من غير ما يتقفل.`;
+}
+
 function alertSubject(hazard, kind) {
   const where = [hazard.department, hazard.area].map(x => String(x || '').trim()).filter(Boolean).join(' — ');
-  const head = kind === 'overdue' ? '⏰ بلاغ خطورة عالية لسه مفتوح' : '🔴 بلاغ خطورة عالية';
+  const head = kind === 'forward' ? (isClosedHazard(hazard) ? '📌 بلاغ خطورة للاطلاع' : '📌 بلاغ خطورة محتاج متابعة')
+    : kind === 'overdue' ? '⏰ بلاغ خطورة عالية لسه مفتوح' : '🔴 بلاغ خطورة عالية';
   return `${head} — ${where || 'بدون موقع'} — ${hazard.id}`;
 }
 
-function alertPlainText(hazard, { kind, hours, link } = {}) {
+function alertPlainText(hazard, { kind, hours, link, by, note } = {}) {
+  const intro = kind === 'forward' ? forwardIntro(hazard, by, hours)
+    : kind === 'overdue' ? `تذكير: بلاغ خطورة عالية لسه مفتوح من ${Math.round(hours || 0)} ساعة.`
+      : 'اتسجّل بلاغ خطورة عالية (High) على المنصة دلوقتي.';
   const lines = [
-    kind === 'overdue'
-      ? `تذكير: بلاغ خطورة عالية لسه مفتوح من ${Math.round(hours || 0)} ساعة.`
-      : 'اتسجّل بلاغ خطورة عالية (High) على المنصة دلوقتي.',
+    intro,
+    ...(kind === 'forward' && note ? [`ملاحظة: ${note}`] : []),
     '',
     `رقم البلاغ: ${hazard.id}`,
     `القسم: ${hazard.department || '—'}`,
@@ -153,11 +169,16 @@ function alertPlainText(hazard, { kind, hours, link } = {}) {
   return lines.join('\n');
 }
 
-function buildAlertEmailHtml(hazard, { kind, hours, logoSrc, photoSrc, link } = {}) {
+function buildAlertEmailHtml(hazard, { kind, hours, logoSrc, photoSrc, link, by, note } = {}) {
   const doc = buildHazardPrint(hazard, { photoAbsUrl: photoSrc || null });
-  const banner = kind === 'overdue'
-    ? `بلاغ خطورة عالية لسه مفتوح من ${Math.round(hours || 0)} ساعة — محتاج متابعة فورية.`
-    : 'بلاغ خطورة عالية (High) اتسجّل دلوقتي على المنصة — محتاج مراجعة فورية.';
+  const banner = kind === 'forward'
+    ? forwardIntro(hazard, by, hours)
+    : kind === 'overdue'
+      ? `بلاغ خطورة عالية لسه مفتوح من ${Math.round(hours || 0)} ساعة — محتاج متابعة فورية.`
+      : 'بلاغ خطورة عالية (High) اتسجّل دلوقتي على المنصة — محتاج مراجعة فورية.';
+  const noteHtml = kind === 'forward' && note
+    ? `<div style="margin-top:6px;font-size:11pt;color:#1F2937">ملاحظة: ${esc(note)}</div>`
+    : '';
 
   doc.sections = [
     {
@@ -165,12 +186,15 @@ function buildAlertEmailHtml(hazard, { kind, hours, logoSrc, photoSrc, link } = 
       html:
         `<div style="border:2px solid #DC2626;background:#FEF2F2;border-radius:8px;padding:10px 14px;margin:0 0 10px">` +
         `<div style="color:#991B1B;font-weight:700;font-size:13pt">${esc(banner)}</div>` +
+        noteHtml +
         (link ? `<div style="margin-top:6px;font-size:10pt"><a href="${esc(link)}" style="color:#991B1B">افتح البلاغ على المنصة</a></div>` : '') +
         `</div>`,
     },
     ...doc.sections.filter(s => s.kind !== 'signatures'),
   ];
-  doc.footerNote = 'الإيميل ده بيتبعت تلقائيًا من منصة السلامة لبلاغات الخطورة العالية فقط.';
+  doc.footerNote = kind === 'forward'
+    ? `الإيميل ده اتبعت من منصة السلامة بواسطة ${by || 'إدارة السلامة'}.`
+    : 'الإيميل ده بيتبعت تلقائيًا من منصة السلامة لبلاغات الخطورة العالية فقط.';
   return renderPrintDocument({ ...doc, forEmail: true, logoSrc: logoSrc || undefined });
 }
 

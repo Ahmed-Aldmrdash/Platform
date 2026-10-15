@@ -1,10 +1,25 @@
 // Supervisor permit list: filters, server-side paging, status helpers and card rendering.
 
 function renderFilters(){
-  const opts = ['الكل','بانتظار أدمن القسم','بانتظار السلامة والصحة المهنية','موافق عليه','مرفوض','مغلق','🗑️ المحذوفات'];
-  document.getElementById('filters').innerHTML = opts.map(o=>
-    `<div class="chip ${o===currentFilter?'active':''}" onclick="setFilter(${jsArg(o)})">${T(o)}</div>`
-  ).join('');
+  const opts = ['الكل', OVERDUE_FILTER, 'بانتظار أدمن القسم','بانتظار السلامة والصحة المهنية','موافق عليه','مرفوض','مغلق','🗑️ المحذوفات'];
+  document.getElementById('filters').innerHTML = opts.map(o => {
+    const label = o === OVERDUE_FILTER
+      ? `${T(o)} <span class="chip-count" id="pmOverdueCount">${window._pmOverdueCount ?? ''}</span>`
+      : T(o);
+    return `<div class="chip${o === OVERDUE_FILTER ? ' chip-overdue' : ''} ${o===currentFilter?'active':''}" onclick="setFilter(${jsArg(o)})">${label}</div>`;
+  }).join('') + (currentFilter === OVERDUE_FILTER ? overdueDaysSelectHtml('permits') : '');
+}
+
+/** Number of permits still waiting for approval past the chosen days, for the filter chip. */
+async function refreshPmOverdueCount() {
+  try {
+    const res = await authFetch(`/api/permits?overdue=${overdueDays}&limit=1`);
+    if (!res.ok) return;
+    const data = await res.json();
+    window._pmOverdueCount = Number(data.total) || 0;
+    const el = document.getElementById('pmOverdueCount');
+    if (el) el.textContent = window._pmOverdueCount;
+  } catch (e) { }
 }
 function renderTypeFilters(){
   const opts = ['الكل', ...Object.keys(PERMIT_TYPES).map(k=>PERMIT_TYPES[k].label)];
@@ -121,6 +136,7 @@ function pmQueryParams({ offset = 0 } = {}) {
   params.set('limit', String(PM_PAGE_SIZE));
   params.set('offset', String(offset));
   if (currentFilter === '🗑️ المحذوفات') params.set('trash', '1');
+  else if (currentFilter === OVERDUE_FILTER) params.set('overdue', String(overdueDays));
   else if (PM_STATUS_KEYS[currentFilter]) params.set('status', PM_STATUS_KEYS[currentFilter]);
   if (currentTypeFilter !== 'الكل') {
     const key = Object.keys(PERMIT_TYPES).find(k => PERMIT_TYPES[k].label === currentTypeFilter);
@@ -166,6 +182,7 @@ async function renderSupervisor(){
   await renderPmDeptFilters();
   renderPmYearFilters();
   permitsCache = [];
+  refreshPmOverdueCount();
   await loadPermitsPage();
 }
 
@@ -232,7 +249,7 @@ function formatTime12(time24) {
   return `${h.toString().padStart(2, '0')}:${mStr} ${ampm}`;
 }
 function statusFilterMatch(s){
-  if(currentFilter==='الكل') return true;
+  if(currentFilter==='الكل' || currentFilter===OVERDUE_FILTER) return true;
   if(currentFilter==='مرفوض' && s && s.startsWith('rejected')) return true;
   return statusLabel(s) === currentFilter;
 }
@@ -241,12 +258,21 @@ function typeFilterMatch(p){
   return p.typeLabel === currentTypeFilter;
 }
 
-function permitApprovalRank(p) {
+// Same rule the server orders the list by (src/utils/permit-order.js): the risk assessment's top
+// score, or the type of work when no assessment was filled in.
+const PERMIT_TYPE_RISK = { hot: 'H', confined: 'H', height: 'H', lifting: 'H', excavation: 'H', lockout: 'M', loto: 'M', general: 'L' };
+const PERMIT_RISK_PILL = { H: ['خطورة عالية', 'high'], M: ['خطورة متوسطة', 'medium'], L: ['خطورة منخفضة', 'low'] };
+// Not yet approved, rejected or closed: what the overdue filter waits on.
+function permitAwaitingApproval(p) {
   const s = String((p && p.status) || 'pending').toLowerCase().trim();
-  if (s.startsWith('rejected')) return 3;
-  if (s.startsWith('closed') || s === 'completed') return 2;
-  if (s === 'approved') return 1;
-  return 0;
+  return !(s.startsWith('rejected') || s.startsWith('closed') || s === 'completed' || s === 'approved');
+}
+function permitRiskLevel(p) {
+  const top = (Array.isArray(p && p.risks) ? p.risks : []).reduce((max, r) => Math.max(max, Number(r && r.score) || 0), 0);
+  if (top > 12) return 'H';
+  if (top > 4) return 'M';
+  if (top > 0) return 'L';
+  return PERMIT_TYPE_RISK[p && p.typeKey] || 'L';
 }
 
 // The expandable part of a permit card (checklist, risks and extra fields), built on first open.
@@ -328,12 +354,16 @@ function renderList(){
        statusBadge = `<span class="stamp ${escapeHtml(p.status)}">${escapeHtml(getStatusBadgeArabic(p.status))}</span>`;
     }
 
+    const [riskText, riskClass] = PERMIT_RISK_PILL[permitRiskLevel(p)];
+    const waitingHours = permitAwaitingApproval(p) ? hoursSince(p.submittedAt || p.date) : 0;
+
     return `
     <div class="sup-card ${isTrashedForMe ? 'deleted' : ''}">
       <div class="sup-top">
         <div>
-          <div class="worker"><span class="type-pill">${escapeHtml(T(p.typeLabel))}</span>${escapeHtml(p.workerName)}</div>
+          <div class="worker"><span class="type-pill">${escapeHtml(T(p.typeLabel))}</span><span class="risk-pill ${riskClass}">${T(riskText)}</span>${escapeHtml(p.workerName)}</div>
           <div class="tnum">${escapeHtml(p.id)} · ${escapeHtml(p.date||'')} ${T("· وردية")} ${escapeHtml(p.shift||'')}</div>
+          ${waitingHours >= 24 ? `<div class="overdue-age">⏰ ${T('مستني موافقة من')} ${ageText(waitingHours)}</div>` : ''}
         </div>
         ${statusBadge}
       </div>
@@ -360,6 +390,8 @@ function renderList(){
 
       <span class="details-toggle" onclick="toggleDetails(${jsArg(p.id)})">${T("عرض كل التفاصيل (قائمة التحقق + المخاطر) ⌄")}</span>
       <button class="btn btn-secondary btn-sm" type="button" style="margin-inline-start:10px;" onclick="openPrintWithAuth(${jsArg('/print/permit/' + encodeURIComponent(p.id))})">${T("🖨️ طباعة")}</button>
+      ${canForwardByEmail() && currentFilter !== '🗑️ المحذوفات' ? `<button class="btn btn-secondary btn-sm btn-forward" type="button" style="margin-inline-start:10px;" onclick="openEmailSendModal('forwardPermit', ${jsArg(p.id)})">${T('📧 توجيه بالإيميل')}</button>` : ''}
+      ${forwardsHtml(p.forwards)}
       <div class="full-details${detailsOpen ? ' show' : ''}" id="details-${escapeHtml(p.id)}"${detailsOpen ? ' data-built="1"' : ''}>${detailsOpen ? permitDetailsHtml(p) : ''}</div>
 
       ${(p.status === 'pending' || p.status === 'pending_dept') ? `

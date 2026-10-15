@@ -41,7 +41,9 @@ body[data-readonly="1"] #clearHazardsBtn,
 body[data-readonly="1"] #clearEmployeesBtn,
 body[data-readonly="1"] #uploadPermitsExcelBtn,
 body[data-readonly="1"] #uploadHazardsExcelBtn,
-body[data-readonly="1"] #uploadPenaltiesExcelBtn { display: none !important; }
+body[data-readonly="1"] #uploadPenaltiesExcelBtn,
+body[data-readonly="1"] #emailPermitsBtn,
+body[data-readonly="1"] #emailHazardsBtn { display: none !important; }
 body[data-readonly="1"] .user-chip, body[data-readonly="1"] .dash-hero-badge {
   border-color: rgba(212, 175, 55, 0.5);
 }
