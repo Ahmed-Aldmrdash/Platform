@@ -323,6 +323,8 @@ select {
   color: var(--text);
 }
 
+.nowrap-cell { white-space: nowrap; }
+
 .pin-row-btn {
   white-space: nowrap;
   flex-shrink: 0;

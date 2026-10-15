@@ -511,7 +511,7 @@
 
       <div id="viewHazardWorker" style="display: none">
         <div class="ticket">
-          <div class="ticket-head" style="background: var(--brand-600)">
+          <div class="ticket-head">
             <div>
               <div class="ttype">⚠️ نموذج الإبلاغ عن الخطورة</div>
               <div class="tnum">Hazard Report</div>
@@ -1466,7 +1466,7 @@
                 placeholder="أي تفاصيل إضافية عن سبب الطلب..."
               ></textarea>
             </div>
-            <button class="submit-btn" onclick="submitTrainingRequest()">
+            <button class="btn btn-primary btn-block" onclick="submitTrainingRequest()">
               📩 إرسال الطلب
             </button>
             <div id="trnReqMsg" class="wl-msg" style="margin-top: 8px"></div>
@@ -1481,15 +1481,7 @@
 
       <div id="viewTrainingAdmin" style="display: none; padding: 12px">
         <div class="ticket" id="createLectureCard" style="margin-bottom: 24px">
-          <div
-            class="ticket-head"
-            style="
-              background: var(--brand-600);
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            "
-          >
+          <div class="ticket-head">
             <div>
               <div class="ttype">➕ إنشاء محاضرة جديدة</div>
             </div>
@@ -1502,28 +1494,10 @@
                 onchange="uploadTrainingsExcel(event)"
               />
               <button
-                class="submit-btn"
-                style="
-                  background: var(--neutral-solid);
-                  margin: 0;
-                  padding: 8px 12px;
-                  font-size: 0.9rem;
-                "
+                class="btn btn-export btn-sm"
                 onclick="document.getElementById('excelUploadInput').click()"
               >
                 📤 رفع سجل Excel
-              </button>
-              <button
-                class="submit-btn admin-only"
-                style="
-                  background: var(--danger-solid);
-                  margin: 0 0 0 8px;
-                  padding: 8px 12px;
-                  font-size: 0.9rem;
-                "
-                onclick="clearModuleData('trainings', () => loadAdminTraining(false))"
-              >
-                🗑️ مسح كل التدريبات
               </button>
             </div>
           </div>
@@ -1657,7 +1631,7 @@
                 <input type="time" id="trn_endTime" />
               </div>
             </div>
-            <button class="submit-btn" onclick="createTrainingSession()">
+            <button class="btn btn-primary btn-lg btn-block form-submit" onclick="createTrainingSession()">
               إنشاء المحاضرة وبدء التسجيل
             </button>
             <div
@@ -1801,23 +1775,13 @@
               "
             >
               <button
-                class="submit-btn"
-                style="
-                  flex: 1;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  gap: 8px;
-                  font-weight: bold;
-                  border-radius: 8px;
-                "
+                class="btn btn-export btn-fill"
                 onclick="bulkExportTrainings()"
               >
                 <span>📥</span> تصدير المحاضرات المفلترة (Excel)
               </button>
               <button
-                class="logout-btn"
-                style="padding: 0 24px; border-radius: 8px"
+                class="btn btn-secondary"
                 onclick="clearTrainingFilters()"
               >
                 مسح الفلاتر
@@ -1826,6 +1790,17 @@
           </div>
 
           <div id="trnAdminLiveSessions"></div>
+        </div>
+
+        <div class="danger-zone">
+          <h4 class="danger-zone-title">منطقة الخطر</h4>
+          <p class="danger-zone-note">المسح هنا نهائي لكل المستخدمين، وبيطلب تأكيدين.</p>
+          <button
+            class="btn btn-danger btn-sm admin-only"
+            onclick="clearModuleData('trainings', () => loadAdminTraining(false))"
+          >
+            🗑️ مسح كل التدريبات
+          </button>
         </div>
       </div>
 

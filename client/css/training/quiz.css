@@ -72,16 +72,6 @@
   background: var(--surface);
   color: var(--text);
 }
-.qm-q-del {
-  flex-shrink: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 4px 6px;
-  border-radius: var(--r-md);
-}
-.qm-q-del:hover { background: var(--border); }
 .qm-q-options { display: grid; gap: 6px; }
 .qm-q-option {
   display: flex;

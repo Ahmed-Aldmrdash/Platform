@@ -46,8 +46,8 @@ function openTrainingMediaModal(trainingId) {
         <div id="qmUploadProgressText" class="qm-progress-text">0%</div>
       </div>
       <div class="app-modal-error" id="qmRecordingMsg"></div>
-      <div class="app-modal-actions" style="margin-bottom:4px;">
-        <button class="submit-btn" type="button" id="qmSaveRecordingBtn" onclick="saveTrainingRecording(${jsArg(trn.id)})">${T("💾 حفظ التسجيل")}</button>
+      <div class="app-modal-actions">
+        <button class="btn btn-primary" type="button" id="qmSaveRecordingBtn" onclick="saveTrainingRecording(${jsArg(trn.id)})">${T("💾 حفظ التسجيل")}</button>
       </div>
     </div>
 
@@ -60,10 +60,10 @@ function openTrainingMediaModal(trainingId) {
         <input type="number" id="qmPassThreshold" min="0" max="100" value="${escapeHtml(String(passThreshold))}" />
       </div>
       <div id="qmQuestionsList"></div>
-      <button class="um-btn" type="button" onclick="qmAddQuestion()">${T("➕ إضافة سؤال")}</button>
+      <button class="btn btn-secondary btn-sm" type="button" onclick="qmAddQuestion()">${T("➕ إضافة سؤال")}</button>
       <div class="app-modal-error" id="qmQuizMsg"></div>
-      <div class="app-modal-actions" style="margin-bottom:4px;">
-        <button class="submit-btn" type="button" onclick="saveTrainingQuiz(${jsArg(trn.id)})">${T("💾 حفظ الاختبار")}</button>
+      <div class="app-modal-actions">
+        <button class="btn btn-primary" type="button" onclick="saveTrainingQuiz(${jsArg(trn.id)})">${T("💾 حفظ الاختبار")}</button>
       </div>
     </div>
 
@@ -73,8 +73,8 @@ function openTrainingMediaModal(trainingId) {
       <h4 class="qm-section-title">🔓 ${T("إعادة فتح الاختبار")}</h4>
       <p class="qm-hint">${T("الاختبار مرة واحدة بس افتراضيًا لكل عامل. هنا تقدر تفتحه تاني للكل، أو لعامل واحد بالتحديد.")}</p>
       <div class="qm-btn-row">
-        <button class="um-btn" type="button" onclick="reopenTrainingQuiz(${jsArg(trn.id)}, 'all')">${T("🔓 فتح للكل")}</button>
-        <button class="um-btn" type="button" onclick="reopenTrainingQuiz(${jsArg(trn.id)}, 'worker')">${T("🔓 فتح لعامل معيّن")}</button>
+        <button class="btn btn-warning btn-sm" type="button" onclick="reopenTrainingQuiz(${jsArg(trn.id)}, 'all')">${T("🔓 فتح للكل")}</button>
+        <button class="btn btn-warning btn-sm" type="button" onclick="reopenTrainingQuiz(${jsArg(trn.id)}, 'worker')">${T("🔓 فتح لعامل معيّن")}</button>
       </div>
       <div class="app-modal-error" id="qmReopenMsg"></div>
     </div>
@@ -87,7 +87,7 @@ function openTrainingMediaModal(trainingId) {
       <p class="qm-review-summary">${reviewSummary}</p>
       <div class="qm-btn-row">
         <input type="number" id="qmReviewWindowDays" min="0" max="365" value="${reviewWindowDays}" style="max-width:110px;">
-        <button class="um-btn" type="button" onclick="saveReviewWindow(${jsArg(trn.id)})">${T("💾 حفظ المهلة")}</button>
+        <button class="btn btn-primary btn-sm" type="button" onclick="saveReviewWindow(${jsArg(trn.id)})">${T("💾 حفظ المهلة")}</button>
       </div>
       <div class="app-modal-error" id="qmReviewWindowMsg"></div>
     </div>
@@ -140,7 +140,7 @@ function qmRenderQuestions() {
       <div class="qm-q-card-head">
         <span class="qm-q-badge">${qi + 1}</span>
         <input type="text" class="qm-q-text" value="${escapeHtml(q.text)}" placeholder="${T("نص السؤال")}" onchange="qmUpdateQuestionText(${qi}, this.value)" />
-        <button type="button" class="qm-q-del" onclick="qmRemoveQuestion(${qi})" title="${T('حذف السؤال')}">🗑️</button>
+        <button type="button" class="btn btn-ghost btn-icon btn-sm btn-danger-icon" onclick="qmRemoveQuestion(${qi})" title="${T('حذف السؤال')}" aria-label="${T('حذف السؤال')}">🗑️</button>
       </div>
       <div class="qm-q-options">
         ${[0, 1, 2, 3].map(oi => `
@@ -365,7 +365,7 @@ function renderWorkerQuizModal(passThreshold, remainingAttempts) {
     <p id="wqProgressNote" class="wq-progress-note">${T("جاوبت على")} 0 ${T("من")} ${total}</p>
     <div class="app-modal-error" id="wqMsg"></div>
     <div class="app-modal-actions">
-      <button class="submit-btn" type="button" onclick="submitWorkerQuiz()">${T("✅ تسليم الإجابات")}</button>
+      <button class="btn btn-primary btn-lg" type="button" onclick="submitWorkerQuiz()">${T("✅ تسليم الإجابات")}</button>
     </div>
   `;
   openAppModal(html);

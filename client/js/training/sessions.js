@@ -55,7 +55,7 @@ async function loadWorkerTraining(isSilent = false) {
               ${attendedBeforeNote}
               <div class="pin-row">
                 <input type="text" id="trnWorkerPin" class="pin-input" placeholder="${T("أدخل رمز الجلسة (PIN)")}" maxlength="4">
-                <button class="submit-btn pin-row-btn" onclick="submitAttendance(${jsArg(activeSession.id)})">${T("✅ تسجيل حضوري")}</button>
+                <button class="btn btn-primary pin-row-btn" onclick="submitAttendance(${jsArg(activeSession.id)})">${T("✅ تسجيل حضوري")}</button>
               </div>
               <div id="trnWorkerMsg" class="wl-msg" style="margin-top:8px;"></div>
             </div>
@@ -82,23 +82,23 @@ async function loadWorkerTraining(isSilent = false) {
                 const stText = h.status || '';
                 let stHtml = escapeHtml(T(stText));
                 if (stText.includes('غائب') || h.quizFailed) {
-                  stHtml = `<span class="badge badge-danger" style="background:var(--danger-tint); color:var(--danger-text); border:1px solid var(--danger-line); padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${escapeHtml(T(stText))}</span>`;
+                  stHtml = `<span class="badge badge-danger">${escapeHtml(T(stText))}</span>`;
                 } else if (stText.includes('مؤكد')) {
-                  stHtml = `<span class="badge badge-success" style="background:var(--success-tint); color:var(--success-text); border:1px solid var(--success-line); padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${escapeHtml(T(stText))}</span>`;
+                  stHtml = `<span class="badge badge-success">${escapeHtml(T(stText))}</span>`;
                 } else {
-                  stHtml = `<span class="badge badge-warning" style="background:var(--warning-tint); color:var(--warning-text); border:1px solid var(--warning-line); padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; white-space:nowrap; display:inline-block;">${escapeHtml(T(stText))}</span>`;
+                  stHtml = `<span class="badge badge-warning">${escapeHtml(T(stText))}</span>`;
                 }
                 let recordingBtn = `<span class="wl-dash">—</span>`;
                 if (h.hasRecording) {
                   recordingBtn = h.reviewExpired
                     ? `<span class="wl-expired-tag" title="${T('انتهت مدة المراجعة')}">⏳ ${T('انتهت المدة')}</span>`
-                    : `<button class="um-btn" style="padding:4px 10px; font-size:11px;" onclick="openWorkerRecordingModal(${jsArg(h.recordingUrl)})">${T('🎥 مشاهدة')}</button>`;
+                    : `<button class="btn btn-info btn-sm" onclick="openWorkerRecordingModal(${jsArg(h.recordingUrl)})">${T('🎥 مشاهدة')}</button>`;
                 }
                 let quizBtn = `<span class="wl-dash">—</span>`;
                 if (h.hasQuiz) {
                   quizBtn = h.reviewExpired
                     ? `<span class="wl-expired-tag" title="${T('انتهت مدة المراجعة')}">⏳ ${T('انتهت المدة')}</span>`
-                    : `<button class="um-btn" style="padding:4px 10px; font-size:11px;" onclick="openWorkerQuizModal(${jsArg(h.trainingId)})">${h.quizFailed ? T('🔁 إعادة') : T('📝 خذ الاختبار')}</button>`;
+                    : `<button class="btn btn-primary btn-sm" onclick="openWorkerQuizModal(${jsArg(h.trainingId)})">${h.quizFailed ? T('🔁 إعادة') : T('📝 خذ الاختبار')}</button>`;
                 }
                 return `
                 <tr>
@@ -380,12 +380,12 @@ async function loadTrainingRequestsAdmin() {
             ${requests.map(r => {
               const st = TRN_REQ_STATUS_MAP[r.status] || TRN_REQ_STATUS_MAP.pending;
               const actionsHtml = isSafetyOrSuper ? `
-                <td style="white-space:nowrap;">
+                <td class="btn-row nowrap-cell">
                   ${r.status === 'pending' ? `
-                    <button class="submit-btn" style="padding:4px 10px; font-size:11px;" onclick="decideTrainingRequest(${jsArg(r.id)},'scheduled')">${T("✅ قبول")}</button>
-                    <button class="logout-btn" style="padding:4px 10px; font-size:11px;" onclick="decideTrainingRequest(${jsArg(r.id)},'declined')">${T("❌ رفض")}</button>
+                    <button class="btn btn-success btn-sm" onclick="decideTrainingRequest(${jsArg(r.id)},'scheduled')">${T("✅ قبول")}</button>
+                    <button class="btn btn-danger btn-sm" onclick="decideTrainingRequest(${jsArg(r.id)},'declined')">${T("❌ رفض")}</button>
                   ` : `
-                    <button class="logout-btn" style="padding:4px 10px; font-size:11px;" onclick="decideTrainingRequest(${jsArg(r.id)},'pending')">${T("↩️ رجوع لقيد المراجعة")}</button>
+                    <button class="btn btn-warning btn-sm" onclick="decideTrainingRequest(${jsArg(r.id)},'pending')">${T("↩️ رجوع لقيد المراجعة")}</button>
                   `}
                 </td>` : '';
               return `
@@ -503,7 +503,7 @@ function renderAdminLiveSessions(trainings) {
                   <td>${escapeHtml(a.department)}</td>
                   <td style="font-size:12px; color:var(--text-muted);">${new Date(a.attendedAt).toLocaleTimeString(LOC())}</td>
                   <td>
-                    <button class="um-btn ${a.verified ? 'del' : 'pass'}" onclick="toggleTrnVerification(${jsArg(trn.id)}, ${jsArg(a.empCode)}, ${!a.verified})" style="padding:4px 8px; font-size:11px;">
+                    <button class="btn btn-sm ${a.verified ? 'btn-secondary' : 'btn-success'}" onclick="toggleTrnVerification(${jsArg(trn.id)}, ${jsArg(a.empCode)}, ${!a.verified})">
                       ${a.verified ? T('❌ إلغاء') : T('✅ تأكيد')}
                     </button>
                   </td>
@@ -515,11 +515,11 @@ function renderAdminLiveSessions(trainings) {
             </table>
           </div>
 
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="submit-btn" style="flex:1; background:var(--danger-solid);" onclick="closeTrainingSession(${jsArg(trn.id)})">${T("🛑 إنهاء وإغلاق المحاضرة")}</button>
-            <button class="um-btn" style="flex:1;" onclick="addManualTrnAttendee(${jsArg(trn.id)})">${T("➕ إضافة حضور يدوي")}</button>
-            <button class="um-btn" style="flex:1;" onclick="exportTrainingExcel(${jsArg(trn.id)})">${T("📥 تصدير Excel")}</button>
-            <button class="um-btn" style="flex:1;" onclick="openTrainingMediaModal(${jsArg(trn.id)})">${T("🎥 تسجيل واختبار")}</button>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="addManualTrnAttendee(${jsArg(trn.id)})">${T("➕ إضافة حضور يدوي")}</button>
+            <button class="btn btn-secondary" onclick="openTrainingMediaModal(${jsArg(trn.id)})">${T("🎥 تسجيل واختبار")}</button>
+            <button class="btn btn-export" onclick="exportTrainingExcel(${jsArg(trn.id)})">${T("📥 تصدير Excel")}</button>
+            <button class="btn btn-warning btn-push-end" onclick="closeTrainingSession(${jsArg(trn.id)})">${T("🛑 إنهاء وإغلاق المحاضرة")}</button>
           </div>
         </div>
       </div>`;
@@ -542,10 +542,10 @@ function renderAdminLiveSessions(trainings) {
               ${escapeHtml(trn.date)} | ${escapeHtml(trn.trainer || T('غير محدد'))} ${T("| حضور:")} ${trn.attendees.filter(a=>a.verified).length}
             </div>
           </div>
-          <div>
-            <button class="um-btn" onclick="exportTrainingExcel(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px;">📥 Excel</button>
-            <button class="um-btn" onclick="openTrainingMediaModal(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px; margin-inline-start:4px;">${T("🎥 تسجيل واختبار")}</button>
-            <button class="um-btn del" onclick="softDeleteTraining(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px; margin-inline-start:4px;">${T("🗑️ حذف")}</button>
+          <div class="btn-row">
+            <button class="btn btn-export btn-sm" onclick="exportTrainingExcel(${jsArg(trn.id)})">📥 Excel</button>
+            <button class="btn btn-secondary btn-sm" onclick="openTrainingMediaModal(${jsArg(trn.id)})">${T("🎥 تسجيل واختبار")}</button>
+            <button class="btn btn-danger btn-sm" onclick="softDeleteTraining(${jsArg(trn.id)})">${T("🗑️ حذف")}</button>
           </div>
         </div>
       </div>`;
@@ -571,9 +571,9 @@ function renderAdminLiveSessions(trainings) {
             <div style="font-weight:700; text-decoration:line-through;">${escapeHtml(trn.title)}</div>
             <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(trn.date)} ${T("| حُذفت في:")} ${trn.deletedAt ? new Date(trn.deletedAt).toLocaleDateString(LOC()) : ''}</div>
           </div>
-          <div>
-            <button class="um-btn pass" onclick="restoreTraining(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px;">${T("🔄 استعادة")}</button>
-            <button class="um-btn del" onclick="permanentDeleteTraining(${jsArg(trn.id)})" style="padding:6px 12px; font-size:12px; margin-inline-start:4px;">${T("❌ نهائي")}</button>
+          <div class="btn-row">
+            <button class="btn btn-secondary btn-sm" onclick="restoreTraining(${jsArg(trn.id)})">${T("🔄 استعادة")}</button>
+            <button class="btn btn-danger btn-sm" onclick="permanentDeleteTraining(${jsArg(trn.id)})">${T("❌ نهائي")}</button>
           </div>
         </div>
       </div>`;
