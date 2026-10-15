@@ -74,7 +74,7 @@ async function renderExecutiveView(){
       </div>
 
       <div style="text-align:center; margin-top:26px">
-        <button class="logout-btn" onclick="logout()">${L ? 'Logout' : T('تسجيل الخروج')}</button>
+        <button class="btn btn-secondary" onclick="logout()">${L ? 'Logout' : T('تسجيل الخروج')}</button>
       </div>
       <div class="exec-footer-note">
         ${L ? 'Live data — last updated' : T('بيانات لحظية — آخر تحديث')} ${new Date(d.generatedAt).toLocaleString(L ? 'en-US' : 'ar-EG')}

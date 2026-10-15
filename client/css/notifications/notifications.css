@@ -42,15 +42,6 @@
   color: var(--text);
 }
 
-.btn-mark-all {
-  background: none;
-  border: none;
-  color: var(--brand-700);
-  font-size: 0.8rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 .notif-pill {
   padding: 4px 10px;
   font-size: 0.75rem;

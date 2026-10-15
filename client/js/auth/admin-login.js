@@ -48,11 +48,11 @@ function renderLoginGate(){
             <button type="button" class="login-eye" title="${T('إظهار/إخفاء كلمة المرور')}" onclick="_toggleLoginPw(this)">👁️</button>
           </div>
         </div>
-        <button class="submit-btn login-submit" style="--i:4" onclick="attemptLogin()">
+        <button class="btn btn-primary btn-lg btn-block login-submit" style="--i:4" onclick="attemptLogin()">
           <span>${T("دخول")}</span><span class="login-arrow" aria-hidden="true">←</span>
         </button>
-        <button type="button" class="wl-link-btn" style="width:100%;margin-top:10px;--i:5" onclick="showAdminForgotPassword()">${T("نسيت كلمة السر؟")}</button>
-        <button type="button" class="wl-back-btn" style="--i:6" onclick="backToWorkerLogin()">${T("رجوع لدخول الموظفين")}</button>
+        <button type="button" class="btn btn-ghost btn-link btn-block wl-link" style="--i:5" onclick="showAdminForgotPassword()">${T("نسيت كلمة السر؟")}</button>
+        <button type="button" class="btn btn-secondary btn-block wl-back" style="--i:6" onclick="backToWorkerLogin()">${T("رجوع لدخول الموظفين")}</button>
         <div class="login-error" id="loginErr">${T("اسم المستخدم أو كلمة المرور غير صحيحة")}</div>
         <div class="login-foot">🦺 ${T("منصة السلامة والصحة المهنية")} · ELSEWEDY POLYMERS</div>
       </div>

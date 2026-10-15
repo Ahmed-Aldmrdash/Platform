@@ -75,22 +75,7 @@
   flex-wrap: wrap;
   align-items: center;
 }
-.adv-filter-clear-btn {
-  padding: 8px 20px;
-  border-radius: var(--r-lg);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-  cursor: pointer;
-  font-weight: 700;
-  font-family: inherit;
-  font-size: 13px;
-  transition: border-color .15s ease, color .15s ease, transform .1s ease;
-}
-.adv-filter-clear-btn:hover {
-  border-color: var(--danger-solid);
-  color: var(--danger-text);
-}
+
 .adv-filter-count {
   font-size: 12.5px;
   font-weight: 700;
@@ -99,19 +84,6 @@
   padding: 5px 12px;
   border-radius: var(--r-pill);
   margin-inline-start: auto;
-}
-
-.export-btn {
-  padding: 8px 14px;
-  border-radius: var(--r-lg);
-  border: 1px solid var(--brand-line);
-  background: var(--brand-50);
-  color: var(--brand-700);
-  font-weight: 700;
-  font-size: 13px;
-  cursor: pointer;
-  font-family: var(--font);
-  white-space: nowrap;
 }
 
 .sup-card {
@@ -221,17 +193,6 @@
 
 .note-box > .btn { margin-top: 6px; }
 
-.note-box button:not(.btn) {
-  margin-top: 6px;
-  padding: 7px 14px;
-  border-radius: var(--r-md);
-  border: none;
-  background: var(--danger-solid);
-  color: var(--on-solid);
-  font-weight: 700;
-  font-size: 13px;
-  cursor: pointer;
-}
 
 .review-note {
   margin-top: 8px;
@@ -385,11 +346,6 @@ select {
   .toolbar {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .export-btn {
-    width: 100%;
-    text-align: center;
   }
 
   body {

@@ -71,10 +71,10 @@ function _dashHeroAndFilters(meta, opts) {
         </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
           <span class="dash-hero-badge">HSE Platform · Elsewedy Polymers</span>
-          ${meta.role !== 'worker' ? `<button class="dash-refresh-btn" onclick="exportDashboardExcel()">${dicon('download', 15)} ${T("تصدير Excel")}</button>` : ''}
-          ${meta.role !== 'worker' ? `<button class="dash-refresh-btn" id="dashExportChartsBtn" onclick="exportDashboardExcelWithCharts()">${T("📊 تصدير بالرسوم البيانية")}</button>` : ''}
-          ${meta.role !== 'worker' ? `<button class="dash-refresh-btn" onclick="exportPowerBiData()" title="${T("ملف بيانات مسطّح (صف لكل سجل) جاهز لـ Power BI أو Excel")}">${T("📈 بيانات Power BI")}</button>` : ''}
-          <button class="dash-refresh-btn" onclick="dashRefresh()">${dicon('refresh', 15)} ${T("تحديث")}</button>
+          ${meta.role !== 'worker' ? `<button class="btn btn-export btn-sm" onclick="exportDashboardExcel()">${dicon('download', 15)} ${T("تصدير Excel")}</button>` : ''}
+          ${meta.role !== 'worker' ? `<button class="btn btn-export btn-sm" id="dashExportChartsBtn" onclick="exportDashboardExcelWithCharts()">${T("📊 تصدير بالرسوم البيانية")}</button>` : ''}
+          ${meta.role !== 'worker' ? `<button class="btn btn-export btn-sm" onclick="exportPowerBiData()" title="${T("ملف بيانات مسطّح (صف لكل سجل) جاهز لـ Power BI أو Excel")}">${T("📈 بيانات Power BI")}</button>` : ''}
+          <button class="btn btn-ghost btn-sm" onclick="dashRefresh()">${dicon('refresh', 15)} ${T("تحديث")}</button>
         </div>
       </div>
       ${opts.execSnapshot || ''}
@@ -96,9 +96,9 @@ function _dashHeroAndFilters(meta, opts) {
         <option value="">${T("-- كل الأقسام --")}</option>
         ${deptOptionsHtml}
       </select>
-      ${_dashDeptFilter ? `<button class="dash-refresh-btn" onclick="dashClearDeptFilter()" title="${T("عرض كل الأقسام")}">${T("✖ إلغاء فلتر القسم")}</button>` : ''}
+      ${_dashDeptFilter ? `<button class="btn btn-secondary btn-sm" onclick="dashClearDeptFilter()" title="${T("عرض كل الأقسام")}">${T("✖ إلغاء فلتر القسم")}</button>` : ''}
       ` : ''}
-      <button class="dash-apply-btn" onclick="dashApplyFilters()">${T("تطبيق الفلتر")}</button>
+      <button class="btn btn-primary btn-sm" onclick="dashApplyFilters()">${T("تطبيق الفلتر")}</button>
     </div>
   `;
 }
@@ -159,7 +159,7 @@ function renderPersonalDashboard(container, data, role, isSingleEmployeeView, yt
           </div>
         </div>
       </div>
-      <button class="dash-refresh-btn" onclick="dashClearEmpFilter()">${T("⬅ رجوع للوحة التحكم العامة")}</button>
+      <button class="btn btn-secondary btn-sm" onclick="dashClearEmpFilter()">${T("⬅ رجوع للوحة التحكم العامة")}</button>
     </div>
   ` : '';
 

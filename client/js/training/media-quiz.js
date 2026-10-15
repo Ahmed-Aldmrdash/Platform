@@ -301,7 +301,7 @@ function openWorkerRecordingModal(url) {
       <h3 style="margin-top:0;">🎥 ${T("تسجيل المحاضرة")}</h3>
       <p style="font-size:13px; color:var(--text-muted);">${T("التسجيل ده رابط خارجي — هيتفتح في تاب جديد.")}</p>
       <div class="app-modal-actions">
-        <a class="submit-btn" style="text-decoration:none; text-align:center;" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${T("🔗 فتح التسجيل")}</a>
+        <a class="btn btn-info" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${T("🔗 فتح التسجيل")}</a>
       </div>
     `;
   openAppModal(html);

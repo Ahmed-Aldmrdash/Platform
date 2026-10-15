@@ -109,7 +109,8 @@
 .login-v2 .login-sub { font-size: var(--fs-sm); color: var(--text-muted); margin: 0 0 18px; }
 .login-v2 .login-field,
 .login-v2 .login-submit,
-.login-v2 .wl-link-btn {
+.login-v2 .wl-link,
+.login-v2 .wl-back {
   animation: loginItemIn 0.45s ease both;
   animation-delay: calc(var(--i, 1) * 0.07s);
 }
@@ -182,18 +183,6 @@
   display: block;
 }
 
-.logout-btn {
-  background: none;
-  border: 1px solid var(--border-strong);
-  color: var(--text-2);
-  padding: 6px 12px;
-  border-radius: var(--r-md);
-  font-size: 12px;
-  cursor: pointer;
-  font-family: var(--font);
-  font-weight: 700;
-}
-
 .sup-header-row {
   display: flex;
   justify-content: space-between;
@@ -236,18 +225,6 @@
 
 .settings-box .field input {
   background: var(--surface);
-}
-
-.settings-save {
-  background: var(--brand-600);
-  color: var(--on-solid);
-  border: none;
-  border-radius: var(--r-md);
-  padding: 8px 16px;
-  font-weight: 700;
-  font-size: 13px;
-  cursor: pointer;
-  font-family: var(--font);
 }
 
 .type-pill {
@@ -293,19 +270,6 @@
 
 .closure-actions .btn { flex: 1 1 0; min-width: 90px; }
 
-.closure-actions button:not(.btn) {
-  flex: 1;
-  min-width: 90px;
-  padding: 8px;
-  border-radius: var(--r-md);
-  border: 1px solid var(--border-strong);
-  background: var(--surface);
-  color: var(--text);
-  font-size: 12.5px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: var(--font);
-}
 
 .details-toggle {
   color: var(--text-2);

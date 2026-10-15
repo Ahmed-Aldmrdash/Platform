@@ -34,7 +34,6 @@
   white-space: nowrap;
 }
 body[data-readonly="1"] .dash-section-title { border-inline-start: 3px solid var(--info-solid); padding-inline-start: 10px; }
-body[data-readonly="1"] .um-btn.del,
 body[data-readonly="1"] .btn-danger,
 body[data-readonly="1"] #clearPermitsBtn,
 body[data-readonly="1"] #clearHazardsBtn,
@@ -118,21 +117,26 @@ body[data-readonly="1"] .user-chip, body[data-readonly="1"] .dash-hero-badge {
   }
 }
 
-.export-btn, .chip, .emp-dir-btn, .submit-btn,
-.insp-category-card, .insp-section-card, .sup-card, .ticket,
-.dash-quick-btn, .kpi-card, .exec-kpi-card {
+.chip,
+.insp-category-card,
+.insp-section-card,
+.sup-card,
+.ticket,
+.dash-quick-btn,
+.kpi-card,
+.exec-kpi-card {
   transition: transform .15s cubic-bezier(.2,.8,.2,1), box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
 }
 @media (hover: hover) {
-  .export-btn:hover,
-  .emp-dir-btn:hover, .kpi-card:hover, .exec-kpi-card:hover,
-  .sup-card:hover, .ticket:hover {
+  .kpi-card:hover,
+  .exec-kpi-card:hover,
+  .sup-card:hover,
+  .ticket:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-2);
   }
 }
-.export-btn:active, .submit-btn:active,
-.emp-dir-btn:active, .chip:active {
+.chip:active {
   transform: scale(0.97);
 }
 

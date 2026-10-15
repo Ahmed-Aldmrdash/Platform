@@ -9,9 +9,7 @@
 .dash-exec-icon .dash-icon {
   color: var(--brand-600);
 }
-.dash-refresh-btn .dash-icon {
-  color: currentColor;
-}
+
 .dash-kpi-icon {
   color: var(--chart-1);
 }
@@ -80,32 +78,6 @@
   font-size: var(--fs-xs);
   font-weight: 600;
   white-space: nowrap;
-}
-
-.dash-refresh-btn {
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  color: var(--text);
-  border-radius: var(--r-md);
-  padding: 8px 14px;
-  min-height: 40px;
-  cursor: pointer;
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  transition: background-color 0.15s, border-color 0.15s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.dash-refresh-btn:hover {
-  background: var(--surface-2);
-  border-color: var(--input-border);
-}
-
-.dash-refresh-btn:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
 }
 
 .dash-exec-snapshot {
@@ -209,11 +181,11 @@
   border-color: var(--chart-1);
 }
 
+/* Same selected look as the filter chips elsewhere. */
 .dash-quick-btn.active {
-  background: var(--chart-1);
-  border-color: var(--chart-1);
-  color: var(--on-solid);
-  box-shadow: none;
+  background: var(--brand-50);
+  border-color: var(--brand-600);
+  color: var(--brand-700);
 }
 
 .dash-filter-divider {
@@ -256,25 +228,6 @@
 .dash-emp-input:focus {
   border-color: var(--brand-600);
   box-shadow: var(--focus-ring);
-}
-
-.dash-apply-btn {
-  background: var(--brand-600);
-  color: var(--on-solid);
-  border: none;
-  border-radius: var(--r-md);
-  padding: 8px 18px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: var(--font);
-  transition: all 0.18s;
-  white-space: nowrap;
-}
-
-.dash-apply-btn:hover {
-  background: var(--brand-fill-hover);
-  box-shadow: none;
 }
 
 .dash-kpi-grid {

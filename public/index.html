@@ -133,7 +133,7 @@
               onkeydown="if(event.key==='Enter') checkEmpCode()"
             />
           </div>
-          <button class="submit-btn" id="wl_checkBtn" onclick="checkEmpCode()">
+          <button class="btn btn-primary btn-lg btn-block" id="wl_checkBtn" onclick="checkEmpCode()">
             <span data-i18n="wlSubmit">تسجيل الدخول ←</span>
           </button>
           <div id="wl_checkMsg" class="wl-msg"></div>
@@ -153,12 +153,12 @@
             <label><span data-i18n="wlPassword">كلمة السر</span> <span class="req-star">*</span></label>
             <input id="wl_password" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter') workerPasswordLogin()" />
           </div>
-          <button class="submit-btn" id="wl_loginBtn" onclick="workerPasswordLogin()">
+          <button class="btn btn-primary btn-lg btn-block" id="wl_loginBtn" onclick="workerPasswordLogin()">
             <span data-i18n="wlLoginBtn">دخول ←</span>
           </button>
-          <button type="button" class="wl-link-btn" onclick="wlShowForgot()" data-i18n="wlForgot">نسيت كلمة السر؟</button>
+          <button type="button" class="btn btn-ghost btn-link wl-link" onclick="wlShowForgot()" data-i18n="wlForgot">نسيت كلمة السر؟</button>
           <div id="wl_pwMsg" class="wl-msg"></div>
-          <button type="button" class="wl-back-btn" onclick="resetWorkerLogin()" data-i18n="wlBack">رجوع / كود تاني</button>
+          <button type="button" class="btn btn-secondary btn-block wl-back" onclick="resetWorkerLogin()" data-i18n="wlBack">رجوع / كود تاني</button>
         </div>
 
         <div id="wl-step-setup" style="display: none">
@@ -179,17 +179,17 @@
             <label><span data-i18n="wlEmail">الإيميل (اختياري)</span></label>
             <input id="wl_email" type="email" inputmode="email" placeholder="name@example.com" dir="ltr" autocomplete="email" onkeydown="if(event.key==='Enter') workerSetupPassword()" />
           </div>
-          <button class="submit-btn" id="wl_setupBtn" onclick="workerSetupPassword()">
+          <button class="btn btn-primary btn-lg btn-block" id="wl_setupBtn" onclick="workerSetupPassword()">
             <span data-i18n="wlSetupBtn">حفظ ودخول ✓</span>
           </button>
           <div id="wl_setupMsg" class="wl-msg"></div>
-          <button type="button" class="wl-back-btn" onclick="resetWorkerLogin()" data-i18n="wlBack">رجوع / كود تاني</button>
+          <button type="button" class="btn btn-secondary btn-block wl-back" onclick="resetWorkerLogin()" data-i18n="wlBack">رجوع / كود تاني</button>
         </div>
 
         <div id="wl-step-forgot" style="display: none">
           <div class="wl-new-badge" id="wl_forgotNote"></div>
           <div id="wl_forgotMsg" class="wl-msg"></div>
-          <button type="button" class="wl-back-btn" onclick="wlShowStep('wl-step-password')" data-i18n="wlBackToPassword">رجوع لكلمة السر</button>
+          <button type="button" class="btn btn-secondary btn-block wl-back" onclick="wlShowStep('wl-step-password')" data-i18n="wlBackToPassword">رجوع لكلمة السر</button>
         </div>
 
         <div
@@ -220,7 +220,7 @@
         <div class="wl-divider">
           <span data-i18n="wlOr">أو</span>
         </div>
-        <button class="wl-admin-btn" onclick="goToAdminLogin()">
+        <button class="wl-admin-btn btn btn-secondary btn-block" onclick="goToAdminLogin()">
           🛡️ <span data-i18n="wlAdminLogin">دخول المشرفين / الإدارة</span>
         </button>
       </div>
@@ -309,7 +309,7 @@
                   </h3>
                   <button
                     type="button"
-                    class="btn-mark-all"
+                    class="btn btn-secondary btn-sm"
                     onclick="markAllNotificationsAsRead()"
                   >
                     تحديد الكل كمقروء
@@ -368,12 +368,12 @@
               class="user-profile-chip-container"
               id="globalUserProfileChip"
             ></div>
-            <button class="logout-btn" onclick="logout()"><span data-i18n="logout">تسجيل الخروج</span></button>
+            <button class="btn btn-secondary btn-sm" onclick="logout()"><span data-i18n="logout">تسجيل الخروج</span></button>
           </div>
 
           <button
             id="installBtn"
-            class="install-btn"
+            class="btn btn-secondary btn-sm"
             style="display: none"
             onclick="triggerInstall()"
           >

@@ -109,7 +109,7 @@ function showEmpBadge(){
     <span class="emp-dot">👤</span>
     <span class="emp-name">${escapeHtml(currentEmployee.name)}</span>
     <span class="emp-code-label">${escapeHtml(currentEmployee.empCode)}</span>
-    <button class="emp-logout-btn" onclick="workerLogout()">${T("خروج")}</button>
+    <button class="btn btn-secondary btn-sm emp-logout" onclick="workerLogout()">${T("خروج")}</button>
   `;
   area.style.display = 'block';
 }

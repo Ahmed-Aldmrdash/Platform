@@ -195,42 +195,6 @@
   flex-wrap: wrap;
 }
 
-.um-btn {
-  padding: 5px 11px;
-  border-radius: var(--r-md);
-  border: none;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: var(--font);
-  transition: opacity .12s;
-  min-height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.um-btn:hover {
-  opacity: 0.85;
-}
-
-.um-btn.pass {
-  background: var(--brand-50);
-  color: var(--brand-700);
-  border: 1px solid var(--brand-line);
-}
-
-.um-btn.del {
-  background: var(--danger-tint);
-  color: var(--danger-text);
-  border: 1px solid var(--danger-line);
-}
-
-.um-btn.del:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
 .um-modal-overlay {
   position: fixed;
   inset: 0;

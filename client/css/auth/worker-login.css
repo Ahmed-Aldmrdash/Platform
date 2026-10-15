@@ -109,23 +109,6 @@
   box-shadow: var(--focus-ring);
 }
 
-.worker-login-card .submit-btn {
-  background: var(--brand-600);
-  box-shadow: none;
-  font-size: 15px;
-  border-radius: var(--r-md);
-  margin-top: 6px;
-}
-
-.worker-login-card .submit-btn:hover {
-  background: var(--brand-fill-hover);
-}
-
-.worker-login-card .submit-btn:active {
-  box-shadow: none;
-  transform: translateY(1px);
-}
-
 .wl-new-badge {
   background: var(--brand-50);
   border: 1px solid var(--brand-100);
@@ -137,28 +120,6 @@
   color: var(--text);
   text-align: center;
 }
-
-.wl-back-btn {
-  width: 100%;
-  margin-top: 10px;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  color: var(--text-2);
-  border-radius: var(--r-md);
-  padding: 10px;
-  min-height: 44px;
-  font-family: var(--font);
-  font-size: 13.5px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background .12s;
-}
-
-.wl-back-btn:hover {
-  background: var(--surface-2);
-  color: var(--text);
-}
-
 
 .wl-divider {
   display: flex;
@@ -181,25 +142,11 @@
   font-family: var(--font);
 }
 
-.wl-admin-btn {
-  width: 100%;
-  padding: 11px;
-  min-height: 44px;
-  border-radius: var(--r-md);
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  color: var(--text);
-  font-family: var(--font);
-  font-size: 13.5px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .15s;
-}
-
-.wl-admin-btn:hover {
-  background: var(--surface-2);
-  border-color: var(--input-border);
-}
+/* .wl-admin-btn is kept in the markup as a hook for worker-login.js; it is styled by .btn. */
+.wl-link { display: flex; width: fit-content; margin: 10px auto 0; }
+.wl-link.btn-block { width: 100%; }
+.wl-back { margin-top: 10px; }
+.worker-login-card .btn-primary { margin-top: 6px; }
 
 .wl-msg {
   font-size: 12.5px;
@@ -261,23 +208,6 @@
   letter-spacing: 2px;
   font-size: 12px;
   color: var(--text-muted);
-}
-
-.wl-link-btn {
-  display: block;
-  margin: 10px auto 0;
-  background: none;
-  border: none;
-  color: var(--info-text);
-  font-family: var(--font);
-  font-size: 12.5px;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.wl-link-btn:hover {
-  color: var(--text);
 }
 
 .em-pw-box {
