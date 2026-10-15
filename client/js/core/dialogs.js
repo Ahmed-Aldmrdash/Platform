@@ -19,7 +19,7 @@ function _openAppDialog({ title, message, tone = 'primary', confirmLabel, cancel
 
     const heading = document.createElement('h3');
     heading.id = 'appDialogTitle';
-    heading.textContent = title || (tone === 'danger' ? T('تأكيد الحذف') : T('تأكيد'));
+    heading.textContent = title || T('تأكيد');
 
     const body = document.createElement('p');
     body.id = 'appDialogMessage';

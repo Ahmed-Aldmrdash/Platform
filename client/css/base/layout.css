@@ -531,18 +531,6 @@
   box-shadow: var(--focus-ring);
 }
 
-.btn-amber, .btn-emerald, .btn-red, .btn-cyan {
-  border: none;
-  padding: 8px;
-  border-radius: var(--r-md);
-  font-weight: bold;
-  cursor: pointer;
-  color: var(--on-solid);
-}
-.btn-amber   { background: var(--warning-text); }
-.btn-emerald { background: var(--success-solid); }
-.btn-red     { background: var(--danger-solid); }
-.btn-cyan    { background: var(--info-solid); }
 
 /* Overdue filter (permits and hazards): chip with a count and the days selector */
 .chip-overdue {

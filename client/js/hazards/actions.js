@@ -311,7 +311,7 @@ async function submitHzResolve() {
 }
 
 async function softDeleteHazard(id) {
-  if (!(await appConfirm(T('هل أنت متأكد من حذف هذا البلاغ ونقله للمحذوفات؟'), { tone: 'danger', confirmLabel: T('حذف') }))) return;
+  if (!(await appConfirm(T('هل أنت متأكد من حذف هذا البلاغ ونقله للمحذوفات؟'), { tone: 'danger', title: T('تأكيد الحذف'), confirmLabel: T('حذف') }))) return;
   try {
     const res = await authFetch(`/api/hazards/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: 'حذف من لوحة التحكم' }) });
     if (res.ok) {
@@ -333,7 +333,7 @@ async function restoreHazard(id) {
 }
 
 async function permanentDeleteHazard(id) {
-  if (!(await appConfirm(T('تنبيه هام! هل أنت متأكد من الحذف النهائي؟ لا يمكن التراجع عن هذا الإجراء.'), { tone: 'danger', confirmLabel: T('حذف نهائي') }))) return;
+  if (!(await appConfirm(T('تنبيه هام! هل أنت متأكد من الحذف النهائي؟ لا يمكن التراجع عن هذا الإجراء.'), { tone: 'danger', title: T('تأكيد الحذف'), confirmLabel: T('حذف نهائي') }))) return;
   try {
     const res = await authFetch(`/api/hazards/${id}/permanent`, { method: 'DELETE' });
     if (res.ok) {

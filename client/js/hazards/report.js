@@ -55,7 +55,7 @@ async function renderMyHazards(isSilent = false) {
       let riskClass = h.riskLevel === 'H' ? 'hz-high' : h.riskLevel === 'M' ? 'hz-medium' : 'hz-low';
 
       html += `
-        <div class="sup-card" style="margin-bottom:12px;">
+        <div class="sup-card">
           <div class="sup-top">
             <div>
               <div class="hz-status-badge ${statusClass}">${T(statusStr)}</div>
@@ -67,14 +67,14 @@ async function renderMyHazards(isSilent = false) {
             <div><span>${T("القسم")}</span>${escapeHtml(h.department)}</div>
             <div><span>${T("المنطقة")}</span>${escapeHtml(h.area)}</div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;margin:12px 0;">
-            <span style="font-size:12px; font-weight:bold;">${T("مستوى الخطورة:")}</span>
-            <div class="hz-risk-badge ${riskClass}" style="margin:0; padding:4px 8px; font-size:11.5px;">${riskStr}</div>
+          <div class="hz-risk-row">
+            <span class="hz-risk-label">${T("مستوى الخطورة:")}</span>
+            <div class="hz-risk-badge ${riskClass}">${riskStr}</div>
           </div>
           <div class="desc"><strong>${T("وصف الخطورة:")}</strong><br>${escapeHtml(h.description)}</div>
-          ${h.photoUrl ? `<div style="margin-top:8px;"><div class="hz-photo-badge" onclick="openLightbox(${jsArg(h.photoUrl)})">${T("🖼️ عرض الصورة")}</div></div>` : ''}
-          <div class="phc-msg" style="margin-top:10px; font-size:12px; color:var(--text-muted);">${pendingDesc}</div>
-          ${h.actionTaken ? `<div class="note-box show" style="margin-top:10px; background-color: var(--surface-2); border-left: 4px solid var(--brand-600); padding: 10px; border-radius: 4px;">
+          ${h.photoUrl ? `<div class="hz-photo-link"><div class="hz-photo-badge" onclick="openLightbox(${jsArg(h.photoUrl)})">${T("🖼️ عرض الصورة")}</div></div>` : ''}
+          <div class="phc-msg hz-pending-desc">${pendingDesc}</div>
+          ${h.actionTaken ? `<div class="desc desc-action">
             <strong>${T("🛠️ الإجراء المتخذ من المشرف (")}${escapeHtml(h.updatedBy || T('إدارة السلامة'))}):</strong><br>
             ${escapeHtml(h.actionTaken)}
           </div>` : ''}
@@ -108,12 +108,12 @@ async function renderMyHazards(isSilent = false) {
               </div>
             </div>
             ${h.status && h.status.startsWith('rejected') ? `
-            <div class="timeline-step done" style="border-left-color: var(--danger-solid);">
-              <span class="step-icon" style="background: var(--danger-solid); color: var(--on-solid);">❌</span>
+            <div class="timeline-step done is-rejected">
+              <span class="step-icon">❌</span>
               <div class="step-info">
-                <strong style="color: var(--danger-text);">${T("تم رفض البلاغ:")}</strong>
+                <strong>${T("تم رفض البلاغ:")}</strong>
                 <span>${h.rejectedAt ? `${formatDateTime(h.rejectedAt)} ${T("(بواسطة:")} ${escapeHtml(h.rejectedBy || T('المشرف'))})` : '—'}</span>
-                <br><span style="color: var(--danger-text); font-size: 11px;">${T("سبب الرفض:")} ${escapeHtml(h.rejectionReason || h.reason || T('لم يتم تحديد سبب'))}</span>
+                <br><span class="desc-by">${T("سبب الرفض:")} ${escapeHtml(h.rejectionReason || h.reason || T('لم يتم تحديد سبب'))}</span>
               </div>
             </div>
             ` : ''}

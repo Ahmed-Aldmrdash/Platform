@@ -163,7 +163,7 @@
   align-items: center;
   gap: 8px;
 }
-.btn-row .btn-danger, .btn-row .btn-push-end { margin-inline-start: auto; }
+.btn-row .btn-danger, .btn-push-end { margin-inline-start: auto; }
 .btn-row.is-fill > .btn { flex: 1 1 0; }
 .btn-row.is-fill > .btn-danger { margin-inline-start: 0; }
 .modal-actions { margin-top: 12px; }

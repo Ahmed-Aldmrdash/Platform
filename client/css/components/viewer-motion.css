@@ -118,20 +118,20 @@ body[data-readonly="1"] .user-chip, body[data-readonly="1"] .dash-hero-badge {
   }
 }
 
-.btn, .act-btn, .export-btn, .chip, .emp-dir-btn, .submit-btn,
+.export-btn, .chip, .emp-dir-btn, .submit-btn,
 .insp-category-card, .insp-section-card, .sup-card, .ticket,
 .dash-quick-btn, .kpi-card, .exec-kpi-card {
   transition: transform .15s cubic-bezier(.2,.8,.2,1), box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
 }
 @media (hover: hover) {
-  .btn:not(:disabled):hover, .act-btn:hover, .export-btn:hover,
+  .export-btn:hover,
   .emp-dir-btn:hover, .kpi-card:hover, .exec-kpi-card:hover,
   .sup-card:hover, .ticket:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-2);
   }
 }
-.btn:active, .act-btn:active, .export-btn:active, .submit-btn:active,
+.export-btn:active, .submit-btn:active,
 .emp-dir-btn:active, .chip:active {
   transform: scale(0.97);
 }

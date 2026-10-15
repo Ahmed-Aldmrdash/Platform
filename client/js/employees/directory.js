@@ -385,7 +385,7 @@ async function saveEmployee() {
 }
 
 async function deleteEmployee(code, name) {
-  if (!(await appConfirm(`${T("هل تريد حذف الموظف")} "${name}" (${code}${T(")؟\\nهذه العملية لا يمكن التراجع عنها.")}`, { tone: 'danger', confirmLabel: T('حذف') }))) return;
+  if (!(await appConfirm(`${T("هل تريد حذف الموظف")} "${name}" (${code}${T(")؟\\nهذه العملية لا يمكن التراجع عنها.")}`, { tone: 'danger', title: T('تأكيد الحذف'), confirmLabel: T('حذف') }))) return;
   try {
     const res  = await authFetch(`/api/employees/${encodeURIComponent(code)}`, { method: 'DELETE' });
     const data = await res.json();

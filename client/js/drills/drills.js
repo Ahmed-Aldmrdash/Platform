@@ -341,7 +341,7 @@ async function closeDrillSession(id) {
 }
 
 async function deleteDrillSession(id) {
-  if (!(await appConfirm(T('هل أنت متأكد من حذف التجربة نهائياً؟'), { tone: 'danger', confirmLabel: T('حذف') }))) return;
+  if (!(await appConfirm(T('هل أنت متأكد من حذف التجربة نهائياً؟'), { tone: 'danger', title: T('تأكيد الحذف'), confirmLabel: T('حذف') }))) return;
   try {
     const res = await authFetch(`/api/drills/${id}`, { method: 'DELETE' });
     if (res.ok) loadAdminDrill(true);

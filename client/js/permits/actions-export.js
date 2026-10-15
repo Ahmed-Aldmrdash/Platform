@@ -99,7 +99,7 @@ async function restorePermit(id) {
 }
 
 async function hardDeletePermit(id) {
-  if(!(await appConfirm(T('هل أنت متأكد من حذف هذا الطلب نهائياً من سلة المحذوفات؟ لا يمكن التراجع عن هذا الإجراء'), { tone: 'danger', confirmLabel: T('حذف نهائي') }))) return;
+  if(!(await appConfirm(T('هل أنت متأكد من حذف هذا الطلب نهائياً من سلة المحذوفات؟ لا يمكن التراجع عن هذا الإجراء'), { tone: 'danger', title: T('تأكيد الحذف'), confirmLabel: T('حذف نهائي') }))) return;
   try {
     const res = await authFetch(`/api/permits/${encodeURIComponent(id)}/permanent`, { method: 'DELETE' });
     if(res.ok) {

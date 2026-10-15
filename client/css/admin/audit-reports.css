@@ -212,18 +212,7 @@
   color: var(--text);
 }
 .hza-on { display: flex; align-items: center; justify-content: center; margin: 0; }
-.hza-del {
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--danger-text);
-  border-radius: var(--r-md);
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  font-size: 13px;
-  line-height: 1;
-}
-.hza-del:hover { background: var(--danger-tint); }
+.hza-add { margin: 8px 0 14px; }
 @media (max-width: 560px) {
   .hza-row {
     grid-template-columns: 1fr auto auto;

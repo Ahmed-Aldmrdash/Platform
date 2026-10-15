@@ -232,7 +232,7 @@ async function inspDeleteSection(sectionId) {
   const s = (window._inspSectionsCache || []).find(x => x.id === sectionId);
   if (!s) return;
   const warn = s.itemCount > 0 ? ` ${T("يحتوي")} ${s.itemCount} ${T("صنف — سيتم حذف كل الأصناف وسجلات الفحص الخاصة به نهائيًا.")}` : '';
-  if (!(await appConfirm(`${T("هل تريد حذف قسم")} "${s.name}"${T("؟")}${warn}`, { tone: 'danger', confirmLabel: T('حذف') }))) return;
+  if (!(await appConfirm(`${T("هل تريد حذف قسم")} "${s.name}"${T("؟")}${warn}`, { tone: 'danger', title: T('تأكيد الحذف'), confirmLabel: T('حذف') }))) return;
   try {
     const url = `/api/inspections/sections/${sectionId}` + (s.itemCount > 0 ? '?cascade=true' : '');
     const res = await authFetch(url, { method: 'DELETE' });
@@ -626,7 +626,7 @@ async function inspSubmitEditItem(itemId) {
 
 async function inspDeleteItem(itemId) {
   const it = (window._inspItemsCache || []).find(x => x.id === itemId);
-  if (!(await appConfirm(`${T("هل تريد حذف الصنف")} "${it ? it.name : ''}"${T("؟ سيتم حذف كل سجلات فحصه الشهرية أيضًا.")}`, { tone: 'danger', confirmLabel: T('حذف') }))) return;
+  if (!(await appConfirm(`${T("هل تريد حذف الصنف")} "${it ? it.name : ''}"${T("؟ سيتم حذف كل سجلات فحصه الشهرية أيضًا.")}`, { tone: 'danger', title: T('تأكيد الحذف'), confirmLabel: T('حذف') }))) return;
   try {
     const res = await authFetch(`/api/inspections/items/${itemId}`, { method: 'DELETE' });
     if (res.ok) {
@@ -701,7 +701,7 @@ async function inspSubmitRecord(itemId) {
 }
 
 async function inspDeleteRecord(recordId) {
-  if (!(await appConfirm(T('هل تريد حذف نتيجة الفحص لهذا الشهر؟ سيعود الصنف لحالة "لم يتم الفحص".'), { tone: 'danger', confirmLabel: T('حذف') }))) return;
+  if (!(await appConfirm(T('هل تريد حذف نتيجة الفحص لهذا الشهر؟ سيعود الصنف لحالة "لم يتم الفحص".'), { tone: 'danger', title: T('تأكيد الحذف'), confirmLabel: T('حذف') }))) return;
   try {
     const res = await authFetch(`/api/inspections/records/${recordId}`, { method: 'DELETE' });
     if (res.ok) {

@@ -376,6 +376,8 @@ Object.assign(I18N_STRINGS, {
   'رفض طلب المحاضرة': 'Decline lecture request',
   'إغلاق جبري للتصريح؟ هيتسجل إن العمل اتقفل بشكل غير طبيعي.': 'Force-close this permit? It will be recorded as closed abnormally.',
   'منطقة الخطر': 'Danger zone',
+  'تصغير': 'Zoom out',
+  'تكبير': 'Zoom in',
   '✓ اكتمل بأمان': '✓ Completed safely',
   '🚫 إغلاق جبري': '🚫 Forced closure',
   'المسح هنا نهائي لكل المستخدمين، وبيطلب تأكيدين.': 'Erasing here is permanent for every user and asks for two confirmations.',

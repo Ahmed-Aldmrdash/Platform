@@ -217,7 +217,7 @@ async function addUser(){
 }
 
 async function deleteUser(id, name){
-  if(!(await appConfirm(`${T("هل أنت متأكد من حذف المستخدم")} "${name}"${T("؟\\nهذه العملية لا يمكن التراجع عنها.")}`, { tone: 'danger', confirmLabel: T('حذف') }))) return;
+  if(!(await appConfirm(`${T("هل أنت متأكد من حذف المستخدم")} "${name}"${T("؟\\nهذه العملية لا يمكن التراجع عنها.")}`, { tone: 'danger', title: T('تأكيد الحذف'), confirmLabel: T('حذف') }))) return;
   try{
     const res = await authFetch(`/api/users/${encodeURIComponent(id)}`, {method:'DELETE'});
     const data = await res.json();

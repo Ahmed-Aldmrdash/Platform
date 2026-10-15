@@ -681,13 +681,7 @@
               />
               <button
                 type="button"
-                class="emp-dir-btn secondary"
-                style="
-                  width: 100%;
-                  justify-content: center;
-                  padding: 12px;
-                  margin-bottom: 8px;
-                "
+                class="btn btn-secondary btn-block hz-photo-btn"
                 onclick="document.getElementById('hz_photoInput').click()"
               >
                 📷 التقاط / إرفاق صورة للمشكلة
@@ -702,14 +696,14 @@
                 <div class="hz-photo-actions">
                   <button
                     type="button"
-                    class="act-btn approve"
+                    class="btn btn-success btn-sm"
                     onclick="confirmHazardPhoto()"
                   >
                     ✅ اعتماد الصورة
                   </button>
                   <button
                     type="button"
-                    class="act-btn reject"
+                    class="btn btn-secondary btn-sm"
                     onclick="removeHazardPhoto()"
                   >
                     🔄 إعادة التقاط / حذف
@@ -719,7 +713,7 @@
             </div>
 
             <button
-              class="submit-btn"
+              class="btn btn-primary btn-lg btn-block form-submit"
               id="hz_submitBtn"
               onclick="submitHazardReport()"
             >
@@ -886,28 +880,16 @@
           <div class="filters" id="hzFilters"></div>
           <button
             id="hzAlertSettingsBtn"
-            class="export-btn"
+            class="btn btn-secondary btn-sm btn-push-end"
             onclick="openHazardAlertSettings()"
-            style="
-              margin-inline-start: auto;
-              background: var(--danger-solid);
-              color: var(--on-solid);
-              display: none;
-            "
+            style="display: none"
             title="مين بيستلم إيميل فوري لما يتسجل بلاغ خطورة عالية"
           >
             🔴 تنبيهات الخطورة العالية
           </button>
           <button
-            class="export-btn"
+            class="btn btn-ghost btn-sm"
             onclick="renderSupHazard(false)"
-            style="
-              background: var(--brand-600);
-              color: var(--on-solid);
-              display: flex;
-              align-items: center;
-              gap: 6px;
-            "
           >
             🔄 تحديث البيانات
           </button>
@@ -923,17 +905,15 @@
         </div>
         <div class="toolbar">
           <button
-            class="export-btn"
+            class="btn btn-export btn-sm btn-push-end"
             onclick="exportHazardsExcel()"
-            style="margin-inline-start: auto"
           >
             📊 تصدير سجل البلاغات Excel
           </button>
           <button
             id="emailHazardsBtn"
-            class="export-btn"
+            class="btn btn-export btn-sm"
             onclick="openEmailSendModal('hazards')"
-            style="background: var(--info-solid); margin-inline-start: 10px"
           >
             📧 إرسال الشيت بالإيميل
           </button>
@@ -946,23 +926,10 @@
           />
           <button
             id="uploadHazardsExcelBtn"
-            class="export-btn admin-only"
+            class="btn btn-export btn-sm admin-only"
             onclick="document.getElementById('hazardExcelUploadInput').click()"
-            style="margin-inline-start: 10px"
           >
             📤 رفع سجل Excel
-          </button>
-          <button
-            id="clearHazardsBtn"
-            class="export-btn admin-only"
-            onclick="clearModuleData('hazards', () => renderSupHazard(false))"
-            style="
-              background: var(--danger-solid);
-              color: var(--on-solid);
-              margin-inline-start: 10px;
-            "
-          >
-            🗑️ مسح كل البلاغات
           </button>
         </div>
 
@@ -1021,7 +988,7 @@
           </div>
 
           <div class="adv-filter-footer">
-            <button class="adv-filter-clear-btn" onclick="clearHazardFilters()">
+            <button class="btn btn-secondary btn-sm" onclick="clearHazardFilters()">
               مسح الفلاتر
             </button>
             <span class="adv-filter-count" id="hzFilterCount"></span>
@@ -1030,6 +997,18 @@
 
         <div id="hzList">
           <div class="loading">جارِ التحميل…</div>
+        </div>
+
+        <div class="danger-zone">
+          <h4 class="danger-zone-title">منطقة الخطر</h4>
+          <p class="danger-zone-note">المسح هنا نهائي لكل المستخدمين، وبيطلب تأكيدين.</p>
+          <button
+            id="clearHazardsBtn"
+            class="btn btn-danger btn-sm admin-only"
+            onclick="clearModuleData('hazards', () => renderSupHazard(false))"
+          >
+            🗑️ مسح كل البلاغات
+          </button>
         </div>
       </div>
 
@@ -1219,17 +1198,13 @@
             </div>
             <div id="um_editInfoBox" class="um-edit-info"></div>
 
-            <div style="display: flex; gap: 8px; margin-top: 12px">
-              <button
-                class="submit-btn"
-                style="flex: 1"
+            <div class="btn-row is-fill modal-actions">
+              <button class="btn btn-primary"
                 onclick="saveUserEdit()"
               >
                 حفظ التعديلات
               </button>
-              <button
-                class="logout-btn"
-                style="flex: 1"
+              <button class="btn btn-secondary"
                 onclick="closeEditUserModal()"
               >
                 إلغاء
@@ -2172,17 +2147,13 @@
             placeholder="اسم مشرف السلامة الذي أصدر الجزاء"
           />
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 12px">
-          <button
-            class="submit-btn"
-            style="flex: 1"
+        <div class="btn-row is-fill modal-actions">
+          <button class="btn btn-primary"
             onclick="submitAddPenalty()"
           >
             حفظ الجزاء
           </button>
-          <button
-            class="logout-btn"
-            style="flex: 1"
+          <button class="btn btn-secondary"
             onclick="closeAddPenaltyModal()"
           >
             إلغاء
@@ -2212,21 +2183,13 @@
             placeholder="مثال: تم إدخاله بالخطأ..."
           />
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 12px">
-          <button
-            class="submit-btn"
-            style="
-              flex: 1;
-              background-color: var(--danger-solid);
-              border-color: var(--danger-solid);
-            "
+        <div class="btn-row is-fill modal-actions">
+          <button class="btn btn-danger-solid"
             onclick="confirmDeletePenalty()"
           >
             حذف الجزاء
           </button>
-          <button
-            class="logout-btn"
-            style="flex: 1"
+          <button class="btn btn-secondary"
             onclick="closeDeletePenaltyModal()"
           >
             إلغاء
@@ -2238,8 +2201,8 @@
 
     <div id="lightboxModal" class="lightbox-overlay" style="display: none">
       <div class="lightbox-toolbar">
-        <button class="lightbox-btn" onclick="zoomOutLightbox()">➖</button>
-        <button class="lightbox-btn" onclick="zoomInLightbox()">➕</button>
+        <button class="lightbox-btn" onclick="zoomOutLightbox()" title="تصغير" aria-label="تصغير">➖</button>
+        <button class="lightbox-btn" onclick="zoomInLightbox()" title="تكبير" aria-label="تكبير">➕</button>
         <button
           class="lightbox-btn"
           id="lightboxDownloadBtn"
@@ -2338,13 +2301,11 @@
             placeholder="اكتب أي ملاحظات أو توجيهات لفريق الصيانة..."
           ></textarea>
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 12px">
-          <button class="submit-btn" style="flex: 1" onclick="submitHzAssign()">
+        <div class="btn-row is-fill modal-actions">
+          <button class="btn btn-primary" onclick="submitHzAssign()">
             توجيه الآن
           </button>
-          <button
-            class="logout-btn"
-            style="flex: 1"
+          <button class="btn btn-secondary"
             onclick="closeHzAssignModal()"
           >
             إلغاء
@@ -2416,21 +2377,13 @@
             "
           />
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 12px">
-          <button
-            class="submit-btn"
-            style="
-              flex: 1;
-              background: var(--success-solid);
-              border-color: var(--success-solid);
-            "
+        <div class="btn-row is-fill modal-actions">
+          <button class="btn btn-success"
             onclick="submitHzResolve()"
           >
             تأكيد الإصلاح والإغلاق
           </button>
-          <button
-            class="logout-btn"
-            style="flex: 1"
+          <button class="btn btn-secondary"
             onclick="closeHzResolveModal()"
           >
             إلغاء
@@ -2459,21 +2412,13 @@
             placeholder="مثال: العطل ميكانيكي وليس كهربائياً..."
           ></textarea>
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 12px">
-          <button
-            class="submit-btn"
-            style="
-              flex: 1;
-              background: var(--danger-solid);
-              border-color: var(--danger-solid);
-            "
+        <div class="btn-row is-fill modal-actions">
+          <button class="btn btn-danger-solid"
             onclick="submitHzRejectMaint()"
           >
             تأكيد الرفض
           </button>
-          <button
-            class="logout-btn"
-            style="flex: 1"
+          <button class="btn btn-secondary"
             onclick="closeHzRejectMaintModal()"
           >
             إلغاء
@@ -2502,21 +2447,13 @@
             placeholder="اكتب سبب رفض البلاغ..."
           ></textarea>
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 12px">
-          <button
-            class="submit-btn"
-            style="
-              flex: 1;
-              background: var(--danger-solid);
-              border-color: var(--danger-solid);
-            "
+        <div class="btn-row is-fill modal-actions">
+          <button class="btn btn-danger-solid"
             onclick="submitHzRejectHse()"
           >
             تأكيد الرفض
           </button>
-          <button
-            class="logout-btn"
-            style="flex: 1"
+          <button class="btn btn-secondary"
             onclick="closeHzRejectHseModal()"
           >
             إلغاء
