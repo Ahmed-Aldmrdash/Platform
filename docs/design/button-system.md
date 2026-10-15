@@ -1,9 +1,22 @@
-# Button system — inventory and proposal (Phase 4)
+# Button system — inventory, decisions and result
 
-Status: **proposal, waiting for approval.** Nothing in this document is applied yet; the button
-classes are migrated page by page in Phase 5 after the action table below is approved.
+Status: **approved and applied.** The four decisions in section 4 were approved; every page now uses
+the classes in section 2 (sections 1 and 3 keep the "before" inventory for reference).
 
-## 1. Inventory (today)
+## Result
+
+| Measure | Before | After |
+| --- | --- | --- |
+| Buttons on `.btn` + a type | 0 of 236 | 226 of 236 |
+| Separate button class families | 22 | 1 (`.btn`) plus component controls |
+| Buttons with inline `style` | 100 | 7 (initial `display: none` set by role checks, the login entrance-animation index, one text color token) |
+| Browser `confirm()` boxes | 19 | 0 (styled `appConfirm` / `appPrompt`, client/js/core/dialogs.js) |
+
+The 10 controls outside `.btn` are components with their own look: notification filter pills, the
+chat launcher / send / mic, the password eye inside the login field and the modal close (✕) circle.
+Filter chips (`.chip`, `.dash-quick-btn`) are not buttons and keep their component style.
+
+## 1. Inventory (before)
 
 | Measure | Count |
 | --- | --- |
@@ -202,7 +215,7 @@ Filter chips and segmented controls keep their component styles: `.chip`, `.dash
 (آخر 7 أيام … آخر سنة), `.notif-pill`, `.mh-filter-btn`, `.lb-filter-btn`. The chat launcher
 (`.cb-fab`), send (`.cb-send`) and mic (`.cb-mic`) stay as the chat widget's own controls.
 
-## 4. Needs your decision
+## 4. Decisions (all four approved and applied)
 
 1. **Add a confirmation** to the three one-click negative actions marked **+** (quick reject of a
    hazard, decline a training request, worker's forced close). This adds a dialog; the request
