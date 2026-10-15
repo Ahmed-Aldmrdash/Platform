@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>معاينة هوية السويدي — منصة السلامة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Proposed tokens — see el-sewedy-identity-spec.md */
+  :root {
+    --brand-600: #D51E27; --brand-700: #B82328; --brand-800: #8F1B20; --brand-50: #FFF5F5; --brand-100: #FBE3E4;
+    --bg: #F5F6F7; --surface: #FFFFFF; --surface-2: #FAFAFB; --surface-3: #F0F1F3;
+    --border: #E4E5E7; --border-strong: #D2D4D8; --input-border: #8B909A;
+    --text: #1E1F22; --text-2: #4A4D55; --text-muted: #6B6F78; --on-solid: #FFFFFF;
+    --success: #15803D; --success-text: #067647; --success-tint: #ECFDF3;
+    --warning: #F59E0B; --warning-text: #B54708; --warning-tint: #FFFAEB;
+    --info: #175CD3; --info-text: #175CD3; --info-tint: #EFF8FF;
+    --danger: #B42318; --danger-text: #B42318; --danger-tint: #FEF3F2;
+    --critical-text: #7A271A; --critical-tint: #FEE4E2; --critical-line: #FDA29B;
+    --neutral-text: #4A4D55; --neutral-tint: #F0F1F3;
+    --r-sm: 4px; --r-md: 6px; --r-lg: 10px; --r-pill: 999px;
+    --shadow-1: 0 1px 2px rgba(16,24,40,.06); --shadow-2: 0 4px 12px rgba(16,24,40,.08); --shadow-3: 0 16px 40px rgba(16,24,40,.18);
+    --focus-ring: 0 0 0 3px rgba(213,30,39,.30);
+    --font: "Alexandria", "Cairo", system-ui, sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1012; --surface: #17181B; --surface-2: #1F2024; --surface-3: #26282D;
+    --border: #2E3036; --border-strong: #3A3D44; --input-border: #6E737C;
+    --text: #ECEDEF; --text-2: #C9CBD0; --text-muted: #A3A7AE;
+    --brand-700: #F0686C; --brand-50: rgba(213,30,39,.14); --brand-100: rgba(213,30,39,.22);
+    --success-text: #4ADE80; --success-tint: rgba(18,183,106,.14);
+    --warning-text: #FBBF24; --warning-tint: rgba(245,158,11,.14);
+    --info-text: #60A5FA; --info-tint: rgba(23,92,211,.18);
+    --danger-text: #F97066; --danger-tint: rgba(180,35,24,.18);
+    --critical-text: #F97066; --critical-tint: rgba(122,39,26,.35); --critical-line: #7A271A;
+    --neutral-text: #C9CBD0; --neutral-tint: #26282D;
+    --shadow-1: 0 1px 2px rgba(0,0,0,.5); --shadow-2: 0 4px 12px rgba(0,0,0,.5); --shadow-3: 0 16px 40px rgba(0,0,0,.6);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+  .num, td.num, .id { font-variant-numeric: tabular-nums; }
+  td.id, td.num { white-space: nowrap; }
+  svg { width: 16px; height: 16px; flex: none; }
+
+  /* app shell */
+  .header { height: 64px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 16px; padding-inline: 20px; position: sticky; top: 0; z-index: 10; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo { width: 40px; height: 40px; border-radius: var(--r-sm); background: var(--surface); border: 1px solid var(--border); display: grid; place-items: center; font-weight: 700; color: var(--brand-600); font-size: 11px; line-height: 1; text-align: center; }
+  .brand b { font-size: 15px; font-weight: 600; } .brand small { display: block; color: var(--text-muted); font-size: 12px; }
+  .header .spacer { flex: 1; }
+  .shell { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: calc(100vh - 64px); }
+  .sidebar { background: var(--surface); border-inline-end: 1px solid var(--border); padding: 12px 8px; }
+  .nav a { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--r-md); color: var(--text-2); text-decoration: none; font-weight: 500; position: relative; margin-bottom: 2px; }
+  .nav a:hover { background: var(--surface-3); }
+  .nav a.active { background: var(--brand-50); color: var(--brand-700); font-weight: 600; }
+  .nav a.active::before { content: ""; position: absolute; inset-inline-start: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 2px; background: var(--brand-600); }
+  .nav .count { margin-inline-start: auto; font-size: 12px; padding: 0 8px; border-radius: var(--r-pill); background: var(--danger-tint); color: var(--danger-text); }
+  main { padding: 24px; display: grid; gap: 20px; align-content: start; }
+
+  /* page header, cards */
+  .page-head { display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .page-head h1 { margin: 0; font-size: 22px; font-weight: 600; } .page-head p { margin: 2px 0 0; color: var(--text-muted); }
+  .page-head .actions { margin-inline-start: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow-1); }
+  .card-pad { padding: 16px; }
+  .section-title { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .kpi { padding: 16px; } .kpi .label { color: var(--text-muted); font-size: 13px; } .kpi .value { font-size: 28px; font-weight: 700; } .kpi .delta { font-size: 12px; }
+  .kpi.accent { border-top: 3px solid var(--brand-600); }
+
+  /* buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: var(--r-md); border: 1px solid transparent; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; text-decoration: none; transition: background-color .15s, border-color .15s, color .15s; }
+  .btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn-sm { height: 32px; padding: 0 12px; font-size: 13px; } .btn-lg { height: 48px; padding: 0 22px; font-size: 15px; }
+  .btn-primary { background: var(--brand-600); color: var(--on-solid); } .btn-primary:hover { background: #B82328; }
+  .btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border-strong); } .btn-secondary:hover { background: var(--surface-3); }
+  .btn-success { background: var(--success); color: var(--on-solid); } .btn-success:hover { background: #116B33; }
+  .btn-danger { background: var(--surface); color: var(--danger-text); border-color: var(--danger); } .btn-danger:hover { background: var(--danger-tint); }
+  .btn-danger-solid { background: var(--danger); color: var(--on-solid); }
+  .btn-warning { background: var(--warning); color: #1E1F22; } .btn-warning:hover { background: #E08E06; }
+  .btn-info { background: var(--surface); color: var(--info-text); border-color: var(--info); } .btn-info:hover { background: var(--info-tint); }
+  .btn-io { background: var(--surface-2); color: var(--text); border-color: var(--border-strong); } .btn-io:hover { background: var(--surface-3); }
+  .btn-ghost { background: transparent; color: var(--text-2); width: 36px; height: 36px; padding: 0; } .btn-ghost:hover { background: var(--surface-3); color: var(--text); }
+  .btn-ghost.danger:hover { background: var(--danger-tint); color: var(--danger-text); }
+  .btn.loading { position: relative; color: transparent !important; pointer-events: none; }
+  .btn.loading::after { content: ""; position: absolute; width: 16px; height: 16px; border: 2px solid currentColor; border-color: var(--on-solid) transparent var(--on-solid) transparent; border-radius: 50%; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .btn-grid { display: grid; grid-template-columns: 180px 1fr; gap: 10px 16px; align-items: center; }
+  .btn-grid .why { color: var(--text-muted); font-size: 13px; }
+
+  /* badges */
+  .badge { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: var(--r-pill); font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .b-success { background: var(--success-tint); color: var(--success-text); }
+  .b-warning { background: var(--warning-tint); color: var(--warning-text); }
+  .b-info { background: var(--info-tint); color: var(--info-text); }
+  .b-danger { background: var(--danger-tint); color: var(--danger-text); }
+  .b-critical { background: var(--critical-tint); color: var(--critical-text); box-shadow: inset 0 0 0 1px var(--critical-line); }
+  .b-neutral { background: var(--neutral-tint); color: var(--neutral-text); }
+  .overdue { color: var(--danger-text); font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+
+  /* filter bar */
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; padding: 12px; background: var(--surface-2); border-bottom: 1px solid var(--border); border-radius: var(--r-lg) var(--r-lg) 0 0; }
+  .field { height: 40px; border: 1px solid var(--input-border); border-radius: var(--r-md); background: var(--surface); color: var(--text); padding: 0 12px; font: inherit; min-width: 160px; }
+  .field:focus { outline: none; border-color: var(--brand-600); box-shadow: var(--focus-ring); }
+  .seg { display: inline-flex; background: var(--surface-3); border-radius: var(--r-md); padding: 3px; gap: 2px; }
+  .seg button { border: 0; background: transparent; font: inherit; font-size: 13px; color: var(--text-2); padding: 0 12px; height: 34px; border-radius: 4px; cursor: pointer; }
+  .seg button.on { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: var(--shadow-1); }
+  .seg .n { color: var(--danger-text); font-weight: 700; }
+
+  /* table */
+  .table-wrap { overflow: auto; max-height: 360px; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+  thead th { position: sticky; top: 0; background: var(--surface-2); color: var(--text-2); font-weight: 600; text-align: start; padding: 10px 12px; border-bottom: 1px solid var(--border-strong); white-space: nowrap; z-index: 1; }
+  tbody td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tbody tr:hover td { background: var(--surface-2); }
+  td .sub { display: block; color: var(--text-muted); font-size: 12px; }
+  td.actions { white-space: nowrap; text-align: end; }
+
+  /* form + modal + toast */
+  .form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+  .form label { display: block; font-size: 13px; font-weight: 500; color: var(--text-2); margin-bottom: 6px; } .form .req { color: var(--danger-text); }
+  .form .field { width: 100%; } .form .hint { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .form .error .field { border-color: var(--danger); } .form .error .hint { color: var(--danger-text); }
+  .form-actions { display: flex; gap: 8px; justify-content: flex-start; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .modal-demo { background: rgba(16,24,40,.45); border-radius: var(--r-lg); padding: 32px; display: grid; place-items: center; }
+  .modal { width: min(440px, 100%); background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-3); padding: 20px; }
+  .modal h3 { margin: 0 0 6px; font-size: 18px; } .modal p { margin: 0 0 12px; color: var(--text-2); }
+  .modal .icon-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--danger-tint); color: var(--danger-text); display: grid; place-items: center; margin-bottom: 12px; }
+  .modal .row { display: flex; gap: 8px; margin-top: 16px; }
+  .toast { display: flex; gap: 10px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-inline-start: 4px solid var(--success); border-radius: var(--r-md); box-shadow: var(--shadow-2); padding: 12px 14px; max-width: 380px; }
+  .toast.err { border-inline-start-color: var(--danger); }
+  .empty { text-align: center; padding: 32px 16px; color: var(--text-muted); } .empty .ic { width: 44px; height: 44px; margin: 0 auto 8px; border-radius: 50%; background: var(--surface-3); display: grid; place-items: center; color: var(--text-2); }
+  .skeleton { height: 12px; border-radius: 4px; background: linear-gradient(90deg, var(--surface-3), var(--surface-2), var(--surface-3)); background-size: 200% 100%; animation: sh 1.2s infinite; margin: 8px 0; }
+  @keyframes sh { to { background-position: -200% 0; } }
+
+  /* swatches */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .sw { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; background: var(--surface); font-size: 12px; }
+  .sw i { display: block; height: 44px; } .sw div { padding: 6px 8px; } .sw code { color: var(--text-muted); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .note { font-size: 13px; color: var(--text-muted); margin: 0; }
+  .proportion { display: flex; height: 18px; border-radius: var(--r-sm); overflow: hidden; border: 1px solid var(--border); }
+  .proportion span { display: block; }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; } .sidebar { display: none; }
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .two, .form { grid-template-columns: 1fr; }
+    .btn-grid { grid-template-columns: 1fr; } .btn-grid .why { margin-bottom: 8px; }
+    main { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5zM8 4v5h7M8 20v-6h8v6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4h11l-2 4 2 4H5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3M7 14h10v7H7z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8" fill="currentColor"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/><circle cx="19" cy="12" r="1.8" fill="currentColor"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10z" stroke="currentColor" stroke-width="1.8" fill="none"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 13l2-8h12l2 8v6H4zM4 13h5l1 2h4l1-2h5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="header">
+  <div class="brand">
+    <div class="logo">EL<br>SEWEDY</div>
+    <div><b>منصة السلامة والصحة المهنية</b><small>السويدي للبوليمرز</small></div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn btn-secondary btn-sm" id="themeBtn" type="button"><svg><use href="#i-moon"/></svg> الوضع الليلي</button>
+</header>
+
+<div class="shell">
+  <nav class="sidebar nav" aria-label="القائمة">
+    <a href="#">لوحة التحكم</a>
+    <a href="#" class="active">تصاريح العمل</a>
+    <a href="#">بلاغات الخطورة <span class="count">12</span></a>
+    <a href="#">المحاضرات</a>
+    <a href="#">تجارب الطوارئ</a>
+    <a href="#">الجزاءات</a>
+    <a href="#">الفحص الشهري</a>
+    <a href="#">التقارير</a>
+  </nav>
+
+  <main>
+    <div class="page-head">
+      <div>
+        <h1>تصاريح العمل</h1>
+        <p>متابعة طلبات التصاريح واعتمادها — بيانات تجريبية للمعاينة</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-io" type="button"><svg><use href="#i-download"/></svg> تصدير Excel</button>
+        <button class="btn btn-io" type="button"><svg><use href="#i-mail"/></svg> إرسال بالإيميل</button>
+        <button class="btn btn-primary" type="button"><svg><use href="#i-plus"/></svg> طلب تصريح جديد</button>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="card kpi accent"><div class="label">تصاريح مفتوحة</div><div class="value num">148</div><div class="delta">+12 عن الأسبوع اللي فات</div></div>
+      <div class="card kpi"><div class="label">مستنية موافقة</div><div class="value num">9</div><div class="delta overdue"><svg><use href="#i-clock"/></svg> 3 متأخرة</div></div>
+      <div class="card kpi"><div class="label">عالية الخطورة</div><div class="value num">31</div><div class="delta">21% من المفتوح</div></div>
+      <div class="card kpi"><div class="label">اتقفلت الشهر ده</div><div class="value num">412</div><div class="delta">كلها بأمان</div></div>
+    </div>
+
+    <div class="card">
+      <div class="filters">
+        <input class="field" placeholder="بحث بالرقم أو اسم العامل…" aria-label="بحث">
+        <select class="field" aria-label="القسم"><option>كل الأقسام</option></select>
+        <select class="field" aria-label="النوع"><option>كل الأنواع</option></select>
+        <div class="seg" role="tablist">
+          <button class="on" type="button">الكل</button>
+          <button type="button">مستني موافقة</button>
+          <button type="button">شغال</button>
+          <button type="button">مقفول</button>
+          <button type="button">⏰ المتأخرة <span class="n">3</span></button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>رقم التصريح</th><th>النوع</th><th>الخطورة</th><th>العامل / القسم</th><th>التاريخ</th><th>الحالة</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="id"><bdi>PTW-2026-0412</bdi></td><td>عمل ساخن</td><td><span class="badge b-danger">عالية</span></td><td>أحمد سمير<span class="sub">صيانة كهربائية</span></td><td class="num">2026-10-15</td><td><span class="badge b-warning">مستني موافقة</span> <span class="overdue"><svg><use href="#i-clock"/></svg> 3 أيام</span></td><td class="actions"><button class="btn btn-ghost" title="عرض" type="button"><svg><use href="#i-eye"/></svg></button><button class="btn btn-ghost" title="طباعة" type="button"><svg><use href="#i-print"/></svg></button><button class="btn btn-ghost" title="المزيد" type="button"><svg><use href="#i-dots"/></svg></button></td></tr>
+            <tr><td class="id"><bdi>PTW-2026-0411</bdi></td><td>أماكن مغلقة</td><td><span class="badge b-critical">حرجة</span></td><td>محمود علي<span class="sub">إنتاج PVC</span></td><td class="num">2026-10-15</td><td><span class="badge b-info">شغال</span></td><td class="actions"><button class="btn btn-ghost" title="عرض" type="button"><svg><use href="#i-eye"/></svg></button><button class="btn btn-ghost" title="طباعة" type="button"><svg><use href="#i-print"/></svg></button><button class="btn btn-ghost" title="المزيد" type="button"><svg><use href="#i-dots"/></svg></button></td></tr>
+            <tr><td class="id"><bdi>PTW-2026-0409</bdi></td><td>فصل وعزل</td><td><span class="badge b-warning">متوسطة</span></td><td>كريم حسن<span class="sub">صيانة ميكانيكية</span></td><td class="num">2026-10-14</td><td><span class="badge b-success">معتمد</span></td><td class="actions"><button class="btn btn-ghost" title="عرض" type="button"><svg><use href="#i-eye"/></svg></button><button class="btn btn-ghost" title="طباعة" type="button"><svg><use href="#i-print"/></svg></button><button class="btn btn-ghost" title="المزيد" type="button"><svg><use href="#i-dots"/></svg></button></td></tr>
+            <tr><td class="id"><bdi>PTW-2026-0402</bdi></td><td>عام</td><td><span class="badge b-success">منخفضة</span></td><td>يوسف عادل<span class="sub">المخازن</span></td><td class="num">2026-10-12</td><td><span class="badge b-neutral">مقفول</span></td><td class="actions"><button class="btn btn-ghost" title="عرض" type="button"><svg><use href="#i-eye"/></svg></button><button class="btn btn-ghost" title="طباعة" type="button"><svg><use href="#i-print"/></svg></button><button class="btn btn-ghost" title="المزيد" type="button"><svg><use href="#i-dots"/></svg></button></td></tr>
+            <tr><td class="id"><bdi>PTW-2026-0398</bdi></td><td>ارتفاعات</td><td><span class="badge b-danger">عالية</span></td><td>سامي فؤاد<span class="sub">الجودة</span></td><td class="num">2026-10-11</td><td><span class="badge b-danger">مرفوض</span></td><td class="actions"><button class="btn btn-ghost" title="عرض" type="button"><svg><use href="#i-eye"/></svg></button><button class="btn btn-ghost" title="طباعة" type="button"><svg><use href="#i-print"/></svg></button><button class="btn btn-ghost" title="المزيد" type="button"><svg><use href="#i-dots"/></svg></button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card card-pad">
+      <h2 class="section-title">الزراير: النوع على حسب الإجراء</h2>
+      <div class="btn-grid">
+        <div><button class="btn btn-primary" type="button"><svg><use href="#i-save"/></svg> حفظ</button></div><div class="why">أساسي — أحمر الشركة، زرار واحد في كل جزء: حفظ، إرسال، إنشاء تصريح</div>
+        <div><button class="btn btn-secondary" type="button">إلغاء</button></div><div class="why">ثانوي — أبيض بإطار: إلغاء، رجوع، قفل، مسح الفلاتر</div>
+        <div><button class="btn btn-success" type="button"><svg><use href="#i-check"/></svg> اعتماد</button></div><div class="why">نجاح — أخضر: اعتماد، تأكيد، قفل التصريح، تم</div>
+        <div><button class="btn btn-danger" type="button"><svg><use href="#i-trash"/></svg> حذف</button></div><div class="why">خطر — إطار أحمر غامق + أيقونة + تأكيد دايمًا. مش بيتملي أحمر غير جوه رسالة التأكيد</div>
+        <div><button class="btn btn-warning" type="button"><svg><use href="#i-flag"/></svg> طلب تعديل</button></div><div class="why">تحذير — كهرماني بنص غامق: إيقاف، تعليم، طلب تعديلات</div>
+        <div><button class="btn btn-info" type="button"><svg><use href="#i-eye"/></svg> عرض التفاصيل</button></div><div class="why">معلومة — أزرق بإطار: عرض، معاينة، طباعة</div>
+        <div><button class="btn btn-io" type="button"><svg><use href="#i-download"/></svg> تصدير Excel</button></div><div class="why">تصدير / استيراد / إرسال — رمادي فاتح موحّد: Excel، PDF، إيميل</div>
+        <div><button class="btn btn-ghost" title="المزيد" type="button"><svg><use href="#i-dots"/></svg></button></div><div class="why">أيقونة بس — إجراءات صفوف الجداول، ومعاها تلميح</div>
+        <div><button class="btn btn-primary loading" type="button">حفظ</button> <button class="btn btn-primary" type="button" disabled>حفظ</button></div><div class="why">حالات: جاري الحفظ (بيمنع الضغط مرتين) و غير متاح. المقاسات: صغير 32 / عادي 40 / كبير 48 بكسل (44+ على التاتش)</div>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="card card-pad">
+        <h2 class="section-title">نموذج</h2>
+        <div class="form">
+          <div><label>نوع العمل <span class="req">*</span></label><select class="field"><option>عمل ساخن</option></select></div>
+          <div><label>القسم <span class="req">*</span></label><input class="field" value="صيانة كهربائية"></div>
+          <div class="error"><label>مكان العمل <span class="req">*</span></label><input class="field" placeholder="مثال: خط الإنتاج 2"><div class="hint">المكان مطلوب</div></div>
+          <div><label>الكود الوظيفي</label><input class="field num" value="5501"><div class="hint">هيتملى تلقائي من حسابك</div></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="button"><svg><use href="#i-save"/></svg> حفظ الطلب</button>
+          <button class="btn btn-secondary" type="button">إلغاء</button>
+        </div>
+      </div>
+
+      <div class="card card-pad">
+        <h2 class="section-title">رسالة تأكيد الحذف</h2>
+        <div class="modal-demo">
+          <div class="modal" role="dialog" aria-modal="true">
+            <div class="icon-circle"><svg><use href="#i-trash"/></svg></div>
+            <h3>حذف التصريح <bdi>PTW-2026-0398</bdi>؟</h3>
+            <p>هيتنقل للمحذوفات وتقدر ترجّعه خلال 30 يوم. الإجراء ده هيتسجّل في سجل التدقيق.</p>
+            <div class="row">
+              <button class="btn btn-danger-solid" type="button"><svg><use href="#i-trash"/></svg> أيوه، احذف</button>
+              <button class="btn btn-secondary" type="button">إلغاء</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="card card-pad">
+        <h2 class="section-title">إشعارات، وحالة فاضية، وتحميل</h2>
+        <div class="toast"><svg style="color:var(--success)"><use href="#i-check"/></svg><div><b>اتحفظ التصريح</b><div class="note">PTW-2026-0412 اتبعت لأدمن القسم</div></div></div>
+        <div style="height:10px"></div>
+        <div class="toast err"><svg style="color:var(--danger)"><use href="#i-x"/></svg><div><b>فشل الإرسال</b><div class="note">إعدادات الإيميل مش متظبطة</div></div></div>
+        <div class="empty"><div class="ic"><svg><use href="#i-inbox"/></svg></div>مفيش تصاريح متأخرة دلوقتي</div>
+        <div class="skeleton" style="width:70%"></div><div class="skeleton" style="width:90%"></div><div class="skeleton" style="width:55%"></div>
+      </div>
+
+      <div class="card card-pad">
+        <h2 class="section-title">نسبة الألوان في أي شاشة</h2>
+        <div class="proportion" aria-label="نسبة الألوان">
+          <span style="flex:62;background:var(--surface)"></span><span style="flex:24;background:var(--bg)"></span><span style="flex:8;background:var(--border-strong)"></span><span style="flex:4;background:var(--brand-600)"></span><span style="flex:2;background:var(--warning)"></span>
+        </div>
+        <p class="note" style="margin-top:8px">أبيض ورمادي فاتح ≈ 86% · خطوط ≈ 8% · أحمر الشركة ≈ 4% · ألوان الحالات ≈ 2%</p>
+      </div>
+    </div>
+
+    <div class="card card-pad">
+      <h2 class="section-title">الألوان</h2>
+      <div class="swatches" id="swatches"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+  var swatches = [
+    ['--brand-600', '#D51E27', 'أحمر الشركة (اللوجو)'], ['--brand-700', '#B82328', 'أحمر المجموعة — hover ونص'], ['--brand-50', '#FFF5F5', 'خلفية العنصر النشط'],
+    ['--bg', '#F5F6F7', 'خلفية الصفحة'], ['--surface', '#FFFFFF', 'الكروت والجداول'], ['--surface-2', '#FAFAFB', 'رأس الجدول والفلاتر'],
+    ['--border', '#E4E5E7', 'الخطوط'], ['--input-border', '#8B909A', 'إطار الحقول'], ['--text', '#1E1F22', 'النص'], ['--text-muted', '#6B6F78', 'نص ثانوي'],
+    ['--success', '#15803D', 'نجاح / اعتماد'], ['--warning', '#F59E0B', 'تحذير / مستني'], ['--info', '#175CD3', 'معلومة / شغال'], ['--danger', '#B42318', 'خطر / حذف / رفض'],
+  ];
+  document.getElementById('swatches').innerHTML = swatches.map(function (s) {
+    return '<div class="sw"><i style="background:' + s[1] + '"></i><div><b>' + s[2] + '</b><br><code>' + s[0] + ' ' + s[1] + '</code></div></div>';
+  }).join('');
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var root = document.documentElement;
+    var dark = root.getAttribute('data-theme') === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+</script>
+</body>
+</html>
