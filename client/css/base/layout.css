@@ -536,12 +536,12 @@
 .chip-overdue {
   border-color: var(--danger-line);
   color: var(--danger-text);
-  font-weight: 700;
 }
+/* Selected like the other chips, in the danger tint (status colors are tints, not fills). */
 .chip-overdue.active {
-  background: var(--danger-solid);
+  background: var(--danger-tint);
   border-color: var(--danger-solid);
-  color: var(--on-solid);
+  color: var(--danger-text);
 }
 .chip-count {
   display: inline-block;
@@ -554,10 +554,6 @@
   font-size: 11px;
   text-align: center;
 }
-.chip-overdue.active .chip-count {
-  background: var(--on-solid);
-  color: var(--danger-solid);
-}
 .overdue-days {
   display: inline-flex;
   align-items: center;
@@ -566,7 +562,9 @@
   color: var(--text-muted);
 }
 .overdue-days select {
+  min-height: 36px;
   padding: 6px 8px;
+  padding-inline-end: 28px;
   border-radius: var(--r-md);
   border: 1px solid var(--input-border);
   background: var(--surface);
@@ -577,7 +575,7 @@
 .overdue-age {
   margin-top: 4px;
   color: var(--danger-text);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12.5px;
 }
 .card-note {
