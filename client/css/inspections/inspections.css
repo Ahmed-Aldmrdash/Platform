@@ -119,16 +119,7 @@
   background: var(--success-solid);
   transition: width .5s ease;
 }
-.insp-section-del {
-  align-self: flex-end;
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 13px;
-  padding: 2px 4px;
-}
-.insp-section-del:hover { color: var(--danger-text); }
+.insp-section-del { align-self: flex-end; }
 .insp-status-select {
   min-width: 130px;
   padding: 7px 12px;

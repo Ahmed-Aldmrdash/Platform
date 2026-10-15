@@ -19,7 +19,7 @@ function openAppModal(html) {
   overlay.id = 'appModalOverlay';
   overlay.className = 'app-modal-overlay';
   overlay.innerHTML = `<div class="app-modal-card">
-      <button class="app-modal-close" type="button" onclick="closeAppModal()">✕</button>
+      <button class="app-modal-close" type="button" onclick="closeAppModal()" title="${T('إغلاق')}" aria-label="${T('إغلاق')}">✕</button>
       ${html}
     </div>`;
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeAppModal(); });
@@ -110,7 +110,7 @@ async function renderInspectionSections() {
       </div>
       <div class="insp-toolbar-left">
         ${inspYearMonthPickerHtml()}
-        <button class="btn btn-dark btn-sm" type="button" onclick="document.getElementById('inspBulkLegacyInput').click()" title="${T('اختار كل ملفات البرنامج ده مرة واحدة — كل ملف هيروح لقسمه لوحده')}">${T("📥 رفع ملفات الفحص القديمة")}</button>
+        <button class="btn btn-export btn-sm" type="button" onclick="document.getElementById('inspBulkLegacyInput').click()" title="${T('اختار كل ملفات البرنامج ده مرة واحدة — كل ملف هيروح لقسمه لوحده')}">${T("📥 رفع ملفات الفحص القديمة")}</button>
         <input type="file" id="inspBulkLegacyInput" accept=".xlsx,.xlsm" multiple style="display:none" onchange="inspImportLegacyBulk(event)" />
         <button class="btn btn-primary btn-sm" type="button" onclick="inspOpenAddSectionModal()">${T("+ إضافة قسم")}</button>
       </div>
@@ -177,7 +177,7 @@ async function renderInspectionSections() {
           <div class="insp-section-meta"><span>${s.itemCount} ${T("صنف")}</span><span>${s.compliancePct !== null && s.compliancePct !== undefined ? s.compliancePct + '%' : '—'}</span></div>
           <div class="insp-section-bar"><div class="insp-section-bar-fill" style="width:${s.compliancePct || 0}%"></div></div>
         </div>
-        <button class="insp-section-del" type="button" onclick="event.stopPropagation();inspDeleteSection(${jsArg(s.id)})" title="${T("حذف القسم")}">${T("🗑 حذف")}</button>
+        <button class="insp-section-del btn btn-ghost btn-sm btn-danger-icon" type="button" onclick="event.stopPropagation();inspDeleteSection(${jsArg(s.id)})" title="${T("حذف القسم")}">${T("🗑 حذف")}</button>
       </div>
     `).join('');
   } catch(e) {
@@ -286,9 +286,9 @@ async function renderInspectionSectionDetail() {
       <div class="adv-filter-head">
         <div class="adv-filter-title">${T("🔍 فلترة وأدوات")}</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn btn-secondary btn-sm" type="button" onclick="inspExport('items')">${T("⬇ تصدير سجل الأصناف")}</button>
-          <button class="btn btn-secondary btn-sm" type="button" onclick="inspExport('monthly')">${T("⬇ تصدير فحص الشهر")}</button>
-          <button class="btn btn-dark btn-sm" type="button" onclick="document.getElementById('inspLegacyExcelInput').click()" title="${T('الملف القديم بتاع قسم')} ${escapeHtml(inspState.sectionName)} ${T('بس')}">${T("📥 رفع سجل قديم لقسم")} "${escapeHtml(inspState.sectionName)}"</button>
+          <button class="btn btn-export btn-sm" type="button" onclick="inspExport('items')">${T("⬇ تصدير سجل الأصناف")}</button>
+          <button class="btn btn-export btn-sm" type="button" onclick="inspExport('monthly')">${T("⬇ تصدير فحص الشهر")}</button>
+          <button class="btn btn-export btn-sm" type="button" onclick="document.getElementById('inspLegacyExcelInput').click()" title="${T('الملف القديم بتاع قسم')} ${escapeHtml(inspState.sectionName)} ${T('بس')}">${T("📥 رفع سجل قديم لقسم")} "${escapeHtml(inspState.sectionName)}"</button>
           <input type="file" id="inspLegacyExcelInput" accept=".xlsx" style="display:none" onchange="inspImportLegacyExcel(event)" />
           <button class="btn btn-primary btn-sm" type="button" onclick="inspOpenAddItemModal()">${T("+ إضافة صنف")}</button>
         </div>
@@ -492,9 +492,9 @@ function renderInspItemsTable(items) {
               <td>
                 <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
                   <button class="btn btn-primary btn-sm" type="button" onclick="inspOpenRecordModal(${jsArg(it.id)})">${T("تسجيل فحص")}</button>
-                  <button class="btn btn-secondary btn-sm" type="button" onclick="inspOpenEditItemModal(${jsArg(it.id)})" title="${T("تعديل بيانات الصنف")}">✏️</button>
-                  ${it.record ? `<button class="btn btn-danger-outline btn-sm" type="button" onclick="inspDeleteRecord(${jsArg(it.record.id)})" title="${T("حذف نتيجة فحص الشهر")}">${T("حذف الفحص")}</button>` : ''}
-                  <button class="btn btn-danger-outline btn-sm" type="button" onclick="inspDeleteItem(${jsArg(it.id)})" title="${T("حذف الصنف نهائيًا")}">🗑</button>
+                  <button class="btn btn-secondary btn-sm btn-icon" type="button" onclick="inspOpenEditItemModal(${jsArg(it.id)})" title="${T("تعديل بيانات الصنف")}" aria-label="${T("تعديل بيانات الصنف")}">✏️</button>
+                  ${it.record ? `<button class="btn btn-danger btn-sm" type="button" onclick="inspDeleteRecord(${jsArg(it.record.id)})" title="${T("حذف نتيجة فحص الشهر")}">${T("حذف الفحص")}</button>` : ''}
+                  <button class="btn btn-danger btn-sm" type="button" onclick="inspDeleteItem(${jsArg(it.id)})" title="${T("حذف الصنف نهائيًا")}">🗑</button>
                 </div>
               </td>
             </tr>

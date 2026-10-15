@@ -32,7 +32,7 @@ async function renderAuditLog() {
     <div class="ticket" style="margin-bottom:20px;">
       <div class="ticket-head"><div><div class="ttype">${T("💾 النسخ الاحتياطي واسترجاع البيانات")}</div></div></div>
       <div class="ticket-body" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-        <button class="btn btn-primary" type="button" onclick="downloadFullBackup()">${T("⬇ تنزيل نسخة احتياطية كاملة")}</button>
+        <button class="btn btn-export" type="button" onclick="downloadFullBackup()">${T("⬇ تنزيل نسخة احتياطية كاملة")}</button>
         <label class="btn btn-secondary" style="cursor:pointer;margin:0;">
           ${T("⬆ استرجاع من نسخة احتياطية")}
           <input type="file" id="backupRestoreInput" accept=".json,.gz" style="display:none" onchange="restoreFullBackup(event)" />
@@ -68,7 +68,7 @@ async function renderAuditLog() {
         </div>
       </div>
       <div class="adv-filter-footer">
-        <button class="adv-filter-clear-btn" onclick="auditLogState={entityType:'',q:''};renderAuditLog();">${T("مسح الفلاتر")}</button>
+        <button class="btn btn-secondary btn-sm" onclick="auditLogState={entityType:'',q:''};renderAuditLog();">${T("مسح الفلاتر")}</button>
         <span class="adv-filter-count" id="auditFilterCount"></span>
       </div>
     </div>

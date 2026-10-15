@@ -376,6 +376,7 @@ Object.assign(I18N_STRINGS, {
   'رفض طلب المحاضرة': 'Decline lecture request',
   'إغلاق جبري للتصريح؟ هيتسجل إن العمل اتقفل بشكل غير طبيعي.': 'Force-close this permit? It will be recorded as closed abnormally.',
   'منطقة الخطر': 'Danger zone',
+  '✉️ إرسال': '✉️ Send',
   'تصغير': 'Zoom out',
   'تكبير': 'Zoom in',
   '✓ اكتمل بأمان': '✓ Completed safely',

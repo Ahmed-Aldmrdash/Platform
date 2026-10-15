@@ -106,9 +106,9 @@ function buildReportsPanel() {
       <div class="rep-hint" id="repEmpHint" ${st.emp ? '' : 'hidden'}>${T('لما تكتب كود موظف، التقرير بيبقى عن الموظف ده بس (فلتر القسم مش بيتحسب).')}</div>
       <div class="adv-filter-footer">
         <button class="btn btn-primary" type="button" id="repShowBtn">${T('عرض التقرير')}</button>
-        <button class="btn btn-secondary" type="button" id="repPrintBtn">${T('🖨️ طباعة')}</button>
-        <button class="btn btn-secondary" type="button" id="repPdfBtn">${T('📄 حفظ PDF')}</button>
-        <button class="adv-filter-clear-btn" type="button" id="repResetBtn">${T('مسح الفلاتر')}</button>
+        <button class="btn btn-info" type="button" id="repPrintBtn">${T('🖨️ طباعة')}</button>
+        <button class="btn btn-export" type="button" id="repPdfBtn">${T('📄 حفظ PDF')}</button>
+        <button class="btn btn-secondary" type="button" id="repResetBtn">${T('مسح الفلاتر')}</button>
         <span class="adv-filter-count" id="repScopeNote"></span>
       </div>
     </div>
@@ -119,7 +119,7 @@ function buildReportsPanel() {
         <div class="rep-mail-row">
           <input type="text" id="repMailTo" dir="ltr" inputmode="email" autocomplete="email" maxlength="600"
                  placeholder="name@company.com" value="${escapeHtml(savedMail)}" aria-label="${T('إيميل المستلم')}" />
-          <button class="btn btn-primary rep-send-btn" type="button" id="repSendBtn">✉️ SEND MAIL</button>
+          <button class="btn btn-export rep-send-btn" type="button" id="repSendBtn">${T('✉️ إرسال')}</button>
         </div>
         <div class="rep-hint" id="repMailHint">${T('تقدر تكتب لحد 5 إيميلات بينهم فاصلة. التقرير بيتبعت بنفس الفلاتر اللي فوق، ومعاه نسخة للطباعة كمرفق.')}</div>
       </div>
@@ -148,7 +148,7 @@ function buildReportsPanel() {
           <button class="btn btn-primary" type="button" id="repSchedSaveBtn">${T('💾 حفظ')}</button>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-          <button class="btn btn-secondary" type="button" id="repSchedSendBtn">${T('📤 ابعت نسخة دلوقتي')}</button>
+          <button class="btn btn-export" type="button" id="repSchedSendBtn">${T('📤 ابعت نسخة دلوقتي')}</button>
         </div>
         <div class="rep-hint" id="repSchedStatus" style="margin-top:8px"></div>
       </div>

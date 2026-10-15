@@ -90,13 +90,13 @@ function _renderSmtpBox(s) {
       </label>
       <div class="smtp-presets">
         ${T('إعداد سريع:')}
-        <button type="button" class="um-btn" onclick="smtpPreset('gmail')">Gmail</button>
-        <button type="button" class="um-btn" onclick="smtpPreset('office365')">Office 365</button>
-        <button type="button" class="um-btn" onclick="smtpPreset('outlook')">Outlook</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="smtpPreset('gmail')">Gmail</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="smtpPreset('office365')">Office 365</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="smtpPreset('outlook')">Outlook</button>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
         <button class="btn btn-primary" type="button" onclick="saveSmtpSettings()">${T('💾 حفظ بيانات الإيميل')}</button>
-        <button class="btn btn-secondary" type="button" onclick="sendSmtpTest()">${T('✉️ ابعت إيميل تجريبي')}</button>
+        <button class="btn btn-export" type="button" onclick="sendSmtpTest()">${T('✉️ ابعت إيميل تجريبي')}</button>
       </div>
       <div class="smtp-hint">${T('Gmail: لازم تفعّل التحقق بخطوتين وتعمل "App Password" من إعدادات جوجل وتحطه هنا بدل باسورد الحساب.')}</div>
     </details>`;
@@ -193,7 +193,7 @@ function _renderBackupEmailBox(s) {
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <button class="btn btn-primary" type="button" onclick="saveBackupEmailSettings()">${T('💾 حفظ الإعدادات')}</button>
-      <button class="btn btn-secondary" type="button" id="bkEmailSendBtn" onclick="sendBackupEmailNow()" ${s.smtpConfigured ? '' : 'disabled'}>${T('📤 ابعت النسخة دلوقتي')}</button>
+      <button class="btn btn-export" type="button" id="bkEmailSendBtn" onclick="sendBackupEmailNow()" ${s.smtpConfigured ? '' : 'disabled'}>${T('📤 ابعت النسخة دلوقتي')}</button>
     </div>
     <div id="bkEmailStatus" style="font-size:12px;margin-top:10px;color:var(--text-muted);">${_backupEmailStatusText(s.lastResult)}</div>
   `;
@@ -290,7 +290,7 @@ function _renderSnapshotBox(s) {
           <div class="snap-row">
             <span class="snap-name" dir="ltr">${escapeHtml(x.name)}</span>
             <span class="snap-size">${Number(x.sizeKB).toLocaleString('ar-EG')} KB</span>
-            <button type="button" class="snap-dl" onclick="downloadSnapshot(${jsArg(x.name)})" title="${T('تنزيل')}">⬇</button>
+            <button type="button" class="btn btn-ghost btn-icon btn-sm" onclick="downloadSnapshot(${jsArg(x.name)})" title="${T('تنزيل')}" aria-label="${T('تنزيل')}">⬇</button>
           </div>`).join('')}
       </div>
       ${snaps.length > 10 ? `<div style="font-size:11px;color:var(--text-muted);margin-top:6px;">${T('+ ')}${snaps.length - 10} ${T('نسخة أقدم')}</div>` : ''}
