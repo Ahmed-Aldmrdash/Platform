@@ -409,7 +409,9 @@ async function loadTrainingRequestsAdmin() {
 async function decideTrainingRequest(id, status) {
   let responseNote = '';
   if (status === 'declined') {
-    responseNote = prompt(T('سبب الرفض (اختياري):')) || '';
+    const note = await appPrompt(T('سبب الرفض (اختياري):'), { tone: 'danger', title: T('رفض طلب المحاضرة'), confirmLabel: T('رفض') });
+    if (note === null) return;
+    responseNote = note;
   }
   try {
     const res = await authFetch(`/api/training-requests/${encodeURIComponent(id)}`, {
@@ -777,7 +779,7 @@ async function createTrainingSession() {
 }
 
 async function closeTrainingSession(id) {
-  if (!confirm(T('هل أنت متأكد من إنهاء وإغلاق المحاضرة؟ (لن يتمكن العمال من تسجيل الحضور بعد ذلك)'))) return;
+  if (!(await appConfirm(T('هل أنت متأكد من إنهاء وإغلاق المحاضرة؟ (لن يتمكن العمال من تسجيل الحضور بعد ذلك)'), { tone: 'warning', confirmLabel: T('إنهاء وإغلاق') }))) return;
   try {
     const res = await authFetch(`/api/trainings/${id}/close`, { method: 'PUT' });
     if (res.ok) loadAdminTraining(true);

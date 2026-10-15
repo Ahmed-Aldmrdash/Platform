@@ -36,18 +36,22 @@
 
   /* Semantic: solid (buttons, icons), text, tint (badges, callouts), line (tinted borders) */
   --success-solid: #15803D;
+  --success-hover: #126D34;
   --success-text: #067647;
   --success-tint: #ECFDF3;
   --success-line: #ABEFC6;
   --warning-solid: #F59E0B;
+  --warning-hover: #D88B0A;
   --warning-text: #B54708;
   --warning-tint: #FFFAEB;
   --warning-line: #FEDF89;
   --info-solid: #175CD3;
+  --info-hover: #144EB3;
   --info-text: #175CD3;
   --info-tint: #EFF8FF;
   --info-line: #B2DDFF;
   --danger-solid: #B42318;
+  --danger-hover: #991E14;
   --danger-text: #B42318;
   --danger-tint: #FEF3F2;
   --danger-line: #FECDCA;

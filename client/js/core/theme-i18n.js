@@ -360,6 +360,26 @@ const I18N_DICT = {
 };
 
 const ARABIC_TEXT_RE = /[؀-ۿݐ-ݿ]/;
+// Confirmation dialogs and the danger zone.
+Object.assign(I18N_STRINGS, {
+  'تأكيد الحذف': 'Confirm deletion',
+  'استرجاع النسخة': 'Restore backup',
+  'إعادة تعيين': 'Reset',
+  'توليد كلمات السر': 'Generate passwords',
+  'إنهاء وإغلاق': 'End and close',
+  'حذف نهائي': 'Delete permanently',
+  'استعادة': 'Restore',
+  'متابعة': 'Continue',
+  'مسح نهائي': 'Erase permanently',
+  'هل أنت متأكد من رفض هذا البلاغ؟': 'Reject this hazard report?',
+  'رفض البلاغ': 'Reject report',
+  'رفض طلب المحاضرة': 'Decline lecture request',
+  'إغلاق جبري للتصريح؟ هيتسجل إن العمل اتقفل بشكل غير طبيعي.': 'Force-close this permit? It will be recorded as closed abnormally.',
+  'منطقة الخطر': 'Danger zone',
+  '✓ اكتمل بأمان': '✓ Completed safely',
+  '🚫 إغلاق جبري': '🚫 Forced closure',
+  'المسح هنا نهائي لكل المستخدمين، وبيطلب تأكيدين.': 'Erasing here is permanent for every user and asks for two confirmations.',
+});
 // E-mail sending, the overdue filter and permit risk badges.
 Object.assign(I18N_STRINGS, {
   '📧 إرسال الشيت بالإيميل': '📧 Email the sheet',

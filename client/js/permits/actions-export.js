@@ -78,7 +78,7 @@ async function confirmDeletePermit() {
   }
 }
 async function restorePermit(id) {
-  if(!confirm(T('هل أنت متأكد من استعادة هذا الطلب؟'))) return;
+  if(!(await appConfirm(T('هل أنت متأكد من استعادة هذا الطلب؟'), { tone: 'primary', confirmLabel: T('استعادة') }))) return;
   try {
     const res = await authFetch(`/api/permits/${encodeURIComponent(id)}/restore`, { method: 'POST' });
     if(res.ok) {
@@ -99,7 +99,7 @@ async function restorePermit(id) {
 }
 
 async function hardDeletePermit(id) {
-  if(!confirm(T('هل أنت متأكد من حذف هذا الطلب نهائياً من سلة المحذوفات؟ لا يمكن التراجع عن هذا الإجراء'))) return;
+  if(!(await appConfirm(T('هل أنت متأكد من حذف هذا الطلب نهائياً من سلة المحذوفات؟ لا يمكن التراجع عن هذا الإجراء'), { tone: 'danger', confirmLabel: T('حذف نهائي') }))) return;
   try {
     const res = await authFetch(`/api/permits/${encodeURIComponent(id)}/permanent`, { method: 'DELETE' });
     if(res.ok) {
@@ -222,6 +222,7 @@ async function closePermit(id, type){
 
 async function workerClosePermit(id, type) {
   if (!currentEmployee) return;
+  if (type === 'forced' && !(await appConfirm(T('إغلاق جبري للتصريح؟ هيتسجل إن العمل اتقفل بشكل غير طبيعي.'), { tone: 'danger', confirmLabel: T('إغلاق جبري') }))) return;
   const reasonEl = document.getElementById('myhistory-closereason-' + id);
   const reason = reasonEl ? reasonEl.value.trim() : '';
 

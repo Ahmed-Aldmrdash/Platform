@@ -106,7 +106,7 @@ function openUserMembersModal(userId) {
 }
 
 async function resetMemberPassword(userId, empCode, name) {
-  if (!confirm(`${T("هيتمسح كلمة السر الشخصية بتاعة")} ${name} ${T("وهيتطلب منه يعمل واحدة جديدة أول ما يدخل تاني (بكلمة سر الحساب الحالية أو المؤقتة). متأكد؟")}`)) return;
+  if (!(await appConfirm(`${T("هيتمسح كلمة السر الشخصية بتاعة")} ${name} ${T("وهيتطلب منه يعمل واحدة جديدة أول ما يدخل تاني (بكلمة سر الحساب الحالية أو المؤقتة). متأكد؟")}`, { tone: 'warning', confirmLabel: T('إعادة تعيين') }))) return;
   try {
     const res = await authFetch(`/api/users/${encodeURIComponent(userId)}/reset-member-password`, {
       method: 'PATCH',
@@ -127,7 +127,7 @@ async function resetMemberPassword(userId, empCode, name) {
 }
 
 async function generateDefaultPasswords() {
-  if (!confirm(T('هيتعمل كلمة سر عشوائية جديدة لكل حساب قسم/صيانة لسه على 123456، وهتظهرلك مرة واحدة بس عشان توزعها. نكمل؟'))) return;
+  if (!(await appConfirm(T('هيتعمل كلمة سر عشوائية جديدة لكل حساب قسم/صيانة لسه على 123456، وهتظهرلك مرة واحدة بس عشان توزعها. نكمل؟'), { tone: 'warning', confirmLabel: T('توليد كلمات السر') }))) return;
   const box = document.getElementById('umGeneratedBox');
   if (box) box.innerHTML = `<div class="loading">${T('جارِ التوليد… (ممكن ياخد نص دقيقة)')}</div>`;
   try {
@@ -217,7 +217,7 @@ async function addUser(){
 }
 
 async function deleteUser(id, name){
-  if(!confirm(`${T("هل أنت متأكد من حذف المستخدم")} "${name}"${T("؟\\nهذه العملية لا يمكن التراجع عنها.")}`)) return;
+  if(!(await appConfirm(`${T("هل أنت متأكد من حذف المستخدم")} "${name}"${T("؟\\nهذه العملية لا يمكن التراجع عنها.")}`, { tone: 'danger', confirmLabel: T('حذف') }))) return;
   try{
     const res = await authFetch(`/api/users/${encodeURIComponent(id)}`, {method:'DELETE'});
     const data = await res.json();

@@ -177,9 +177,9 @@ function renderForm(){
 
         <div class="section-title">${T("تقييم المخاطر")}</div>
         <div id="riskRows"></div>
-        <button type="button" class="add-risk-btn" onclick="addRiskRow()">${T("+ إضافة خطر")}</button>
+        <button type="button" class="btn btn-secondary btn-block form-add-row" onclick="addRiskRow()">${T("+ إضافة خطر")}</button>
 
-        <button class="submit-btn" id="submitBtn" onclick="submitPermit()">${T("إرسال الطلب للمشرف")}</button>
+        <button class="btn btn-primary btn-lg btn-block form-submit" id="submitBtn" onclick="submitPermit()">${T("إرسال الطلب للمشرف")}</button>
       </div>
     </div>
   `;
@@ -397,8 +397,10 @@ async function submitPermit(){
         <span class="stamp pending big-stamp">${T("قيد الانتظار")}</span>
         <p>${T(type.fullLabel)} ${T("— هيوصل الطلب للمشرف على طول عشان يوافق عليه")}</p>
         <p style="font-size:12.5px;color:var(--text-muted);margin-top:10px;">${T("احتفظ برقم الطلب ده — اضغط زر")} "${T("تتبع الطلب ده")}" ${T("أو افتح تاب")} "${T("📁 سجل طلباتي")}" ${T("عشان تعرف حالته أول ما المشرف يرد")}</p>
-        <button class="again-btn" onclick="renderForm()">${T("+ طلب جديد")}</button>
-        <button class="again-btn" style="margin-inline-start:8px;border-color:var(--brand-600);color:var(--brand-700);" onclick="goTrackWithId(${jsArg(permit.id)})">${T("📁 سجل طلباتي")}</button>
+        <div class="btn-row confirm-actions">
+          <button class="btn btn-primary" onclick="renderForm()">${T("+ طلب جديد")}</button>
+          <button class="btn btn-secondary" onclick="goTrackWithId(${jsArg(permit.id)})">${T("📁 سجل طلباتي")}</button>
+        </div>
       </div>
     </div>
   `;

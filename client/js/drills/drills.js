@@ -333,7 +333,7 @@ async function createDrillSession() {
 }
 
 async function closeDrillSession(id) {
-  if (!confirm(T('هل أنت متأكد من إنهاء وإغلاق التجربة؟ (لن يتمكن العمال من تسجيل الحضور بعد ذلك)'))) return;
+  if (!(await appConfirm(T('هل أنت متأكد من إنهاء وإغلاق التجربة؟ (لن يتمكن العمال من تسجيل الحضور بعد ذلك)'), { tone: 'warning', confirmLabel: T('إنهاء وإغلاق') }))) return;
   try {
     const res = await authFetch(`/api/drills/${id}/close`, { method: 'PUT' });
     if (res.ok) loadAdminDrill(true);
@@ -341,7 +341,7 @@ async function closeDrillSession(id) {
 }
 
 async function deleteDrillSession(id) {
-  if (!confirm(T('هل أنت متأكد من حذف التجربة نهائياً؟'))) return;
+  if (!(await appConfirm(T('هل أنت متأكد من حذف التجربة نهائياً؟'), { tone: 'danger', confirmLabel: T('حذف') }))) return;
   try {
     const res = await authFetch(`/api/drills/${id}`, { method: 'DELETE' });
     if (res.ok) loadAdminDrill(true);

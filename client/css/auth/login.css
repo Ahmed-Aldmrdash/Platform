@@ -291,7 +291,9 @@
   flex-wrap: wrap;
 }
 
-.closure-actions button {
+.closure-actions .btn { flex: 1 1 0; min-width: 90px; }
+
+.closure-actions button:not(.btn) {
   flex: 1;
   min-width: 90px;
   padding: 8px;

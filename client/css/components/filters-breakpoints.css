@@ -244,7 +244,9 @@
   min-height: 50px;
 }
 
-.note-box button {
+.note-box .btn { margin-top: 6px; }
+
+.note-box button:not(.btn) {
   margin-top: 6px;
   padding: 7px 14px;
   border-radius: var(--r-md);
@@ -262,6 +264,28 @@
   color: var(--text-muted);
   font-style: italic;
 }
+
+.review-note.is-open {
+  padding: 8px 10px;
+  background: var(--surface-2);
+  border: 1px dashed var(--success-solid);
+  border-radius: var(--r-md);
+}
+
+/* Card footers: tools row, trash actions and the delete button at the inline-end. */
+.card-tools { margin-top: 8px; }
+.card-tools .details-toggle { margin-top: 0; }
+.card-trash {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.card-trash-by { font-size: 12px; font-weight: 600; color: var(--danger-text); }
+.card-danger { display: flex; justify-content: flex-end; margin-top: 12px; }
+.empcode-add-box .btn { align-self: flex-end; }
 
 .reviewed-by {
   font-size: 12px;

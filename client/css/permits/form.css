@@ -106,23 +106,8 @@
   margin-bottom: 10px;
 }
 
-.add-risk-btn {
-  width: 100%;
-  padding: 9px;
-  border: 1px dashed var(--text-2);
-  background: none;
-  color: var(--text-2);
-  border-radius: var(--r-md);
-  font-weight: 700;
-  font-family: var(--font);
-  cursor: pointer;
-  font-size: 13.5px;
-  margin-bottom: 6px;
-}
-
-.add-risk-btn:hover {
-  background: var(--surface-3);
-}
+.form-add-row { margin-bottom: 6px; border-style: dashed; }
+.form-submit { margin-top: 12px; }
 
 /* Risk reads as a tint with strong text and a dot (same look as the hazard badges). */
 .risk-badge {

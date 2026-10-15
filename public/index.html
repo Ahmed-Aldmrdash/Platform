@@ -771,14 +771,13 @@
           </div>
           <div class="toolbar">
             <div class="filters" id="filters"></div>
-            <button class="export-btn" onclick="exportExcel()">
+            <button class="btn btn-export btn-sm" onclick="exportExcel()">
               ⬇ تصدير Excel
             </button>
             <button
               id="emailPermitsBtn"
-              class="export-btn"
+              class="btn btn-export btn-sm"
               onclick="openEmailSendModal('permits')"
-              style="background: var(--info-solid)"
             >
               📧 إرسال الشيت بالإيميل
             </button>
@@ -791,18 +790,10 @@
             />
             <button
               id="uploadPermitsExcelBtn"
-              class="export-btn admin-only"
+              class="btn btn-export btn-sm admin-only"
               onclick="document.getElementById('permitsExcelUploadInput').click()"
             >
               📤 رفع تصاريح قديمة (Excel)
-            </button>
-            <button
-              id="clearPermitsBtn"
-              class="export-btn admin-only"
-              onclick="clearModuleData('permits', renderSupervisor)"
-              style="background: var(--danger-solid); color: var(--on-solid)"
-            >
-              🗑️ مسح كل التصاريح
             </button>
           </div>
 
@@ -860,7 +851,7 @@
 
             <div class="adv-filter-footer">
               <button
-                class="adv-filter-clear-btn"
+                class="btn btn-secondary btn-sm"
                 onclick="clearPermitFilters()"
               >
                 مسح الفلاتر
@@ -871,6 +862,18 @@
 
           <div id="supList">
             <div class="loading">جارِ التحميل…</div>
+          </div>
+
+          <div class="danger-zone">
+            <h4 class="danger-zone-title">منطقة الخطر</h4>
+            <p class="danger-zone-note">المسح هنا نهائي لكل المستخدمين، وبيطلب تأكيدين.</p>
+            <button
+              id="clearPermitsBtn"
+              class="btn btn-danger btn-sm admin-only"
+              onclick="clearModuleData('permits', renderSupervisor)"
+            >
+              🗑️ مسح كل التصاريح
+            </button>
           </div>
         </div>
       </div>
@@ -2119,11 +2122,11 @@
           <label>ملاحظة (اختياري)</label>
           <textarea id="es_note" rows="2" maxlength="500" placeholder="مثلاً: محتاجين إجراء النهارده"></textarea>
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 12px">
-          <button id="es_send" class="submit-btn" style="flex: 1" onclick="submitEmailSend()">
+        <div class="btn-row is-fill modal-actions">
+          <button id="es_send" class="btn btn-primary" onclick="submitEmailSend()">
             إرسال
           </button>
-          <button class="logout-btn" style="flex: 1" onclick="closeEmailSendModal()">
+          <button class="btn btn-secondary" onclick="closeEmailSendModal()">
             إلغاء
           </button>
         </div>
@@ -2282,21 +2285,15 @@
           />
         </div>
 
-        <div style="display: flex; gap: 8px; margin-top: 12px">
+        <div class="btn-row is-fill modal-actions">
           <button
-            class="submit-btn"
-            style="
-              flex: 1;
-              background-color: var(--danger-solid);
-              border-color: var(--danger-solid);
-            "
+            class="btn btn-danger-solid"
             onclick="confirmDeletePermit()"
           >
-            حذف الطلب
+            🗑️ حذف الطلب
           </button>
           <button
-            class="logout-btn"
-            style="flex: 1"
+            class="btn btn-secondary"
             onclick="closeDeletePermitModal()"
           >
             إلغاء

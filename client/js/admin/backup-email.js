@@ -15,7 +15,7 @@ async function _readBackupFile(file) {
 async function restoreFullBackup(event) {
   const file = event.target.files[0];
   if (!file) return;
-  if (!confirm(T('تحذير: استرجاع هذه النسخة الاحتياطية سيستبدل كل البيانات الحالية في النظام (التصاريح، البلاغات، الموظفين...) بمحتوى الملف. هل أنت متأكد؟'))) {
+  if (!(await appConfirm(T('تحذير: استرجاع هذه النسخة الاحتياطية سيستبدل كل البيانات الحالية في النظام (التصاريح، البلاغات، الموظفين...) بمحتوى الملف. هل أنت متأكد؟'), { tone: 'danger', confirmLabel: T('استرجاع النسخة') }))) {
     event.target.value = '';
     return;
   }

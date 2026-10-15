@@ -382,15 +382,17 @@ function renderList(){
         <div class="field">
           <input id="empcode-${escapeHtml(p.id)}" type="text" placeholder="${T("أدخل الكود الوظيفي (")}${escapeHtml(p.workerName || T('صاحب الطلب'))})" style="direction:ltr;font-size:12px;padding:6px;">
         </div>
-        <button class="act-btn approve" style="align-self:flex-end;" onclick="savePermitEmployeeCode(${jsArg(p.id)})">${T("💾 حفظ الكود")}</button>
+        <button class="btn btn-secondary" onclick="savePermitEmployeeCode(${jsArg(p.id)})">${T("💾 حفظ الكود")}</button>
       </div>
       ` : ''}
       <div class="desc"><strong>${T("وصف العملية:")}</strong> ${escapeHtml(p.description)}</div>
       ${failedChecks>0 ? `<div class="checklist-summary"><b>⚠ ${failedChecks} ${T("بند غير مستوفٍ في قائمة التحقق")}</b></div>` : `<div class="checklist-summary">${T("✓ كل بنود قائمة التحقق مستوفاة أو لا تنطبق")}</div>`}
 
-      <span class="details-toggle" onclick="toggleDetails(${jsArg(p.id)})">${T("عرض كل التفاصيل (قائمة التحقق + المخاطر) ⌄")}</span>
-      <button class="btn btn-secondary btn-sm" type="button" style="margin-inline-start:10px;" onclick="openPrintWithAuth(${jsArg('/print/permit/' + encodeURIComponent(p.id))})">${T("🖨️ طباعة")}</button>
-      ${canForwardByEmail() && currentFilter !== '🗑️ المحذوفات' ? `<button class="btn btn-secondary btn-sm btn-forward" type="button" style="margin-inline-start:10px;" onclick="openEmailSendModal('forwardPermit', ${jsArg(p.id)})">${T('📧 توجيه بالإيميل')}</button>` : ''}
+      <div class="btn-row card-tools">
+        <span class="details-toggle" onclick="toggleDetails(${jsArg(p.id)})">${T("عرض كل التفاصيل (قائمة التحقق + المخاطر) ⌄")}</span>
+        <button class="btn btn-info btn-sm" type="button" onclick="openPrintWithAuth(${jsArg('/print/permit/' + encodeURIComponent(p.id))})">${T("🖨️ طباعة")}</button>
+        ${canForwardByEmail() && currentFilter !== '🗑️ المحذوفات' ? `<button class="btn btn-export btn-sm btn-forward" type="button" onclick="openEmailSendModal('forwardPermit', ${jsArg(p.id)})">${T('📧 توجيه بالإيميل')}</button>` : ''}
+      </div>
       ${forwardsHtml(p.forwards)}
       <div class="full-details${detailsOpen ? ' show' : ''}" id="details-${escapeHtml(p.id)}"${detailsOpen ? ' data-built="1"' : ''}>${detailsOpen ? permitDetailsHtml(p) : ''}</div>
 
@@ -399,13 +401,13 @@ function renderList(){
           <div class="row2" style="margin-top:12px;">
             <div class="field"><label>${T("اسم مدير المنطقة")}</label><input id="area-${escapeHtml(p.id)}" type="text" placeholder="${T("اختياري")}"></div>
           </div>
-          <div class="actions">
-            <button class="act-btn approve" onclick="approvePermit(${jsArg(p.id)})">${T("✓ موافقة أدمن القسم")}</button>
-            <button class="act-btn reject" onclick="toggleNote(${jsArg(p.id)})">${T("✗ رفض")}</button>
+          <div class="actions btn-row">
+            <button class="btn btn-success" onclick="approvePermit(${jsArg(p.id)})">${T("✓ موافقة أدمن القسم")}</button>
+            <button class="btn btn-danger" onclick="toggleNote(${jsArg(p.id)})">${T("✗ رفض")}</button>
           </div>
           <div class="note-box" id="note-${escapeHtml(p.id)}">
             <textarea id="notetext-${escapeHtml(p.id)}" placeholder="${T("سبب الرفض (اختياري)")}"></textarea>
-            <button onclick="rejectPermit(${jsArg(p.id)})">${T("تأكيد الرفض")}</button>
+            <button class="btn btn-danger-solid btn-sm" onclick="rejectPermit(${jsArg(p.id)})">${T("تأكيد الرفض")}</button>
           </div>
         ` : `
           <div class="review-note">${T("⏳ الطلب بانتظار موافقة أدمن قسم")} ${escapeHtml(p.department)}</div>
@@ -418,13 +420,13 @@ function renderList(){
           <div class="row2" style="margin-top:12px;">
             <div class="field"><label>${T("اسم مشرف السلامة")}</label><input id="safety-${escapeHtml(p.id)}" type="text" placeholder="${T("اختياري")}"></div>
           </div>
-          <div class="actions">
-            <button class="act-btn approve" onclick="approvePermit(${jsArg(p.id)})">${T("✓ اعتماد السلامة والصحة المهنية (HSE)")}</button>
-            <button class="act-btn reject" onclick="toggleNote(${jsArg(p.id)})">${T("✗ رفض")}</button>
+          <div class="actions btn-row">
+            <button class="btn btn-success" onclick="approvePermit(${jsArg(p.id)})">${T("✓ اعتماد السلامة والصحة المهنية (HSE)")}</button>
+            <button class="btn btn-danger" onclick="toggleNote(${jsArg(p.id)})">${T("✗ رفض")}</button>
           </div>
           <div class="note-box" id="note-${escapeHtml(p.id)}">
             <textarea id="notetext-${escapeHtml(p.id)}" placeholder="${T("سبب الرفض (اختياري)")}"></textarea>
-            <button onclick="rejectPermit(${jsArg(p.id)})">${T("تأكيد الرفض")}</button>
+            <button class="btn btn-danger-solid btn-sm" onclick="rejectPermit(${jsArg(p.id)})">${T("تأكيد الرفض")}</button>
           </div>
         ` : `
           <div class="review-note">${T("⏳ الطلب بانتظار اعتماد السلامة والصحة المهنية (HSE)")}</div>
@@ -434,7 +436,7 @@ function renderList(){
       ${p.status === 'approved' ? `
         ${p.areaHeadReviewedBy ? `<div class="reviewed-by">${T("موافقة رئيس منطقة:")} ${escapeHtml(p.areaHeadReviewedBy)} — ${p.areaHeadReviewedAt ? new Date(p.areaHeadReviewedAt).toLocaleString(LOC()) : ''}</div>` : ''}
         <div class="reviewed-by">${T("اعتمدته الإدارة:")} ${escapeHtml(p.reviewedBy)||T('الإدارة')} — ${p.reviewedAt ? new Date(p.reviewedAt).toLocaleString(LOC()) : ''}</div>
-        <div class="review-note" style="background-color: var(--surface-2); border: 1px dashed var(--success-solid);">
+        <div class="review-note is-open">
           ${T("🔒 الطلب معتمد ومفتوح. يمكن للموظف إغلاقه من حسابه.")}
         </div>
       ` : ''}
@@ -451,19 +453,19 @@ function renderList(){
         ${p.closure && p.closure.reason ? `<div class="review-note">${T("السبب:")} ${escapeHtml(p.closure.reason)}</div>` : ''}
       ` : ''}
       ${currentFilter === '🗑️ المحذوفات' ? `
-        <div style="margin-top:12px; border-top:1px solid var(--border); padding-top:10px; display: flex; flex-direction: column; gap: 8px;">
+        <div class="card-trash">
           ${(currentUserRole === 'super_admin' || p.deletedByUsername === currentUsername || p.lastDeletedByUsername === currentUsername) ? `
-          <div style="display: flex; gap: 8px;">
-            <button class="act-btn" style="flex:1; background:var(--success-solid); color:var(--on-solid); border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="restorePermit(${jsArg(p.id)})">${T("🔄 استرجاع")}</button>
-            <button class="act-btn" style="flex:1; background:var(--danger-solid); color:var(--on-solid); border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="hardDeletePermit(${jsArg(p.id)})">${T("❌ حذف نهائي")}</button>
+          <div class="btn-row">
+            <button class="btn btn-secondary btn-sm" onclick="restorePermit(${jsArg(p.id)})">${T("🔄 استرجاع")}</button>
+            <button class="btn btn-danger btn-sm" onclick="hardDeletePermit(${jsArg(p.id)})">${T("❌ حذف نهائي")}</button>
           </div>
           ` : ''}
-          ${(p.lastDeletedByUsername || p.deletedByUsername) ? `<div style="font-size:12px; color:var(--danger-text); margin-top:4px; font-weight:bold;">${T("حُذف بواسطة:")} ${escapeHtml(p.lastDeletedByUsername || p.deletedByUsername || T('المشرف'))} ${p.deleteReason ? `${T("| السبب:")} ${escapeHtml(p.deleteReason)}` : ''}</div>` : ''}
+          ${(p.lastDeletedByUsername || p.deletedByUsername) ? `<div class="card-trash-by">${T("حُذف بواسطة:")} ${escapeHtml(p.lastDeletedByUsername || p.deletedByUsername || T('المشرف'))} ${p.deleteReason ? `${T("| السبب:")} ${escapeHtml(p.deleteReason)}` : ''}</div>` : ''}
         </div>
       ` : ''}
       ${currentFilter !== '🗑️ المحذوفات' && (currentUserRole === 'super_admin' || currentUserRole === 'hse_admin' || currentUserRole === 'dept_admin' || currentUserRole === 'maint_admin') ? `
-        <div style="margin-top:12px; text-align:left;">
-          <button class="um-btn del" onclick="openDeletePermitModal(${jsArg(p.id)})">${T("🗑️ حذف")}</button>
+        <div class="card-danger">
+          <button class="btn btn-danger btn-sm" onclick="openDeletePermitModal(${jsArg(p.id)})">${T("🗑️ حذف")}</button>
         </div>
       ` : ''}
     </div>

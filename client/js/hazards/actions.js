@@ -37,6 +37,7 @@ window.resolveHazardPrompt = async function(hazardId) {
 };
 
 async function updateHazardStatus(id, newStatus, actionOverride = null) {
+  if (newStatus === 'rejected' && !(await appConfirm(T('هل أنت متأكد من رفض هذا البلاغ؟'), { tone: 'danger', confirmLabel: T('رفض البلاغ') }))) return;
   let actionTaken = actionOverride;
   if (actionTaken === null) {
     const actionArea = document.getElementById(`corrective_action_${id}`) || document.getElementById(`hz_action_${id}`);
@@ -310,7 +311,7 @@ async function submitHzResolve() {
 }
 
 async function softDeleteHazard(id) {
-  if (!confirm(T('هل أنت متأكد من حذف هذا البلاغ ونقله للمحذوفات؟'))) return;
+  if (!(await appConfirm(T('هل أنت متأكد من حذف هذا البلاغ ونقله للمحذوفات؟'), { tone: 'danger', confirmLabel: T('حذف') }))) return;
   try {
     const res = await authFetch(`/api/hazards/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: 'حذف من لوحة التحكم' }) });
     if (res.ok) {
@@ -321,7 +322,7 @@ async function softDeleteHazard(id) {
 }
 
 async function restoreHazard(id) {
-  if (!confirm(T('هل تريد استعادة هذا البلاغ؟'))) return;
+  if (!(await appConfirm(T('هل تريد استعادة هذا البلاغ؟'), { tone: 'primary', confirmLabel: T('استعادة') }))) return;
   try {
     const res = await authFetch(`/api/hazards/${id}/restore`, { method: 'POST' });
     if (res.ok) {
@@ -332,7 +333,7 @@ async function restoreHazard(id) {
 }
 
 async function permanentDeleteHazard(id) {
-  if (!confirm(T('تنبيه هام! هل أنت متأكد من الحذف النهائي؟ لا يمكن التراجع عن هذا الإجراء.'))) return;
+  if (!(await appConfirm(T('تنبيه هام! هل أنت متأكد من الحذف النهائي؟ لا يمكن التراجع عن هذا الإجراء.'), { tone: 'danger', confirmLabel: T('حذف نهائي') }))) return;
   try {
     const res = await authFetch(`/api/hazards/${id}/permanent`, { method: 'DELETE' });
     if (res.ok) {
@@ -390,14 +391,15 @@ const CLEAR_MODULE_LABELS = {
 async function clearModuleData(moduleName, refreshFn) {
   const label = T(CLEAR_MODULE_LABELS[moduleName] || moduleName);
 
-  const step1 = window.confirm(
+  const step1 = await appConfirm(
     `${T("⚠️ تحذير: هتمسح كل بيانات")} "${label}" ${T("نهائيًا — للعمال والأدمن كلهم.\\n")}` +
     `${T("هيتاخد باك أب على السيرفر، لكن العملية دي مش هترجع من الواجهة.\\n\\n")}` +
-    `${T("متأكد إنك عايز تكمل؟")}`
+    `${T("متأكد إنك عايز تكمل؟")}`,
+    { tone: 'danger', confirmLabel: T('متابعة') }
   );
   if (!step1) return;
 
-  const typed = window.prompt(`${T("لتأكيد المسح النهائي، اكتب كلمة")} "${T("تأكيد")}" ${T("بالظبط:")}`);
+  const typed = await appPrompt(`${T("لتأكيد المسح النهائي، اكتب كلمة")} "${T("تأكيد")}" ${T("بالظبط:")}`, { tone: 'danger', confirmLabel: T('مسح نهائي') });
   if (typed !== 'تأكيد') {
     showToast(T('اتلغت عملية المسح — لازم تكتب "تأكيد" بالظبط'), 'info');
     return;

@@ -480,19 +480,7 @@
   margin: 8px 0;
 }
 
-.again-btn {
-  margin-top: 18px;
-  background: none;
-  border: 1px solid var(--border-strong);
-  color: var(--text);
-  padding: 9px 18px;
-  min-height: 44px;
-  border-radius: var(--r-md);
-  font-weight: 700;
-  font-family: var(--font);
-  cursor: pointer;
-  font-size: 14px;
-}
+.confirm-actions { justify-content: center; margin-top: 18px; }
 
 .toolbar {
   display: flex;

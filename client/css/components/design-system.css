@@ -1,74 +1,220 @@
-/* Shared buttons, inputs, status badges, KPI cards, loaders, tables and the forced password modal. */
+/* Shared buttons, dialogs, inputs, status badges, KPI cards, loaders, tables and the forced password modal. */
 
+/*
+ * Buttons: .btn + one type + optional size (docs/design/button-system.md).
+ * primary = the one main action of a section · secondary = supporting · success = approve/done ·
+ * danger = outline, always confirmed (danger-solid only inside the confirmation dialog) ·
+ * warning = careful, not destructive · info = view/print/in progress · export = data in/out ·
+ * ghost = icon-only toolbar buttons and text links.
+ */
 .btn {
+  --btn-bg: var(--surface);
+  --btn-fg: var(--text);
+  --btn-border: var(--input-border);
+  --btn-bg-hover: var(--surface-3);
+  --btn-border-hover: var(--input-border);
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 1px solid transparent;
-  padding: 10px 18px;
-  border-radius: var(--r-lg);
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 1px solid var(--btn-border);
+  border-radius: var(--r-md);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
   font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, opacity .15s ease, transform .05s ease;
-  text-decoration: none;
+  font-size: var(--fs-md);
+  font-weight: 600;
   line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
   user-select: none;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
 }
-.btn:active { transform: translateY(1px); }
+.btn:hover:not(:disabled):not(.is-loading) {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+}
+.btn:active:not(:disabled) { transform: translateY(1px); }
 .btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .btn:disabled, .btn.is-disabled {
-  opacity: .55;
+  opacity: .5;
   cursor: not-allowed;
   pointer-events: none;
 }
-.btn-sm { padding: 6px 12px; font-size: 12.5px; border-radius: var(--r-md); }
-.btn-lg { padding: 13px 26px; font-size: 15.5px; border-radius: var(--r-lg); }
+.btn-sm { min-height: 32px; padding: 5px 12px; font-size: var(--fs-sm); }
+.btn-lg { min-height: 48px; padding: 12px 24px; font-size: var(--fs-lg); }
 .btn-block { display: flex; width: 100%; }
+.btn-wrap { white-space: normal; text-align: center; }
+
+/* Touch screens: every button gets at least a 44 × 44 px hit area without changing its look. */
+@media (pointer: coarse) {
+  .btn { min-height: 44px; }
+  .btn-sm { min-height: 36px; }
+  .btn-sm::after, .btn-icon::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
 
 .btn-primary {
-  background: var(--brand-600);
-  border-color: var(--brand-600);
-  color: var(--on-solid);
-  box-shadow: none;
+  --btn-bg: var(--brand-600);
+  --btn-fg: var(--on-solid);
+  --btn-border: var(--brand-600);
+  --btn-bg-hover: var(--brand-fill-hover);
+  --btn-border-hover: var(--brand-fill-hover);
 }
-.btn-primary:hover { background: var(--brand-fill-hover); border-color: var(--brand-fill-hover); }
-
 .btn-secondary {
-  background: var(--surface);
-  border-color: var(--border);
-  color: var(--text);
+  --btn-bg: var(--surface);
+  --btn-fg: var(--text);
+  --btn-border: var(--input-border);
+  --btn-bg-hover: var(--surface-3);
 }
-.btn-secondary:hover { background: var(--surface-3); border-color: var(--text-muted); }
-
-.btn-dark {
-  background: var(--neutral-solid);
-  border-color: var(--neutral-solid);
-  color: var(--on-solid);
+.btn-success {
+  --btn-bg: var(--success-solid);
+  --btn-fg: var(--on-solid);
+  --btn-border: var(--success-solid);
+  --btn-bg-hover: var(--success-hover);
+  --btn-border-hover: var(--btn-bg-hover);
 }
-.btn-dark:hover { background: var(--neutral-solid-hover); border-color: var(--neutral-solid-hover); }
-
 .btn-danger {
-  background: var(--danger-solid);
-  border-color: var(--danger-solid);
-  color: var(--on-solid);
+  --btn-bg: var(--surface);
+  --btn-fg: var(--danger-text);
+  --btn-border: var(--danger-solid);
+  --btn-bg-hover: var(--danger-tint);
+  --btn-border-hover: var(--danger-solid);
 }
-.btn-danger:hover { background: var(--danger-solid); border-color: var(--danger-solid); }
-.btn-danger-outline {
+.btn-danger-solid {
+  --btn-bg: var(--danger-solid);
+  --btn-fg: var(--on-solid);
+  --btn-border: var(--danger-solid);
+  --btn-bg-hover: var(--danger-hover);
+  --btn-border-hover: var(--btn-bg-hover);
+}
+.btn-warning {
+  --btn-bg: var(--warning-solid);
+  --btn-fg: var(--on-warning);
+  --btn-border: var(--warning-solid);
+  --btn-bg-hover: var(--warning-hover);
+  --btn-border-hover: var(--btn-bg-hover);
+}
+.btn-info {
+  --btn-bg: var(--info-solid);
+  --btn-fg: var(--on-solid);
+  --btn-border: var(--info-solid);
+  --btn-bg-hover: var(--info-hover);
+  --btn-border-hover: var(--btn-bg-hover);
+}
+.btn-export {
+  --btn-bg: var(--surface-2);
+  --btn-fg: var(--text-2);
+  --btn-border: var(--border-strong);
+  --btn-bg-hover: var(--surface-3);
+  --btn-border-hover: var(--input-border);
+}
+.btn-ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--text-2);
+  --btn-border: transparent;
+  --btn-bg-hover: var(--surface-3);
+  --btn-border-hover: transparent;
+}
+.btn-ghost.btn-link {
+  min-height: 0;
+  padding: 4px 6px;
+  color: var(--info-text);
+  text-decoration: underline;
+}
+.btn-icon {
+  min-width: 40px;
+  padding: 0;
+  aspect-ratio: 1;
+  font-size: var(--fs-lg);
+}
+.btn-icon.btn-sm { min-width: 32px; font-size: var(--fs-md); }
+.btn-ghost.btn-danger-icon { --btn-fg: var(--danger-text); --btn-bg-hover: var(--danger-tint); }
+
+/* Loading: spinner in place of the label's icon; the button keeps its width and ignores clicks. */
+.btn.is-loading {
+  pointer-events: none;
+  opacity: .8;
+}
+.btn.is-loading::before {
+  content: '';
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-top-color: currentColor;
+  animation: spin-360 .7s linear infinite;
+  flex: none;
+}
+
+/* Action rows: primary first (inline-start in RTL), danger pushed to the inline-end. */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.btn-row .btn-danger, .btn-row .btn-push-end { margin-inline-start: auto; }
+.btn-row.is-fill > .btn { flex: 1 1 0; }
+.btn-row.is-fill > .btn-danger { margin-inline-start: 0; }
+.modal-actions { margin-top: 12px; }
+
+/* Bulk "delete all" buttons live here, at the bottom of their page. */
+.danger-zone {
+  margin-top: 32px;
+  padding: 16px;
+  border: 1px solid var(--danger-line);
+  border-radius: var(--r-lg);
   background: var(--surface);
-  border-color: var(--danger-solid);
+}
+/* Hidden when the role (or read-only mode) hides every button inside it. */
+.danger-zone:not(:has(.btn:not([style*="none"]))) { display: none; }
+.danger-zone-title {
+  margin: 0 0 4px;
+  font-size: var(--fs-md);
+  font-weight: 600;
   color: var(--danger-text);
 }
-.btn-danger-outline:hover { background: var(--danger-tint); }
-
-.btn-success {
-  background: var(--success-solid);
-  border-color: var(--success-solid);
-  color: var(--on-solid);
+.danger-zone-note {
+  margin: 0 0 12px;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
 }
-.btn-success:hover { background: var(--success-solid); border-color: var(--success-solid); }
+
+/* Confirmation / text-entry dialog (client/js/core/dialogs.js). */
+.app-dialog-overlay { z-index: 10050; }
+.app-dialog { max-width: 440px; }
+.app-dialog h3 { margin: 0 0 8px; }
+.app-dialog-message {
+  margin: 0 0 16px;
+  color: var(--text-2);
+  font-size: var(--fs-md);
+  line-height: 1.7;
+  white-space: pre-line;
+}
+.app-dialog-input {
+  width: 100%;
+  min-height: 40px;
+  margin: 0 0 16px;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: var(--fs-md);
+}
+.app-dialog-input:focus { outline: none; border-color: var(--brand-600); box-shadow: var(--focus-ring); }
+.app-dialog .btn-row { justify-content: flex-start; }
 
 .form-input,
 .field input,
