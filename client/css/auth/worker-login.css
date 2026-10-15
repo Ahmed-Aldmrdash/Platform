@@ -289,7 +289,7 @@
 }
 
 .em-pw-title {
-  font-weight: 800;
+  font-weight: 700;
   font-size: 13px;
   margin-bottom: 8px;
 }
@@ -345,7 +345,7 @@
   margin-bottom: 14px;
 }
 
-.um-gen-title { font-weight: 800; margin-bottom: 8px; }
+.um-gen-title { font-weight: 700; margin-bottom: 8px; }
 .um-gen-pw { font-family: monospace; font-weight: 700; }
 
 .um-default-pw {

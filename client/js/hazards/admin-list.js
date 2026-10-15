@@ -281,7 +281,7 @@ function _renderHazardAlertBox(s) {
     : `${last.ok ? '✅' : '❌'} ${T('آخر تنبيه:')} ${escapeHtml(last.hazardId || '')} — ${new Date(last.at).toLocaleString('ar-EG')}${last.ok ? '' : ` — ${escapeHtml(last.error || '')}`}`;
 
   box.innerHTML = `
-    <div style="font-weight:800;font-size:16px;margin-bottom:6px;">${T('🔴 تنبيه بلاغات الخطورة العالية بالإيميل')}</div>
+    <div style="font-weight:700;font-size:16px;margin-bottom:6px;">${T('🔴 تنبيه بلاغات الخطورة العالية بالإيميل')}</div>
     <div style="font-size:12px;color:var(--text-muted);line-height:1.8;margin-bottom:10px;">
       ${T('أول ما يتسجّل بلاغ خطورة عالية (High) بيتبعت إيميل فوري بتفاصيل البلاغ وصورته للأسماء اللي تحت دي بس.')}
     </div>

@@ -10,7 +10,7 @@
   font-size: 12.5px;
   font-weight: 700;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: var(--r-md);
   background: var(--border);
   color: var(--text);
   margin: 0 0 10px;
@@ -20,7 +20,7 @@
 .qm-progress-wrap { margin: 8px 0 4px; }
 .qm-progress-bar {
   height: 8px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   background: var(--border);
   overflow: hidden;
 }
@@ -38,7 +38,7 @@
 
 .qm-q-card {
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--r-lg);
   padding: 12px;
   margin-bottom: 10px;
   background: var(--surface);
@@ -65,7 +65,7 @@
 .qm-q-text {
   flex: 1;
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: var(--r-md);
   border: 1px solid var(--border);
   font-size: 13.5px;
   font-weight: 700;
@@ -79,7 +79,7 @@
   cursor: pointer;
   font-size: 14px;
   padding: 4px 6px;
-  border-radius: 6px;
+  border-radius: var(--r-md);
 }
 .qm-q-del:hover { background: var(--border); }
 .qm-q-options { display: grid; gap: 6px; }
@@ -88,7 +88,7 @@
   align-items: center;
   gap: 8px;
   padding: 6px 8px;
-  border-radius: 8px;
+  border-radius: var(--r-md);
   border: 1px solid var(--border);
   cursor: pointer;
 }
@@ -96,7 +96,7 @@
 .qm-q-option input[type="text"] {
   flex: 1;
   padding: 6px 8px;
-  border-radius: 6px;
+  border-radius: var(--r-md);
   border: 1px solid transparent;
   background: transparent;
   font-size: 13px;
@@ -109,13 +109,13 @@
   font-size: 12px;
   font-weight: 700;
   padding: 6px 10px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   background: var(--border);
   color: var(--text);
 }
 .wq-q-card {
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--r-lg);
   padding: 12px;
   margin-bottom: 10px;
 }
@@ -139,8 +139,8 @@
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
-  border-radius: 10px;
-  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
   cursor: pointer;
   font-size: 13.5px;
   transition: border-color 0.15s ease, background 0.15s ease;
@@ -154,7 +154,7 @@
 .wq-result-hero { text-align: center; padding: 12px 4px 4px; }
 .wq-result-hero h3 { margin: 6px 0; }
 .wq-result-icon { font-size: 40px; line-height: 1; }
-.wq-result-score { font-size: 26px; font-weight: 800; margin: 4px 0; }
+.wq-result-score { font-size: 26px; font-weight: 700; margin: 4px 0; }
 .wq-result-required { font-size: 14px; font-weight: 500; color: var(--text-muted); }
 .wq-result-pass .wq-result-score { color: var(--success-text); }
 .wq-result-fail .wq-result-score { color: var(--danger-text); }

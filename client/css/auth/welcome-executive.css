@@ -87,7 +87,7 @@
   font-weight: 600;
   margin: 24px 0 12px;
   padding-bottom: 6px;
-  border-bottom: 1.5px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
 }
 
 .exec-leaderboard {
@@ -125,13 +125,13 @@
 .exec-leaderboard-bar-bg {
   margin-top: 6px;
   height: 6px;
-  border-radius: 4px;
+  border-radius: var(--r-sm);
   background: var(--surface-3);
   overflow: hidden;
 }
 .exec-leaderboard-bar-fill {
   height: 100%;
-  border-radius: 4px;
+  border-radius: var(--r-sm);
   background: var(--success-solid);
 }
 .exec-leaderboard-score {

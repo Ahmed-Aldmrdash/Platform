@@ -7,7 +7,7 @@
   width: 380px;
   max-width: 90vw;
   background: var(--surface);
-  border-radius: 12px;
+  border-radius: var(--r-lg);
   box-shadow: var(--shadow-3);
   border: 1px solid var(--border);
   z-index: 9999;
@@ -177,10 +177,12 @@
   top: 20px;
   right: 20px;
   background: var(--surface);
-  border-left: 4px solid var(--brand-600);
-  box-shadow: var(--shadow-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--brand-600);
+  box-shadow: var(--shadow-3);
   padding: 16px;
-  border-radius: 8px;
+  border-radius: var(--r-lg);
   z-index: 10000;
   display: flex;
   align-items: flex-start;

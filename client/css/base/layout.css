@@ -78,7 +78,7 @@
   width: 30px;
   height: 30px;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .global-user-bar .logout-btn {
@@ -132,7 +132,7 @@
 .header-logo-box {
   width: 60px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: var(--r-lg);
   background: transparent;
   flex-shrink: 0;
   display: flex;
@@ -433,7 +433,7 @@
   font-size: 12.5px;
   letter-spacing: 1.5px;
   padding: 5px 12px;
-  border-radius: 5px;
+  border-radius: var(--r-md);
   border: 2px solid currentColor;
   transform: rotate(-4deg);
   text-transform: uppercase;
@@ -535,7 +535,7 @@
   font-weight: 600;
   background: var(--surface);
   color: var(--text);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--input-border);
 }
 .dept-filter-input:focus {
   outline: none;
@@ -546,7 +546,7 @@
 .btn-amber, .btn-emerald, .btn-red, .btn-cyan {
   border: none;
   padding: 8px;
-  border-radius: 6px;
+  border-radius: var(--r-md);
   font-weight: bold;
   cursor: pointer;
   color: var(--on-solid);
@@ -592,7 +592,7 @@
 .overdue-days select {
   padding: 6px 8px;
   border-radius: var(--r-md);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--input-border);
   background: var(--surface);
   color: var(--text);
 }

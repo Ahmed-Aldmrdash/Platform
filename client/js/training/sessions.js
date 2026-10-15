@@ -468,7 +468,7 @@ function renderAdminLiveSessions(trainings) {
             </div>
             <div style="background:var(--brand-600); color:var(--on-solid); padding:8px 16px; border-radius:8px; text-align:center;">
               <div style="font-size:12px; opacity:0.9;">${T("رمز الجلسة (PIN)")}</div>
-              <div style="font-size:24px; font-family:monospace; font-weight:900; letter-spacing:4px;">${escapeHtml(trn.sessionPin)}</div>
+              <div style="font-size:24px; font-family:monospace; font-weight:700; letter-spacing:4px;">${escapeHtml(trn.sessionPin)}</div>
             </div>
           </div>
 

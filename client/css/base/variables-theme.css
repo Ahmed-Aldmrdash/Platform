@@ -55,7 +55,7 @@ body[data-theme="dark"] .insp-status-select {
   min-width: 38px;
   padding: 0 10px;
   font-size: 11.5px;
-  font-weight: 800;
+  font-weight: 700;
   font-family: var(--font);
   letter-spacing: .5px;
 }

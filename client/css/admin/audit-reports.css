@@ -5,12 +5,12 @@
   align-items: center;
   gap: 6px;
   font-size: 11.5px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--success-text);
   background: var(--success-tint);
   border: 1px solid var(--success-line);
   padding: 4px 10px;
-  border-radius: 20px;
+  border-radius: var(--r-pill);
   margin-inline-start: 10px;
 }
 .audit-live-dot {
@@ -37,7 +37,7 @@
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--r-lg);
   padding: 12px 14px;
   margin-bottom: 12px;
   box-shadow: var(--shadow-1);
@@ -53,7 +53,7 @@
   align-items: center;
   justify-content: center;
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 700;
   color: var(--on-solid);
   border: 3px solid var(--bg);
   box-shadow: 0 0 0 1px var(--border);
@@ -74,7 +74,7 @@
   flex-wrap: wrap;
 }
 .audit-item-title {
-  font-weight: 800;
+  font-weight: 700;
   font-size: 14px;
   color: var(--text);
 }
@@ -105,7 +105,7 @@
   font-size: 12.5px;
   color: var(--text);
   background: var(--surface-2);
-  border-radius: 8px;
+  border-radius: var(--r-md);
   padding: 8px 10px;
 }
 .audit-item-status-chip {
@@ -145,9 +145,9 @@
 .rep-mail-row input {
   flex: 1 1 260px;
   min-width: 0;
-  border-radius: 9px;
+  border-radius: var(--r-lg);
   padding: 10px 12px;
-  border: 1.5px solid var(--border);
+  border: 1px solid var(--input-border);
   background: var(--surface);
   color: var(--text);
   font-family: inherit;
@@ -160,29 +160,29 @@
 }
 .rep-send-btn {
   flex: 0 0 auto;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: .6px;
   white-space: nowrap;
 }
 .rep-send-btn:disabled { opacity: .6; cursor: progress; }
 .rep-preview {
   background: var(--surface-3);
-  border-radius: 14px;
+  border-radius: var(--r-lg);
   padding: 10px;
   min-height: 160px;
 }
 .rep-preview > .loading,
-.rep-preview > .empty { background: var(--surface); border-radius: 10px; }
+.rep-preview > .empty { background: var(--surface); border-radius: var(--r-lg); }
 .rep-frame {
   display: block;
   width: 100%;
   min-height: 480px;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--r-md);
   background: var(--surface-3);
 }
 @media (max-width: 600px) {
-  .rep-preview { padding: 4px; border-radius: 10px; }
+  .rep-preview { padding: 4px; border-radius: var(--r-lg); }
   .rep-send-btn { flex: 1 1 100%; }
 }
 
@@ -206,8 +206,8 @@
   width: 100%;
   padding: 7px 9px;
   font-size: 13px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--r-md);
   background: var(--surface);
   color: var(--text);
 }
@@ -216,7 +216,7 @@
   border: 1px solid var(--border);
   background: transparent;
   color: var(--danger-text);
-  border-radius: 6px;
+  border-radius: var(--r-md);
   width: 30px;
   height: 30px;
   cursor: pointer;
@@ -228,7 +228,7 @@
   .hza-row {
     grid-template-columns: 1fr auto auto;
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: var(--r-md);
     padding: 8px;
     margin-bottom: 8px;
   }
@@ -288,7 +288,7 @@
   font-size: 12px;
   padding: 5px 8px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--r-md);
 }
 .snap-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; }
 .snap-size { color: var(--text-muted); white-space: nowrap; }
@@ -296,7 +296,7 @@
   border: 1px solid var(--border);
   background: transparent;
   color: var(--brand-700);
-  border-radius: 6px;
+  border-radius: var(--r-md);
   width: 28px;
   height: 26px;
   cursor: pointer;

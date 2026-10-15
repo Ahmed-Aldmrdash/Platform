@@ -175,7 +175,7 @@ function _renderBackupEmailBox(s) {
   const box = document.getElementById('backupEmailBox');
   if (!box) return;
   box.innerHTML = `
-    <div style="font-weight:800;margin-bottom:8px;">${T('📧 إرسال النسخة الاحتياطية بالإيميل')}</div>
+    <div style="font-weight:700;margin-bottom:8px;">${T('📧 إرسال النسخة الاحتياطية بالإيميل')}</div>
     ${s.smtpConfigured
       ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">${T('بيتبعت من:')} <b dir="ltr">${escapeHtml(s.from || '')}</b></div>`
       : `<div class="bk-email-warn">${T('⚠️ إيميل الإرسال لسه مش متظبط — اظبطه من "بيانات إيميل الإرسال" تحت، وبعدها زرار "ابعت النسخة دلوقتي" هيشتغل.')}</div>`}
@@ -272,7 +272,7 @@ function _renderSnapshotBox(s) {
       : `❌ ${T('فشل آخر نسخة:')} ${escapeHtml(last.error || '')}`;
 
   box.innerHTML = `
-    <div style="font-weight:800;margin-bottom:8px;">${T('🗄️ نسخ محلية يومية على السيرفر')}</div>
+    <div style="font-weight:700;margin-bottom:8px;">${T('🗄️ نسخ محلية يومية على السيرفر')}</div>
     ${s.volumeWarning ? `<div class="bk-email-warn">⚠️ ${escapeHtml(s.volumeWarning)}</div>` : ''}
     <div style="font-size:12px;color:var(--text-muted);line-height:1.8;margin-bottom:10px;">
       ${T('السيرفر بياخد نسخة كل يوم لوحده وبيحتفظ بآخر')} ${Number(s.keepDaily || 14)} ${T('يوم + نسخة أسبوعية لآخر')} ${Number(s.keepWeekly || 8)} ${T('أسابيع، والباقي بيتمسح لوحده.')}

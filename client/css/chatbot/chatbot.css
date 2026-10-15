@@ -73,7 +73,7 @@
   flex: none;
 }
 .cb-head-text { flex: 1; min-width: 0; }
-.cb-title { font-weight: 800; font-size: 15.5px; line-height: 1.3; }
+.cb-title { font-weight: 700; font-size: 15.5px; line-height: 1.3; }
 .cb-sub { font-size: 11.5px; opacity: 0.92; display: flex; align-items: center; gap: 6px; }
 .cb-online { width: 8px; height: 8px; border-radius: 50%; background: var(--chart-6); box-shadow: 0 0 0 3px color-mix(in srgb, var(--chart-6) 25%, transparent); flex: none; }
 .cb-icon-btn {
@@ -100,7 +100,7 @@
   scrollbar-width: thin;
 }
 .cb-messages::-webkit-scrollbar { width: 7px; }
-.cb-messages::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 6px; }
+.cb-messages::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--r-md); }
 .cb-row { animation: cbRowIn 0.24s ease both; }
 @keyframes cbRowIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .cb-row { display: flex; gap: 8px; align-items: flex-end; }
@@ -254,7 +254,7 @@ html[dir="rtl"] .cb-send svg { transform: scaleX(-1); }
 }
 .smtp-box > summary {
   cursor: pointer;
-  font-weight: 800;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -7,7 +7,7 @@
   gap: 8px;
   border: 1px solid transparent;
   padding: 10px 18px;
-  border-radius: 10px;
+  border-radius: var(--r-lg);
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -24,8 +24,8 @@
   cursor: not-allowed;
   pointer-events: none;
 }
-.btn-sm { padding: 6px 12px; font-size: 12.5px; border-radius: 8px; }
-.btn-lg { padding: 13px 26px; font-size: 15.5px; border-radius: 12px; }
+.btn-sm { padding: 6px 12px; font-size: 12.5px; border-radius: var(--r-md); }
+.btn-lg { padding: 13px 26px; font-size: 15.5px; border-radius: var(--r-lg); }
 .btn-block { display: flex; width: 100%; }
 
 .btn-primary {
@@ -90,9 +90,9 @@
   align-items: center;
   gap: 5px;
   padding: 4px 12px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.6;
   white-space: nowrap;
   border: 1px solid transparent;
@@ -136,7 +136,7 @@
 .kpi-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--r-lg);
   padding: 18px 20px;
   box-shadow: var(--shadow-1);
   position: relative;
@@ -168,7 +168,7 @@
 }
 .kpi-value {
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 700;
   color: var(--text);
   line-height: 1.1;
 }
@@ -188,14 +188,14 @@
 }
 .skeleton {
   display: block;
-  border-radius: 8px;
+  border-radius: var(--r-md);
   background: linear-gradient(90deg, var(--surface-3) 25%, var(--border) 37%, var(--surface-3) 63%);
   background-size: 400px 100%;
   animation: skeleton-shimmer 1.4s ease-in-out infinite;
 }
 .skeleton-text { height: 14px; margin-bottom: 8px; width: 100%; }
 .skeleton-text.short { width: 55%; }
-.skeleton-card { height: 92px; border-radius: 14px; margin-bottom: 10px; }
+.skeleton-card { height: 92px; border-radius: var(--r-lg); margin-bottom: 10px; }
 
 @keyframes spin-360 { to { transform: rotate(360deg); } }
 .btn-spinner {
@@ -228,17 +228,20 @@
   width: 100%;
   border-collapse: collapse;
   background: var(--surface);
-  border-radius: 12px;
+  border-radius: var(--r-lg);
   overflow: hidden;
   font-size: 13.5px;
 }
 .data-table th {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
   background: var(--surface-2);
   color: var(--text-2);
-  font-weight: 700;
+  font-weight: 600;
   text-align: center;
   padding: 10px 12px;
-  border-bottom: 2px solid var(--border);
+  box-shadow: inset 0 -1px 0 var(--border-strong);
   white-space: nowrap;
 }
 .data-table td {
@@ -262,7 +265,7 @@
 }
 .force-pw-card {
   background: var(--surface);
-  border-radius: 16px;
+  border-radius: var(--r-lg);
   padding: 28px 24px;
   max-width: 420px;
   width: 100%;
@@ -282,8 +285,8 @@
 .force-pw-card input {
   width: 100%;
   padding: 11px 14px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--input-border);
   margin-bottom: 12px;
   font-family: inherit;
   font-size: 14px;

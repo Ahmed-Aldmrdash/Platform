@@ -20,7 +20,7 @@
   font-weight: 600;
   margin: 20px 0 10px;
   padding-bottom: 6px;
-  border-bottom: 1.5px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
 }
 
 .section-title:first-of-type {
@@ -67,7 +67,7 @@
   min-height: 44px;
   padding: 4px 10px;
   background: var(--surface-2);
-  border-radius: 8px;
+  border-radius: var(--r-md);
   border: 1px solid transparent;
   transition: border-color .12s, background .12s;
   flex: 1;
@@ -101,7 +101,7 @@
 .risk-row {
   background: var(--brand-50);
   border: 1px solid var(--brand-line);
-  border-radius: 9px;
+  border-radius: var(--r-lg);
   padding: 12px;
   margin-bottom: 10px;
 }
@@ -109,10 +109,10 @@
 .add-risk-btn {
   width: 100%;
   padding: 9px;
-  border: 1.5px dashed var(--text-2);
+  border: 1px dashed var(--text-2);
   background: none;
   color: var(--text-2);
-  border-radius: 8px;
+  border-radius: var(--r-md);
   font-weight: 700;
   font-family: var(--font);
   cursor: pointer;

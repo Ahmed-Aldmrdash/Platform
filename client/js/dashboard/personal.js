@@ -153,7 +153,7 @@ function renderPersonalDashboard(container, data, role, isSingleEmployeeView, yt
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
         <span style="color:var(--brand-700);">${dicon('person', 26)}</span>
         <div>
-          <div style="font-weight:800;font-size:15px;">${escapeHtml(viewingEmp && viewingEmp.name || T('موظف غير معروف'))}</div>
+          <div style="font-weight:700;font-size:15px;">${escapeHtml(viewingEmp && viewingEmp.name || T('موظف غير معروف'))}</div>
           <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">
             ${viewingEmp && viewingEmp.jobTitle ? `${escapeHtml(viewingEmp.jobTitle)} · ` : ''}${viewingEmp && viewingEmp.department ? `${escapeHtml(viewingEmp.department)} · ` : ''}${T("كود:")} ${escapeHtml(viewingEmp && viewingEmp.empCode || '')}
           </div>

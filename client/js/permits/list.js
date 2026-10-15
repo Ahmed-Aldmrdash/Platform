@@ -284,7 +284,7 @@ function permitDetailsHtml(p) {
     checklistBySection[sec].push(c);
   });
   const checklistHtml = Object.entries(checklistBySection).map(([sec, items]) => `
-      <div style="font-size:11.5px;font-weight:800;color:var(--text-2);letter-spacing:0.5px;padding:6px 0 3px;border-bottom:1px solid var(--border);margin-bottom:3px;">${escapeHtml(T(sec))}</div>
+      <div style="font-size:11.5px;font-weight:700;color:var(--text-2);letter-spacing:0.5px;padding:6px 0 3px;border-bottom:1px solid var(--border);margin-bottom:3px;">${escapeHtml(T(sec))}</div>
       ${items.map(c=>`
       <div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);font-size:12.5px;">
         <span>${escapeHtml(T(c.question))}</span>
@@ -454,8 +454,8 @@ function renderList(){
         <div style="margin-top:12px; border-top:1px solid var(--border); padding-top:10px; display: flex; flex-direction: column; gap: 8px;">
           ${(currentUserRole === 'super_admin' || p.deletedByUsername === currentUsername || p.lastDeletedByUsername === currentUsername) ? `
           <div style="display: flex; gap: 8px;">
-            <button class="act-btn" style="flex:1; background:var(--success-solid); color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="restorePermit(${jsArg(p.id)})">${T("🔄 استرجاع")}</button>
-            <button class="act-btn" style="flex:1; background:var(--danger-solid); color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="hardDeletePermit(${jsArg(p.id)})">${T("❌ حذف نهائي")}</button>
+            <button class="act-btn" style="flex:1; background:var(--success-solid); color:var(--on-solid); border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="restorePermit(${jsArg(p.id)})">${T("🔄 استرجاع")}</button>
+            <button class="act-btn" style="flex:1; background:var(--danger-solid); color:var(--on-solid); border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="hardDeletePermit(${jsArg(p.id)})">${T("❌ حذف نهائي")}</button>
           </div>
           ` : ''}
           ${(p.lastDeletedByUsername || p.deletedByUsername) ? `<div style="font-size:12px; color:var(--danger-text); margin-top:4px; font-weight:bold;">${T("حُذف بواسطة:")} ${escapeHtml(p.lastDeletedByUsername || p.deletedByUsername || T('المشرف'))} ${p.deleteReason ? `${T("| السبب:")} ${escapeHtml(p.deleteReason)}` : ''}</div>` : ''}

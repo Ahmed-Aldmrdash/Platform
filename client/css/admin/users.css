@@ -70,7 +70,7 @@
   color: var(--text-2);
   font-size: 10px;
   padding: 2px 8px;
-  border-radius: 12px;
+  border-radius: var(--r-lg);
   font-weight: 600;
 }
 
@@ -87,7 +87,7 @@
   font-size: 12.5px;
   margin-top: 8px;
   padding: 6px 10px;
-  border-radius: 7px;
+  border-radius: var(--r-md);
   display: none;
 }
 
@@ -105,10 +105,13 @@
   color: var(--danger-text);
 }
 
+/* Tables scroll inside their frame so the header row stays visible. */
 .um-table-wrap {
   background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--r-lg);
-  overflow-x: auto;
+  overflow: auto;
+  max-height: min(70vh, 720px);
   -webkit-overflow-scrolling: touch;
   box-shadow: var(--shadow-1);
 }
@@ -126,12 +129,17 @@
 }
 
 .um-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--surface-2);
+  box-shadow: inset 0 -1px 0 var(--border-strong);
   padding: 10px 12px;
-  text-align: right;
-  font-weight: 700;
+  text-align: start;
+  font-weight: 600;
   font-size: 12px;
   font-family: var(--font);
-  letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .um-table tbody tr {
@@ -159,7 +167,7 @@
   font-family: var(--font);
   letter-spacing: 0.8px;
   padding: 3px 9px;
-  border-radius: 12px;
+  border-radius: var(--r-lg);
   text-transform: uppercase;
 }
 
@@ -189,7 +197,7 @@
 
 .um-btn {
   padding: 5px 11px;
-  border-radius: 7px;
+  border-radius: var(--r-md);
   border: none;
   font-size: 12px;
   font-weight: 700;

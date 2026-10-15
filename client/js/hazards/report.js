@@ -109,7 +109,7 @@ async function renderMyHazards(isSilent = false) {
             </div>
             ${h.status && h.status.startsWith('rejected') ? `
             <div class="timeline-step done" style="border-left-color: var(--danger-solid);">
-              <span class="step-icon" style="background: var(--danger-solid); color: white;">❌</span>
+              <span class="step-icon" style="background: var(--danger-solid); color: var(--on-solid);">❌</span>
               <div class="step-info">
                 <strong style="color: var(--danger-text);">${T("تم رفض البلاغ:")}</strong>
                 <span>${h.rejectedAt ? `${formatDateTime(h.rejectedAt)} ${T("(بواسطة:")} ${escapeHtml(h.rejectedBy || T('المشرف'))})` : '—'}</span>

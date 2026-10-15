@@ -44,7 +44,7 @@ const _dashCenterTextPlugin = {
     ctx.save();
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = '800 26px Alexandria, Cairo, sans-serif';
+    ctx.font = '700 26px Alexandria, Cairo, sans-serif';
     ctx.fillStyle = cssToken('--text');
     ctx.fillText(opts.total.toLocaleString(LOC()), cx, cy - 10);
     ctx.font = '600 12px Alexandria, Cairo, sans-serif';

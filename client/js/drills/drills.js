@@ -183,9 +183,9 @@ async function loadAdminDrill(isSilent = false) {
           attendees
         };
         html += `
-<div style="border: 2px solid var(--danger-solid); border-radius: 10px; overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow-2); background: white;">
-    <div style="display: flex; background: white; padding: 20px; align-items: center; border-bottom: 2px solid var(--border);">
-        <div style="background: var(--danger-solid); color: white; padding: 15px; border-radius: 10px; text-align: center; min-width: 120px;">
+<div style="border: 2px solid var(--danger-solid); border-radius: 10px; overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow-2); background: var(--surface);">
+    <div style="display: flex; background: var(--surface); padding: 20px; align-items: center; border-bottom: 2px solid var(--border);">
+        <div style="background: var(--danger-solid); color: var(--on-solid); padding: 15px; border-radius: 10px; text-align: center; min-width: 120px;">
             <div style="font-size: 0.9rem; margin-bottom: 5px;">${T("رمز الجلسة (PIN)")}</div>
             <div style="font-size: 2rem; font-weight: bold; letter-spacing: 5px;">${escapeHtml(drill.pin)}</div>
         </div>
@@ -200,7 +200,7 @@ async function loadAdminDrill(isSilent = false) {
         <div style="overflow-x: auto;">
             <table style="width: 100%; border-collapse: collapse; text-align: right;">
                 <thead>
-                    <tr style="background-color: var(--neutral-solid); color: white;">
+                    <tr style="background-color: var(--neutral-solid); color: var(--on-solid);">
                         <th style="padding: 12px;">${T("الكود")}</th>
                         <th style="padding: 12px;">${T("الاسم")}</th>
                         <th style="padding: 12px;">${T("القسم")}</th>
@@ -231,10 +231,10 @@ async function loadAdminDrill(isSilent = false) {
     </div>
 
     <div style="padding: 20px; background: var(--surface-2); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
-        <button onclick="navigateWithAuth(${jsArg('/api/drills/export/' + drill.id)})" style="background: var(--success-solid); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("📊 تصدير Excel")}</button>
-        <button onclick="addManualDrlAttendee(${jsArg(drill.id)})" style="background: var(--neutral-solid); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("➕ إضافة حضور يدوي")}</button>
-        <button onclick="openDrillReportModal(${jsArg(drill.id)})" style="background: var(--brand-600); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("📝 إنشاء / تعديل الريبورت")}</button>
-        <button onclick="closeDrillSession(${jsArg(drill.id)})" style="background: var(--danger-solid); color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("🛑 إنهاء وإغلاق التجربة")}</button>
+        <button onclick="navigateWithAuth(${jsArg('/api/drills/export/' + drill.id)})" style="background: var(--success-solid); color: var(--on-solid); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("📊 تصدير Excel")}</button>
+        <button onclick="addManualDrlAttendee(${jsArg(drill.id)})" style="background: var(--neutral-solid); color: var(--on-solid); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("➕ إضافة حضور يدوي")}</button>
+        <button onclick="openDrillReportModal(${jsArg(drill.id)})" style="background: var(--brand-600); color: var(--on-solid); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("📝 إنشاء / تعديل الريبورت")}</button>
+        <button onclick="closeDrillSession(${jsArg(drill.id)})" style="background: var(--danger-solid); color: var(--on-solid); border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold;">${T("🛑 إنهاء وإغلاق التجربة")}</button>
     </div>
 </div>
 `;
@@ -257,7 +257,7 @@ async function loadAdminDrill(isSilent = false) {
             </div>
             <div style="display:flex; gap:6px; flex-wrap:wrap;">
               <button onclick="toggleDrlAttendeesView(${jsArg(drl.id)})" style="background:var(--neutral-solid); color:var(--on-solid); border:none; padding:5px 15px; border-radius:5px; cursor:pointer; font-size:0.9rem;">${T("👥 الحضور")}</button>
-              <button onclick="navigateWithAuth(${jsArg('/api/drills/export/' + drill.id)})" style="background: var(--success-solid); color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9rem;">${T("📊 تصدير Excel")}</button>
+              <button onclick="navigateWithAuth(${jsArg('/api/drills/export/' + drill.id)})" style="background: var(--success-solid); color: var(--on-solid); border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9rem;">${T("📊 تصدير Excel")}</button>
               <button onclick="openDrillReportModal(${jsArg(drl.id)})" style="background:var(--brand-600); color:var(--on-solid); border:none; padding:5px 15px; border-radius:5px; cursor:pointer; font-size:0.9rem;">${T("📝 الريبورت")}</button>
               <button class="um-btn del" onclick="deleteDrillSession(${jsArg(drl.id)})" style="padding:6px 12px; font-size:12px;">${T("🗑️ حذف")}</button>
             </div>

@@ -37,7 +37,7 @@
 .sidebar-brand h2 {
   margin: 0;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -145,7 +145,7 @@
 
 .topbar-title {
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 700;
   margin: 0;
   color: var(--text);
   display: none;

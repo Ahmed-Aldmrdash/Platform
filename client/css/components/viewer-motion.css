@@ -164,19 +164,6 @@ body, .sup-card, .ticket, .app-header, .tabs, .um-add-card,
 @keyframes feSpin { to { transform: rotate(360deg); } }
 .loading-inline .btn-spinner { animation: feSpin .7s linear infinite; }
 
-.adv-filter-box {
-  position: relative;
-  overflow: hidden;
-}
-.adv-filter-box::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: var(--brand-600);
-}
 .chip {
   transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease;
 }

@@ -469,7 +469,7 @@ function renderInspItemsTable(items) {
     return;
   }
   wrap.innerHTML = `
-    <div style="overflow-x:auto;">
+    <div style="overflow:auto;max-height:min(70vh,720px);border:1px solid var(--border);border-radius:var(--r-lg);">
       <table class="data-table">
         <thead>
           <tr>
